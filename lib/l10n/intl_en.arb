@@ -1,0 +1,13 @@
+{
+  "drawerCloseMenu": "Close Menu",
+  "drawerCallDispatcher": "Call Dispatcher",
+  "drawerTasks": "Tasks",
+  "drawerNavigation": "Navigation",
+  "drawerShifts": "Shifts",
+  "drawerMySalary": "My Salary",
+  "drawerIssues": "Issues",
+  "drawerGeneralInfo": "General Info",
+  "drawerPolicies": "Policies",
+  "drawerSwitchTask": "Switch Task",
+  "drawerLogout": "Logout"
+}

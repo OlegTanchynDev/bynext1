@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_hidden_drawer/flutter_hidden_drawer.dart';
 
+import 'generated/l10n.dart';
 import 'router.dart';
 import 'screen/login.dart';
 
@@ -74,6 +75,10 @@ class MyApp extends StatelessWidget {
             home: GestureDetector(
                 onTap: () => FocusScope.of(context).requestFocus(new FocusNode()), child: LoginScreen()),
             onGenerateRoute: Router.generateRoute,
-            initialRoute: splashRoute));
+            initialRoute: splashRoute,
+            localizationsDelegates: [
+              S.delegate,
+            ]
+        ));
   }
 }

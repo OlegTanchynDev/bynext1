@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+enum HiddenDrawerPosition { left, right }
+
 class HiddenDrawer extends StatefulWidget {
   HiddenDrawer(
       {@required this.child,
@@ -8,6 +10,8 @@ class HiddenDrawer extends StatefulWidget {
       this.drawerBlurRadius = 12,
       this.drawerWidth = 250,
       this.drawerHeaderHeight = 250,
+      this.drawerPosition = HiddenDrawerPosition.left,
+      this.openScale = 1.0,
       Key key})
       : assert(child != null),
         assert(drawer != null),
@@ -25,6 +29,10 @@ class HiddenDrawer extends StatefulWidget {
 
   final double drawerBlurRadius;
 
+  final HiddenDrawerPosition drawerPosition;
+
+  final double openScale;
+
   @override
   HiddenDrawerState createState() => HiddenDrawerState();
 
@@ -32,21 +40,21 @@ class HiddenDrawer extends StatefulWidget {
     assert(context != null);
     final HiddenDrawerState result = context.findAncestorStateOfType();
     if (result != null) return result;
-    throw FlutterError(
-        'HiddenDrawer.of() called with a context that does not contain a HiddenDrawer.');
+    throw FlutterError('HiddenDrawer.of() called with a context that does not contain a HiddenDrawer.');
   }
 }
 
-class HiddenDrawerState extends State<HiddenDrawer>
-    with SingleTickerProviderStateMixin {
+class HiddenDrawerState extends State<HiddenDrawer> with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _scale;
-  Animation<double> _leftOffset;
+  Animation<double> _offset;
   Animation<double> _blur;
   bool _drawerState = false;
 
   bool get isDrawerOpen => _drawerState;
+
   double get drawerWidth => widget.drawerWidth * 1.2;
+
   double get drawerHeaderHeight => widget.drawerHeaderHeight;
 
   @override
@@ -56,38 +64,42 @@ class HiddenDrawerState extends State<HiddenDrawer>
       vsync: this,
       duration: Duration(milliseconds: 500),
     );
-    _scale = Tween<double>(begin: 1, end: .8).animate(_controller)
+    _scale = Tween<double>(begin: 1, end: widget.openScale).animate(_controller)
       ..addListener(() {
         setState(() {});
       });
-    _leftOffset =
-        Tween<double>(begin: 0, end: widget.drawerWidth).animate(_controller)
-          ..addListener(() {
-            setState(() {});
-          });
-    _blur = Tween<double>(begin: 0, end: widget.drawerBlurRadius)
-        .animate(_controller)
-          ..addListener(() {
-            setState(() {});
-          });
+    _offset = Tween<double>(begin: 0, end: widget.drawerWidth).animate(_controller)
+      ..addListener(() {
+        setState(() {});
+      });
+    _blur = Tween<double>(begin: 0, end: widget.drawerBlurRadius).animate(_controller)
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Stack(
       children: <Widget>[
-        widget.drawer,
         Positioned(
-          left: _leftOffset.value,
+          left: (widget.drawerPosition == HiddenDrawerPosition.left ? 0 : width - widget.drawerWidth),
+          child: widget.drawer,
+        ),
+        Positioned(
+          left: (widget.drawerPosition == HiddenDrawerPosition.left ? 1 : -1) * _offset.value,
+          right: (widget.drawerPosition == HiddenDrawerPosition.left ? -1 : 1) * _offset.value,
           child: Transform.scale(
             scale: _scale.value,
             child: SizedBox(
-              width: MediaQuery.of(context).size.width,
+              width: width,
               height: MediaQuery.of(context).size.height,
               child: GestureDetector(
                 onHorizontalDragUpdate: _move,
                 onHorizontalDragEnd: _settle,
                 dragStartBehavior: DragStartBehavior.start,
+                onTap: _tapOnChild,
                 child: Stack(
                   children: <Widget>[
                     Container(
@@ -98,7 +110,7 @@ class HiddenDrawerState extends State<HiddenDrawer>
                     ),
                     isDrawerOpen
                         ? Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: width,
                             height: MediaQuery.of(context).size.height,
                             color: Colors.transparent,
                           )
@@ -117,11 +129,11 @@ class HiddenDrawerState extends State<HiddenDrawer>
     if (Navigator.of(context).canPop()) {
     } else {
       double delta = details.primaryDelta / MediaQuery.of(context).size.width;
-      switch (Directionality.of(context)) {
-        case TextDirection.rtl:
+      switch (widget.drawerPosition) {
+        case HiddenDrawerPosition.right:
           _controller.value -= delta;
           break;
-        case TextDirection.ltr:
+        case HiddenDrawerPosition.left:
           _controller.value += delta;
           break;
       }
@@ -133,16 +145,15 @@ class HiddenDrawerState extends State<HiddenDrawer>
     } else {
       if (_controller.isDismissed) return;
       if (details.velocity.pixelsPerSecond.dx.abs() >= 365.0) {
-        double visualVelocity = details.velocity.pixelsPerSecond.dx /
-            MediaQuery.of(context).size.width;
+        double visualVelocity = details.velocity.pixelsPerSecond.dx / MediaQuery.of(context).size.width;
         setState(() {
-          _drawerState = visualVelocity > 0;
+          _drawerState = (widget.drawerPosition == HiddenDrawerPosition.left ? 1 : -1) * visualVelocity > 0;
         });
-        switch (Directionality.of(context)) {
-          case TextDirection.rtl:
+        switch (widget.drawerPosition) {
+          case HiddenDrawerPosition.right:
             _controller.fling(velocity: -visualVelocity);
             break;
-          case TextDirection.ltr:
+          case HiddenDrawerPosition.left:
             _controller.fling(velocity: visualVelocity);
             break;
         }
@@ -155,17 +166,23 @@ class HiddenDrawerState extends State<HiddenDrawer>
   }
 
   void _open() {
-    _controller.fling(velocity: 1.0);
+    _controller.fling(velocity: widget.drawerPosition == HiddenDrawerPosition.left ? -1.0 : 1.0);
     setState(() {
       _drawerState = true;
     });
   }
 
   void _close() {
-    _controller.fling(velocity: -1.0);
+    _controller.fling(velocity: widget.drawerPosition == HiddenDrawerPosition.left ? 1.0 : -1.0);
     setState(() {
       _drawerState = false;
     });
+  }
+
+  void _tapOnChild() {
+    if (_drawerState) {
+      _close();
+    }
   }
 
   void handleDrawer() {

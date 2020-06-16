@@ -1,9 +1,12 @@
+import 'package:bynextcourier/bloc/LoginFormBloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 23.0, vertical: 8.0),
@@ -44,7 +47,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 RaisedButton(
                   child: Text('LOGIN'),
-                  onPressed: () {},
+                  onPressed: () => context.bloc<LoginFormBloc>().submit(),
                 ),
                 RaisedButton(
                   child: Text('DEMO MODE'),

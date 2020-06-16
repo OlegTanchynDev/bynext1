@@ -32,6 +32,9 @@ dependencies:
   bloc: ^4.0.0
   flutter_bloc: ^4.0.1
   equatable: ^1.2.0
+  provider: ^4.1.3
+  flutter_hidden_drawer:
+    path: ./plugins/flutter_hidden_drawer/
 
 dev_dependencies:
   flutter_test:

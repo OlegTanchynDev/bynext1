@@ -90,6 +90,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.1"
+  flutter_hidden_drawer:
+    dependency: "direct main"
+    description:
+      path: "plugins/flutter_hidden_drawer"
+      relative: true
+    source: path
+    version: "0.1.5"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -145,7 +152,7 @@ packages:
     source: hosted
     version: "2.4.0"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"

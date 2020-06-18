@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:equatable/equatable.dart';
 
 class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
   Timer _timer;
+  TokenRepository tokenRepository;
 
   @override
   LoginFormState get initialState => LoginFormReady();
@@ -21,6 +23,9 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
       case LoginFormSubmit:
         if (state is LoginFormReady) {
           yield LoginFormProcessing();
+
+          tokenRepository.login('Demo', 'Demo');
+
           _timer = new Timer(const Duration(milliseconds: 500), () {
             add(LoginFormLoggedIn());
           });

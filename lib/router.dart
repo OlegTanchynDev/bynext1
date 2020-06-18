@@ -1,15 +1,18 @@
 import 'package:bynextcourier/bloc/LoginFormBloc.dart';
+import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:bynextcourier/screen/login.dart';
 import 'package:bynextcourier/screen/splash.dart';
+import 'package:bynextcourier/screen/webview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/splash_bloc.dart';
 import 'screen/home_screen.dart';
 
-const String homeRoute = 'home';
-const String loginRoute = 'login';
-const String splashRoute = 'splash';
+const homeRoute = 'home';
+const loginRoute = 'login';
+const splashRoute = 'splash';
+const webRoute = 'web';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -38,7 +41,8 @@ class Router {
               page = MultiBlocProvider(
                   providers: [
                     BlocProvider(
-                      create: (context) => LoginFormBloc(),
+                      create: (context) => LoginFormBloc()
+                      ..tokenRepository = context.repository<TokenRepository>(),
                     ),
                   ],
                   child: BlocListener<LoginFormBloc, LoginFormState>(
@@ -49,8 +53,13 @@ class Router {
                       },
                       child: LoginScreen()));
               break;
+            case webRoute:
+              final args = settings.arguments as Map;
+              page = WebViewScreen(url: args['url']);
+              break;
             default:
               page = Scaffold(
+                appBar: AppBar(),
                 body: Center(child: Text('No route defined for ${settings.name}')),
               );
           }

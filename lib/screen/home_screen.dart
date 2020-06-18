@@ -1,7 +1,11 @@
+import 'package:alice/alice.dart';
+import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/generated/l10n.dart';
 import 'package:bynextcourier/view/drawer_footer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hidden_drawer/flutter_hidden_drawer.dart';
+
+import '../router.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -47,7 +51,7 @@ class HomeScreen extends StatelessWidget {
         menu: <DrawerMenu>[
           DrawerMenu(
             child: ListTile(
-              leading: Icon(Icons.arrow_left),
+              leading: Image.asset('assets/images/menu-back-to-shift.png'),
               title: Text(S.of(context).drawerCloseMenu),
               dense: true,
             ),
@@ -55,7 +59,7 @@ class HomeScreen extends StatelessWidget {
           ),
           DrawerMenu(
             child: ListTile(
-              leading: Icon(Icons.phone),
+              leading: Image.asset('assets/images/menu-call.png'),
               title: Text(S.of(context).drawerCallDispatcher),
               dense: true,
             ),
@@ -63,7 +67,10 @@ class HomeScreen extends StatelessWidget {
           ),
           DrawerMenu(
             child: ListTile(
-              leading: Icon(Icons.local_offer),
+              leading: ColorFiltered(
+                colorFilter: ColorFilter.mode(Color(0xFF232456), BlendMode.srcIn),
+                child: Image.asset('assets/images/menu-completed-orders.png'),
+              ),
               title: Text(S.of(context).drawerTasks),
               dense: true,
             ),
@@ -71,7 +78,10 @@ class HomeScreen extends StatelessWidget {
           ),
           DrawerMenu(
             child: ListTile(
-              leading: Icon(Icons.local_offer),
+              leading: ColorFiltered(
+                colorFilter: ColorFilter.mode(Color(0xFF232456), BlendMode.srcIn),
+                child: Image.asset('assets/images/menu-navigation.png'),
+              ),
               title: Text(S.of(context).drawerNavigation),
               dense: true,
             ),
@@ -79,7 +89,10 @@ class HomeScreen extends StatelessWidget {
           ),
           DrawerMenu(
             child: ListTile(
-              leading: Icon(Icons.local_offer),
+              leading: ColorFiltered(
+                colorFilter: ColorFilter.mode(Color(0xFF232456), BlendMode.srcIn),
+                child: Image.asset('assets/images/menu-shifts.png'),
+              ),
               title: Text(S.of(context).drawerShifts),
               dense: true,
             ),
@@ -87,7 +100,10 @@ class HomeScreen extends StatelessWidget {
           ),
           DrawerMenu(
             child: ListTile(
-              leading: Icon(Icons.local_offer),
+              leading: ColorFiltered(
+                colorFilter: ColorFilter.mode(Color(0xFF232456), BlendMode.srcIn),
+                child: Image.asset('assets/images/menu-my-paycheck.png'),
+              ),
               title: Text(S.of(context).drawerMySalary),
               dense: true,
             ),
@@ -95,7 +111,10 @@ class HomeScreen extends StatelessWidget {
           ),
           DrawerMenu(
             child: ListTile(
-              leading: Icon(Icons.local_offer),
+              leading: ColorFiltered(
+                colorFilter: ColorFilter.mode(Color(0xFF232456), BlendMode.srcIn),
+                child: Image.asset('assets/images/menu-issues.png'),
+              ),
               title: Text(S.of(context).drawerIssues),
               dense: true,
             ),
@@ -103,23 +122,30 @@ class HomeScreen extends StatelessWidget {
           ),
           DrawerMenu(
             child: ListTile(
-              leading: Icon(Icons.local_offer),
+              leading: Icon(Icons.language),
               title: Text(S.of(context).drawerGeneralInfo),
               dense: true,
             ),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pushNamed(webRoute, arguments: {'url': generalInfoUrl}),
           ),
           DrawerMenu(
             child: ListTile(
-              leading: Icon(Icons.local_offer),
+              leading: ColorFiltered(
+                colorFilter: ColorFilter.mode(Color(0xFF232456), BlendMode.srcIn),
+                child: Image.asset('assets/images/menu-policy.png'),
+              ),
               title: Text(S.of(context).drawerPolicies),
               dense: true,
             ),
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pushNamed(webRoute, arguments: {'url': policyUrl}),
           ),
           DrawerMenu(
             child: ListTile(
-              leading: Icon(Icons.local_offer),
+              leading: Container(
+                padding: const EdgeInsets.all(6.0),
+                decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Color(0xFF232456))),
+                child: Text('?'),
+              ),
               title: Text(S.of(context).drawerSwitchTask),
               dense: true,
             ),
@@ -127,11 +153,20 @@ class HomeScreen extends StatelessWidget {
           ),
           DrawerMenu(
             child: ListTile(
-              leading: Icon(Icons.local_offer),
+              leading: Image.asset('assets/images/menu-logout.png'),
               title: Text(S.of(context).drawerLogout),
               dense: true,
             ),
             onPressed: () {},
+          ),
+          DrawerMenu(
+            child: ListTile(
+              title: Text('Alice'),
+              dense: true,
+            ),
+            onPressed: () {
+              context.read<Alice>().showInspector();
+            },
           ),
         ],
         footer: DrawerFooter(),

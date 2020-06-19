@@ -1,5 +1,5 @@
-import 'package:bynextcourier/bloc/login_form_bloc.dart';
 import 'package:bynextcourier/bloc/delegate/bloc_delegate.dart';
+import 'package:bynextcourier/bloc/login_form_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:bynextcourier/screen/home_screen.dart';
@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_hidden_drawer/flutter_hidden_drawer.dart';
 
+import 'bloc/location_tracker/location_tracker_bloc.dart';
 import 'generated/l10n.dart';
 import 'router.dart';
 import 'screen/login.dart';
@@ -50,7 +51,11 @@ class MyApp extends StatelessWidget {
                   lazy: false,
                   create: (context) => (TokenBloc()
                     ..add(ValidateToken())
-                    ..repository = context.repository<TokenRepository>()))
+                    ..repository = context.repository<TokenRepository>())),
+              BlocProvider(
+                lazy: false,
+                create: (_) => LocationTrackerBloc()..startLocationTracking(),
+              ),
             ],
             child: MaterialApp(
                 title: 'ByNext',
@@ -158,8 +163,9 @@ class MyApp extends StatelessWidget {
                               children: <Widget>[
                                 LoginScreen(),
                                 BlocBuilder<LoginFormBloc, LoginFormState>(
-                                  builder: (context, loginFormState) =>
-                                      loginFormState is LoginFormProcessing ? CustomProgressIndicator(text: 'Authenticating Driver') : Container(),
+                                  builder: (context, loginFormState) => loginFormState is LoginFormProcessing
+                                      ? CustomProgressIndicator(text: 'Authenticating Driver')
+                                      : Container(),
                                 ),
                               ],
                             ),

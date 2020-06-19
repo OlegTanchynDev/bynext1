@@ -12,7 +12,8 @@ class TokenRepository {
 
   Future<OauthToken> login(String login, String password) async {
     final response = await http.post(
-      '$servicesUrl/oauth2/token',
+//      '$servicesUrl/oauth2/token',
+      '$servicesUrl/account/api-token-auth/',
       headers: {'content-type': 'application/json'},
       body: json.encode({'username': login ?? '', 'password': password ?? ''}),
     ).timeout(requestTimeout);
@@ -20,11 +21,12 @@ class TokenRepository {
 
     final parsed = json.decode(response.body);
 
-//    if (response.statusCode == 200) {
-    return Future.value(OauthToken.fromJson(parsed));
-//    } else if (parsed['errors'] != null) {
-//      List<RestError> errors = parsed['errors'].map<RestError>((map) => RestError.fromJson(map)).toList();
+    if (response.statusCode == 200) {
+      return Future.value(OauthToken.fromJson(parsed));
+    } else if (parsed['errors'] != null) {
+//      List<RestError> errors = parsed['errors'].map<RestError>((map) =>
+//        RestError.fromJson(map)).toList();
 //      throw RestException(cause: errors.first);
-//    }
+    }
   }
 }

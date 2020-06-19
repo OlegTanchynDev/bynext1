@@ -5,6 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    String username;
+    String password;
+
     return Scaffold(
         appBar: AppBar(),
         body: SafeArea(
@@ -21,14 +24,19 @@ class LoginScreen extends StatelessWidget {
                 Align(alignment: Alignment.center, child: Image(image: AssetImage('assets/images/logotype.png'))),
                 const SizedBox(height: 14),
                 TextFormField(
-                  decoration: InputDecoration(hintText: 'Email', floatingLabelBehavior: FloatingLabelBehavior.never),
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                    floatingLabelBehavior: FloatingLabelBehavior.never
+                  ),
                   keyboardType: TextInputType.emailAddress,
+                  onChanged: (val) => username = val,
                 ),
                 const SizedBox(
                   height: 20.0,
                 ),
                 TextFormField(
                   decoration: InputDecoration(hintText: 'Password', floatingLabelBehavior: FloatingLabelBehavior.never),
+                  onChanged: (val) => password = val,
                 ),
                 const SizedBox(
                   height: 16.0,
@@ -47,7 +55,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 RaisedButton(
                   child: Text('LOGIN'),
-                  onPressed: () => context.bloc<LoginFormBloc>().submit(),
+                  onPressed: () => context.bloc<LoginFormBloc>().submit(username, password),
                 ),
                 RaisedButton(
                   child: Text('DEMO MODE'),

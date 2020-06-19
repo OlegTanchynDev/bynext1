@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:bynextcourier/model/oauth_token.dart';
+import 'package:bynextcourier/model/token.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:equatable/equatable.dart';
 
@@ -26,7 +26,7 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
           yield LoginFormProcessing();
 
 //          OauthToken token = await tokenRepository.login('alex@cleanly.com', 'setup');
-          OauthToken token = await tokenRepository.login((event as LoginFormSubmit).username, (event as LoginFormSubmit).password);
+          Token token = await tokenRepository.login((event as LoginFormSubmit).username, (event as LoginFormSubmit).password);
 
 //          _timer = new Timer(const Duration(milliseconds: 500), () {
 //            add(LoginFormLoggedIn());

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:alice/alice.dart';
-import 'package:bynextcourier/model/oauth_token.dart';
+import 'package:bynextcourier/model/token.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
@@ -10,7 +10,7 @@ class TokenRepository {
   final Alice alice;
   TokenRepository({this.alice});
 
-  Future<OauthToken> login(String login, String password) async {
+  Future<Token> login(String login, String password) async {
     final response = await http.post(
 //      '$servicesUrl/oauth2/token',
       '$servicesUrl/account/api-token-auth/',
@@ -22,7 +22,7 @@ class TokenRepository {
     final parsed = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      return Future.value(OauthToken.fromJson(parsed));
+      return Future.value(Token.fromJson(parsed));
     } else if (parsed['errors'] != null) {
 //      List<RestError> errors = parsed['errors'].map<RestError>((map) =>
 //        RestError.fromJson(map)).toList();

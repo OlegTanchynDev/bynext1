@@ -9,61 +9,93 @@ class LoginScreen extends StatelessWidget {
     String password;
 
     return Scaffold(
-        appBar: AppBar(),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 23.0, vertical: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.center,
-                  child: Image(image: AssetImage('assets/images/logo.png')),
-                ),
-                const SizedBox(height: 14),
-                Align(alignment: Alignment.center, child: Image(image: AssetImage('assets/images/logotype.png'))),
-                const SizedBox(height: 14),
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    floatingLabelBehavior: FloatingLabelBehavior.never
+      appBar: AppBar(),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 23.0, vertical: 8.0),
+          child: LayoutBuilder(
+            builder: (context, constraint) {
+              print(constraint);
+              print(MediaQuery
+                .of(context)
+                .viewInsets);
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraint.maxHeight,
                   ),
-                  keyboardType: TextInputType.emailAddress,
-                  onChanged: (val) => username = val,
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(hintText: 'Password', floatingLabelBehavior: FloatingLabelBehavior.never),
-                  onChanged: (val) => password = val,
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: GestureDetector(
-                    child: Text('Forgot your password?'),
-                    onTap: () {},
+                  child: IntrinsicHeight(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            height: 70,
+                            child: Image(
+                              image: AssetImage('assets/images/logo.png')
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Image(
+                            image: AssetImage('assets/images/logotype.png'),
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            hintText: 'Email',
+                            floatingLabelBehavior: FloatingLabelBehavior.never
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          onChanged: (val) => username = val,
+                        ),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(hintText: 'Password',
+                            floatingLabelBehavior: FloatingLabelBehavior.never),
+                          onChanged: (val) => password = val,
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: GestureDetector(
+                            child: Text('Forgot your password?'),
+                            onTap: () {},
+                          ),
+                        ),
+                      Expanded(
+                        child: SizedBox(
+                          height: 0,
+                        ),
+                      ),
+                        RaisedButton(
+                          child: Text('LOGIN'),
+                          onPressed: () =>
+                            context.bloc<LoginFormBloc>().submit(
+                              username, password),
+                        ),
+                        RaisedButton(
+                          child: Text('DEMO MODE'),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Expanded(
-                  child: SizedBox(
-                    height: 0,
-                  ),
-                ),
-                RaisedButton(
-                  child: Text('LOGIN'),
-                  onPressed: () => context.bloc<LoginFormBloc>().submit(username, password),
-                ),
-                RaisedButton(
-                  child: Text('DEMO MODE'),
-                  onPressed: () {},
-                ),
-              ],
-            ),
+              );
+            }
           ),
-        ));
+        ),
+      )
+    );
   }
 }

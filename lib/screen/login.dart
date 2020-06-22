@@ -53,12 +53,43 @@ class LoginScreen extends StatelessWidget {
                             if (state is LoginFormReady && state.error != null && state.error['non_field_errors'] != null){
                               await showDialog(
                                 context: context,
-                                builder: (context){
+                                builder: (context) {
                                   return Align(
                                     child: Container(
-                                      width: 50,
-                                      height: 50,
-                                      color: Colors.amber,
+                                      width: 250,
+                                      height: 150,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Center(
+                                              child: Text(
+                                                state.error['non_field_errors'],
+                                                style: TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontStyle: FontStyle.normal,
+                                                  color: Colors.black,
+                                                  decoration: TextDecoration.none,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          ),
+                                          RaisedButton(
+                                            child: Text('OK'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   );
                                 }
@@ -94,14 +125,6 @@ class LoginScreen extends StatelessWidget {
                             }
                           ),
                         ),
-//                        const SizedBox(
-//                          height: 20.0,
-//                        ),
-//                        TextFormField(
-//                          decoration: InputDecoration(hintText: 'Password',
-//                            floatingLabelBehavior: FloatingLabelBehavior.never),
-//                          onChanged: (val) => password = val,
-//                        ),
                         const SizedBox(
                           height: 16.0,
                         ),

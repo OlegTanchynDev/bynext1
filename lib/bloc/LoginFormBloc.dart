@@ -25,12 +25,7 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
         if (state is LoginFormReady) {
           yield LoginFormProcessing();
 
-//          OauthToken token = await tokenRepository.login('alex@cleanly.com', 'setup');
           Token token = await tokenRepository.login((event as LoginFormSubmit).username, (event as LoginFormSubmit).password);
-
-//          _timer = new Timer(const Duration(milliseconds: 500), () {
-//            add(LoginFormLoggedIn());
-//          });
 
           if (token != null){
             add(LoginFormLoggedIn());

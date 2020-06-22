@@ -1,4 +1,5 @@
 import 'package:alice/alice.dart';
+import 'package:bynextcourier/bloc/delegate/bloc_delegate.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,8 @@ class MyApp extends StatelessWidget {
     final Alice alice = Alice(
       showNotification: true, showInspectorOnShake: true
     );
+
+    BlocSupervisor.delegate = SimpleBlocDelegate();
 
     return MultiProvider(
       providers: [

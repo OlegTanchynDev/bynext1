@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bynextcourier/model/rest_error.dart';
 import 'package:bynextcourier/model/token.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -25,23 +26,39 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
         if (state is LoginFormReady) {
           yield LoginFormProcessing();
 
-          Token token = await tokenRepository.login((event as LoginFormSubmit).username, (event as LoginFormSubmit).password);
+          try {
+            Token token = await tokenRepository.login(
+              (event as LoginFormSubmit).username,
+              (event as LoginFormSubmit).password);
 
-          if (token != null){
-            add(LoginFormLoggedIn());
+//            add(LoginFormLoggedIn());
+            yield LoginFormDone();
           }
-          else {
-            add(LoginFormError());
+          catch (error) {
+            if (error is RestError){
+              yield LoginFormReady(
+                error: error.errors,
+              );
+            }
           }
+
+//          if (token != null){
+//            add(LoginFormLoggedIn());
+//          }
+//          else {
+//            add(LoginFormError());
+//          }
         }
         break;
       case LoginFormLoggedIn:
         yield LoginFormDone();
         break;
 
-      case LoginFormError:
-        yield LoginFormReady();
-        break;
+//      case LoginFormError:
+//        yield LoginFormReady(
+//          error:
+//        );
+//        break;
     }
   }
 
@@ -64,7 +81,7 @@ class LoginFormSubmit extends LoginFormEvent {
 
 class LoginFormLoggedIn extends LoginFormEvent {}
 
-class LoginFormError extends LoginFormEvent {}
+//class LoginFormError extends LoginFormEvent {}
 
 // States
 abstract class LoginFormState extends Equatable {
@@ -72,7 +89,11 @@ abstract class LoginFormState extends Equatable {
   List<Object> get props => [];
 }
 
-class LoginFormReady extends LoginFormState {}
+class LoginFormReady extends LoginFormState {
+  final error;
+
+  LoginFormReady({this.error});
+}
 
 class LoginFormProcessing extends LoginFormState {}
 

@@ -22,7 +22,7 @@ class TokenRepository {
     final parsed = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      return Future.value(Token.fromJson(parsed));
+      return Future.value(Token.fromMap(parsed));
     } else  {
       throw RestError.fromMap(parsed);
     }
@@ -44,6 +44,7 @@ class TokenRepository {
     if (response.statusCode == 200) {
       return Future.value(true);
     } else  {
+      return Future.value(false);
 //      List<RestError> errors = parsed['errors'].map<RestError>((map) =>
 //        RestError.fromJson(map)).toList();
 //      throw RestException(cause: errors.first);

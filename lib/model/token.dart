@@ -12,14 +12,14 @@ class Token {
 
   static const String _keyToken = 'token';
 
-  factory Token.fromJson(Map<String, dynamic> map) {
-    return Token(
-//      accessToken: map[_keyAccessToken],
-//      refreshToken: map[_keyRefreshToken],
-
-      token: map[_keyToken],
-    );
-  }
+//  factory Token.fromJson(Map<String, dynamic> map) {
+//    return Token(
+////      accessToken: map[_keyAccessToken],
+////      refreshToken: map[_keyRefreshToken],
+//
+//      token: map[_keyToken],
+//    );
+//  }
 
   Map<String, dynamic> toMap() => <String, String>{
 //    _keyAccessToken: accessToken,

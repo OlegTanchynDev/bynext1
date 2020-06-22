@@ -1,5 +1,6 @@
 import 'package:alice/alice.dart';
 import 'package:bynextcourier/bloc/delegate/bloc_delegate.dart';
+import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,76 +36,87 @@ class MyApp extends StatelessWidget {
         providers: [
           RepositoryProvider(create: (_) => TokenRepository(alice: alice),),
         ],
-        child: MaterialApp(
-          navigatorKey: alice.getNavigatorKey(),
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            brightness: Brightness.light,
-            primarySwatch: Colors.grey,
-            scaffoldBackgroundColor: Color(0xFFF2EDEB),
-            colorScheme: ColorScheme(
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => TokenBloc()
+              ..repository = context.repository<TokenRepository>())
+          ],
+          child: MaterialApp(
+            navigatorKey: alice.getNavigatorKey(),
+            title: 'Flutter Demo',
+            theme: ThemeData(
               brightness: Brightness.light,
-              primary: Color(0xFF232456),
-              primaryVariant: Color(0xFF4a4a4a),
-              secondary: Color(0xFF232456),
-              // <-- text color
-              secondaryVariant: Color(0xFF848484),
-              surface: Color(0xFF232456),
-              background: Color(0xFFF2EDEB),
-              error: Colors.red,
-              onPrimary: Color(0xFFF2EDEB),
-              onSecondary: Color(0xFFF2EDEB),
-              onBackground: Color(0xFF232456),
-              onError: Color(0xFFFFDDDD),
-              onSurface: Color(
-                0xFF232456), // <-- disabled text color, INPUT DECORATION
-            ),
-
-            // This makes the visual density adapt to the platform that you run
-            // the app on. For desktop platforms, the controls will be smaller and
-            // closer together (more dense) than on mobile platforms.
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            textTheme: TextTheme(
-              // edit text
-              subtitle1: TextStyle(
-                fontFamily: 'Avenir',
-                fontSize: 15,
-                fontWeight: FontWeight.w300,
+              primarySwatch: Colors.grey,
+              scaffoldBackgroundColor: Color(0xFFF2EDEB),
+              colorScheme: ColorScheme(
+                brightness: Brightness.light,
+                primary: Color(0xFF232456),
+                primaryVariant: Color(0xFF4a4a4a),
+                secondary: Color(0xFF232456),
+                // <-- text color
+                secondaryVariant: Color(0xFF848484),
+                surface: Color(0xFF232456),
+                background: Color(0xFFF2EDEB),
+                error: Colors.red,
+                onPrimary: Color(0xFFF2EDEB),
+                onSecondary: Color(0xFFF2EDEB),
+                onBackground: Color(0xFF232456),
+                onError: Color(0xFFFFDDDD),
+                onSurface: Color(
+                  0xFF232456), // <-- disabled text color, INPUT DECORATION
               ),
-              bodyText2: TextStyle(
-                fontFamily: 'Avenir',
-                fontSize: 16,
-                fontWeight: FontWeight.w300,
-                color: Color(0xFF232456)),
-              //buttons
-              button: TextStyle(
-                fontFamily: 'Avenir',
-                fontSize: 18,
-                fontWeight: FontWeight.w300,
+
+              // This makes the visual density adapt to the platform that you run
+              // the app on. For desktop platforms, the controls will be smaller and
+              // closer together (more dense) than on mobile platforms.
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              textTheme: TextTheme(
+                // edit text
+                subtitle1: TextStyle(
+                  fontFamily: 'Avenir',
+                  fontSize: 15,
+                  fontWeight: FontWeight.w300,
+                ),
+                bodyText2: TextStyle(
+                  fontFamily: 'Avenir',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                  color: Color(0xFF232456)),
+                //buttons
+                button: TextStyle(
+                  fontFamily: 'Avenir',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w300,
+                )
+              ),
+              buttonTheme: ButtonThemeData(
+                textTheme: ButtonTextTheme.primary,
+                height: 41,
+                buttonColor: Color(0xFF403D9C),
+              ),
+              inputDecorationTheme: InputDecorationTheme(
+                isDense: true,
+                border: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(0.0))),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 10, vertical: 12),
               )
             ),
-            buttonTheme: ButtonThemeData(
-              textTheme: ButtonTextTheme.primary,
-              height: 41,
-              buttonColor: Color(0xFF403D9C),
+            home: GestureDetector(
+              onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+              child: BlocBuilder(
+                bloc: BlocProvider.of<TokenBloc>(context),
+                builder: (context, snapshot) {
+                  return LoginScreen();
+                }
+              )
             ),
-            inputDecorationTheme: InputDecorationTheme(
-              isDense: true,
-              border: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(0.0))),
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 10, vertical: 12),
-            )
+            onGenerateRoute: Router.generateRoute,
+            initialRoute: splashRoute,
+            localizationsDelegates: [
+              S.delegate,
+            ]
           ),
-          home: GestureDetector(
-            onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-            child: LoginScreen()
-          ),
-          onGenerateRoute: Router.generateRoute,
-          initialRoute: splashRoute,
-          localizationsDelegates: [
-            S.delegate,
-          ]
         ),
       )
     );

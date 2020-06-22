@@ -1,14 +1,18 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/model/rest_error.dart';
 import 'package:bynextcourier/model/token.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
   Timer _timer;
   TokenRepository tokenRepository;
+
+  TokenBloc tokenBloc;
 
   @override
   LoginFormState get initialState => LoginFormReady();
@@ -31,7 +35,8 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
               (event as LoginFormSubmit).username,
               (event as LoginFormSubmit).password);
 
-//            add(LoginFormLoggedIn());
+            tokenBloc.add(NewToken(token, (event as LoginFormSubmit).username));
+
             yield LoginFormDone();
           }
           catch (error) {

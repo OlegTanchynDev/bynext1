@@ -1,8 +1,10 @@
 import 'package:alice/alice.dart';
+import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/generated/l10n.dart';
 import 'package:bynextcourier/view/drawer_footer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hidden_drawer/flutter_hidden_drawer.dart';
 
 import '../router.dart';
@@ -157,7 +159,9 @@ class HomeScreen extends StatelessWidget {
               title: Text(S.of(context).drawerLogout),
               dense: true,
             ),
-            onPressed: () {},
+            onPressed: () {
+              BlocProvider.of<TokenBloc>(context).add(ClearToken());
+            },
           ),
           DrawerMenu(
             child: ListTile(

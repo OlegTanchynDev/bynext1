@@ -1,7 +1,10 @@
 import 'package:alice/alice.dart';
+import 'package:bynextcourier/bloc/LoginFormBloc.dart';
 import 'package:bynextcourier/bloc/delegate/bloc_delegate.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
+import 'package:bynextcourier/screen/home_screen.dart';
+import 'package:bynextcourier/screen/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -38,8 +41,10 @@ class MyApp extends StatelessWidget {
         ],
         child: MultiBlocProvider(
           providers: [
-            BlocProvider(create: (context) => TokenBloc()
-              ..repository = context.repository<TokenRepository>())
+            BlocProvider(
+              lazy: false,
+              create: (context) => (TokenBloc()..add(ValidateToken())
+              ..repository = context.repository<TokenRepository>()))
           ],
           child: MaterialApp(
             navigatorKey: alice.getNavigatorKey(),
@@ -104,15 +109,26 @@ class MyApp extends StatelessWidget {
             ),
             home: GestureDetector(
               onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-              child: BlocBuilder(
-                bloc: BlocProvider.of<TokenBloc>(context),
-                builder: (context, snapshot) {
-                  return LoginScreen();
+              child: BlocBuilder<TokenBloc, TokenState>(
+                builder: (context, tokenState) {
+                  switch(tokenState.runtimeType){
+                    case TokenInitial : return SplashScreen();
+                    break;
+                    case TokenValid : return HomeScreen();
+                    break;
+                    case TokenNull : return BlocProvider(
+                        create: (context) => LoginFormBloc()..tokenBloc = context.bloc<TokenBloc>()
+                          ..tokenRepository = context.repository<TokenRepository>(),
+                        child: LoginScreen(),
+                      );
+                    break;
+
+                  }
                 }
               )
             ),
             onGenerateRoute: Router.generateRoute,
-            initialRoute: splashRoute,
+//            initialRoute: splashRoute,
             localizationsDelegates: [
               S.delegate,
             ]

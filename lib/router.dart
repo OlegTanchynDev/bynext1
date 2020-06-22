@@ -9,9 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/splash_bloc.dart';
 import 'screen/home_screen.dart';
 
-const homeRoute = 'home';
-const loginRoute = 'login';
-const splashRoute = 'splash';
+//const homeRoute = 'home';
+//const loginRoute = 'login';
+//const splashRoute = 'splash';
 const webRoute = 'web';
 
 class Router {
@@ -21,38 +21,38 @@ class Router {
         builder: (BuildContext context) {
           Widget page;
           switch (settings.name) {
-            case homeRoute:
-              page = HomeScreen();
-              break;
-            case splashRoute:
-              page = MultiBlocProvider(
-                providers: [BlocProvider(create: (context) => SplashBloc()..start())],
-                child: BlocListener<SplashBloc, SplashState>(
-                  listener: (context, state) {
-                    if (state is SplashDone) {
-                      Navigator.of(context).pushReplacementNamed(loginRoute);
-                    }
-                  },
-                  child: SplashScreen(),
-                ),
-              );
-              break;
-            case loginRoute:
-              page = MultiBlocProvider(
-                  providers: [
-                    BlocProvider(
-                      create: (context) => LoginFormBloc()
-                      ..tokenRepository = context.repository<TokenRepository>(),
-                    ),
-                  ],
-                  child: BlocListener<LoginFormBloc, LoginFormState>(
-                      listener: (context, loginFormState) {
-                        if (loginFormState is LoginFormDone) {
-                          Navigator.of(context).pushReplacementNamed(homeRoute);
-                        }
-                      },
-                      child: LoginScreen()));
-              break;
+//            case homeRoute:
+//              page = HomeScreen();
+//              break;
+//            case splashRoute:
+//              page = MultiBlocProvider(
+//                providers: [BlocProvider(create: (context) => SplashBloc()..start())],
+//                child: BlocListener<SplashBloc, SplashState>(
+//                  listener: (context, state) {
+//                    if (state is SplashDone) {
+//                      Navigator.of(context).pushReplacementNamed(loginRoute);
+//                    }
+//                  },
+//                  child: SplashScreen(),
+//                ),
+//              );
+//              break;
+//            case loginRoute:
+//              page = MultiBlocProvider(
+//                  providers: [
+//                    BlocProvider(
+//                      create: (context) => LoginFormBloc()
+//                      ..tokenRepository = context.repository<TokenRepository>(),
+//                    ),
+//                  ],
+//                  child: BlocListener<LoginFormBloc, LoginFormState>(
+//                      listener: (context, loginFormState) {
+//                        if (loginFormState is LoginFormDone) {
+////                          Navigator.of(context).pushReplacementNamed(homeRoute);
+//                        }
+//                      },
+//                      child: LoginScreen()));
+//              break;
             case webRoute:
               final args = settings.arguments as Map;
               page = WebViewScreen(url: args['url']);

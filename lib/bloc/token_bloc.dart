@@ -25,9 +25,16 @@ class TokenBloc extends Bloc<TokenEvent, TokenState> {
       final prefs = await SharedPreferences.getInstance();
       final token = await prefs.get('token');
       final email = await prefs.get('email');
-      final success = await repository.validateCourierLogin(email, "", token);
-      if (success) {
-        yield TokenValid();
+      if (email != null && token != null) {
+        final success = await repository.validateCourierLogin(
+          email, "1.2.3", token);
+
+        if (success) {
+          yield TokenValid();
+        }
+        else {
+          yield TokenNull();
+        }
       }
       else {
         yield TokenNull();
@@ -37,7 +44,7 @@ class TokenBloc extends Bloc<TokenEvent, TokenState> {
     if (event is NewToken) {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', event.token.token);
-//      await prefs.setString('email', event.token.);
+      await prefs.setString('email', event.email);
 
       yield TokenValid();
     }
@@ -55,8 +62,9 @@ class ValidateToken  extends TokenEvent {}
 
 class NewToken  extends TokenEvent {
   final Token token;
+  final String email;
 
-  NewToken(this.token);
+  NewToken(this.token, this.email);
 }
 
 class ClearToken  extends TokenEvent {}

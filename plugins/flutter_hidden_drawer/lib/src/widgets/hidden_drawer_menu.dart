@@ -30,48 +30,50 @@ class HiddenDrawerMenu extends StatelessWidget {
         height: size.height,
         width: size.width,
         decoration: drawerDecoration ?? BoxDecoration(color: Colors.white),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              height: HiddenDrawer.of(context).drawerHeaderHeight,
-              width: HiddenDrawer.of(context).drawerWidth,
-              child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: header != null ? header : Container()),
-            ),
-            SizedBox(
-              height: size.height -
-                  (HiddenDrawer.of(context).drawerHeaderHeight +
-                      (size.height * .1)),
-              width: HiddenDrawer.of(context).drawerWidth,
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: menu.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      state.changeIndexState(index);
-                      HiddenDrawer.of(context).handleDrawer();
-                      menu[index].onPressed();
-                    },
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 500),
-                      color: state.currentMenuIndex == index
-                          ? menuActiveColor
-                          : menuColor,
-                      child: menu[index].child,
-                    ),
-                  );
-                },
+        child: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: size.height),
+            child: IntrinsicHeight(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    child: SizedBox(height: 10),
+                  ),
+                  SizedBox(
+                        height: HiddenDrawer.of(context).drawerHeaderHeight,
+                        width: HiddenDrawer.of(context).drawerWidth,
+                        child: Align(alignment: Alignment.bottomLeft, child: header != null ? header : Container()),
+                      )
+                    ] +
+                    menu.map((item) {
+                      int index = menu.indexOf(item);
+                      return InkWell(
+                        onTap: () {
+                          state.changeIndexState(index);
+                          HiddenDrawer.of(context).handleDrawer();
+                          item.onPressed();
+                        },
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 500),
+                          color: state.currentMenuIndex == index ? menuActiveColor : menuColor,
+                          child: item.child,
+                        ),
+                      );
+                    }).toList() +
+                    [
+                      SizedBox(
+                        height: size.height * .1,
+                        width: HiddenDrawer.of(context).drawerWidth,
+                        child: footer != null ? footer : Container(),
+                      ),
+                      Expanded(
+                        child: SizedBox(height: 10),
+                      ),
+                    ],
               ),
             ),
-            SizedBox(
-              height: size.height * .1,
-              width: HiddenDrawer.of(context).drawerWidth,
-              child: footer != null ? footer : Container(),
-            ),
-          ],
+          ),
         ),
       ),
     );

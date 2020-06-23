@@ -70,7 +70,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                             Expanded(
                                               child: Center(
                                                 child: Text(
-                                                  state is ForgotFormReady ? state.error
+                                                  state is ForgotFormReady ? state.error['non_field_errors']
                                                   : "Reset message has been sent.",
                                                   style: TextStyle(
                                                     fontSize: 17,

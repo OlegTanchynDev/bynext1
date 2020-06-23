@@ -56,18 +56,21 @@ class TokenRepository {
       '$servicesUrl/account/forgetPassword/?email=$login',
       headers: {
         'content-type': 'application/json',
-//        'Authorization': 'Token $token',
-//        'Accept-Encoding': 'gzip',
       },
     ).timeout(requestTimeout);
     alice.onHttpResponse(response);
 
-    final parsed = json.decode(response.body);
+    var parsed = json.decode(response.body);
 
     if (parsed['status_code'] == 0) {
       return Future.value(true);
-    } else  {
-      throw RestError.fromMap(parsed);
+    } else {
+      RestError restError = RestError(errors: {});
+      switch (parsed['status_code']) {
+        case 1:
+          restError.errors.putIfAbsent('non_field_errors', () => 'Error processing request.');
+      }
+      throw restError;
     }
   }
 }

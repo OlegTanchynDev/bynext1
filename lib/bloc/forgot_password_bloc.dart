@@ -11,8 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
 //  Timer _timer;
   TokenRepository tokenRepository;
-//
-//  TokenBloc tokenBloc;
 
   @override
   ForgotPasswordState get initialState => ForgotFormReady();

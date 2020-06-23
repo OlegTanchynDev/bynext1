@@ -52,8 +52,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                           BlocConsumer(
                             bloc: BlocProvider.of<ForgotPasswordBloc>(context),
                             listener: (context, state) async {
-                              if (state is ForgotFormDone){
+                              if (state is ForgotFormDone || (state is ForgotFormReady && state.error != null)){
                                 await showDialog(
+                                  barrierDismissible: false,
                                   context: context,
                                   builder: (context) {
                                     return Align(
@@ -69,7 +70,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                                             Expanded(
                                               child: Center(
                                                 child: Text(
-                                                  "Reset message has been sent.",
+                                                  state is ForgotFormReady ? state.error
+                                                  : "Reset message has been sent.",
                                                   style: TextStyle(
                                                     fontSize: 17,
                                                     fontWeight: FontWeight.normal,
@@ -85,7 +87,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                                               child: Text('OK'),
                                               onPressed: () {
                                                 Navigator.of(context).pop();
-                                                Navigator.of(context).pop();
+                                                if (state is ForgotFormDone) {
+                                                  Navigator.of(context).pop();
+                                                }
                                               },
                                             ),
                                             SizedBox(
@@ -106,7 +110,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                     decoration: InputDecoration(
                                       hintText: 'Email',
                                       floatingLabelBehavior: FloatingLabelBehavior.never,
-                                      errorText:  state is ForgotFormReady && state.error != null ? state.error['username'] : null,
+//                                      errorText:  state is ForgotFormReady && state.error != null ? state.error['username'] : null,
                                     ),
                                     keyboardType: TextInputType.emailAddress,
                                     onChanged: (val) => username = val,

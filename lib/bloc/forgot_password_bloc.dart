@@ -29,27 +29,18 @@ class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> 
       case ForgotFormSubmit:
         if (state is ForgotFormReady) {
           yield ForgotFormProcessing();
-          final response = await tokenRepository.resetPassword((event as ForgotFormSubmit).username);
 
-
-//          try {
-//            Token token = await tokenRepository.login(
-//              (event as LoginFormSubmit).username,
-//              (event as LoginFormSubmit).password);
-//
-//            tokenBloc.add(NewToken(token, (event as LoginFormSubmit).username));
-//
-//            yield ForgotFormDone();
-//          }
-//          catch (error) {
-//            if (error is RestError){
-//              yield ForgotFormReady(
-//                error: error.errors,
-//              );
-//            }
-//          }
-
-          yield ForgotFormDone();
+          try {
+            final response = await tokenRepository.resetPassword((event as ForgotFormSubmit).username);
+            yield ForgotFormDone();
+          }
+          catch (error) {
+            if (error is RestError){
+              yield ForgotFormReady(
+                error: error.errors,
+              );
+            }
+          }
         }
         break;
     }

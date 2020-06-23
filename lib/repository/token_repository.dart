@@ -64,13 +64,10 @@ class TokenRepository {
 
     final parsed = json.decode(response.body);
 
-    if (response.statusCode == 200) {
+    if (parsed['status_code'] == 0) {
       return Future.value(true);
     } else  {
-      return Future.value(false);
-//      List<RestError> errors = parsed['errors'].map<RestError>((map) =>
-//        RestError.fromJson(map)).toList();
-//      throw RestException(cause: errors.first);
+      throw RestError.fromMap(parsed);
     }
   }
 }

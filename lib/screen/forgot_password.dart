@@ -58,7 +58,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                   context,
                                   message: state is ForgotFormReady ? state.error['non_field_errors']
                                     : "Reset message has been sent.",
-                                  button: RaisedButton(
+                                  button: FlatButton(
                                     child: Text('OK'),
                                     onPressed: () {
                                       Navigator.of(context).pop();

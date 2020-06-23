@@ -14,6 +14,7 @@ Future<Widget> showCustomDialog(BuildContext context, {String message, Widget bu
             borderRadius: BorderRadius.circular(5),
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Expanded(
                 child: Center(
@@ -30,10 +31,14 @@ Future<Widget> showCustomDialog(BuildContext context, {String message, Widget bu
                   ),
                 ),
               ),
+              Divider(
+                height: 2.5,
+                thickness: 1.2,
+              ),
               button,
-              SizedBox(
-                height: 5,
-              )
+//              SizedBox(
+//                height: 5,
+//              )
             ],
           ),
         ),

@@ -55,7 +55,7 @@ class LoginScreen extends StatelessWidget {
                               await showCustomDialog(
                                 context,
                                 message: state.error['non_field_errors'],
-                                button: RaisedButton(
+                                button: FlatButton(
                                   child: Text('OK'),
                                   onPressed: () {
                                     Navigator.of(context).pop();

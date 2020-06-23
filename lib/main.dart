@@ -107,7 +107,12 @@ class MyApp extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(0.0))),
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 10, vertical: 12),
-              )
+              ),
+              dividerTheme: DividerThemeData(
+                color: Color(0xFF848484),
+                space: 0,
+                thickness: 1,
+              ),
             ),
             home: GestureDetector(
               onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),

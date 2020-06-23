@@ -50,4 +50,27 @@ class TokenRepository {
 //      throw RestException(cause: errors.first);
     }
   }
+
+  Future<bool> resetPassword(String login) async {
+    final response = await http.get(
+      '$servicesUrl/account/forgetPassword/?email=$login',
+      headers: {
+        'content-type': 'application/json',
+//        'Authorization': 'Token $token',
+//        'Accept-Encoding': 'gzip',
+      },
+    ).timeout(requestTimeout);
+    alice.onHttpResponse(response);
+
+    final parsed = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      return Future.value(true);
+    } else  {
+      return Future.value(false);
+//      List<RestError> errors = parsed['errors'].map<RestError>((map) =>
+//        RestError.fromJson(map)).toList();
+//      throw RestException(cause: errors.first);
+    }
+  }
 }

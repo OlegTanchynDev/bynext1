@@ -6,7 +6,6 @@ import 'package:bynextcourier/model/rest_error.dart';
 import 'package:bynextcourier/model/token.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:equatable/equatable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
   Timer _timer;
@@ -46,24 +45,11 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
               );
             }
           }
-
-//          if (token != null){
-//            add(LoginFormLoggedIn());
-//          }
-//          else {
-//            add(LoginFormError());
-//          }
         }
         break;
       case LoginFormLoggedIn:
         yield LoginFormDone();
         break;
-
-//      case LoginFormError:
-//        yield LoginFormReady(
-//          error:
-//        );
-//        break;
     }
   }
 
@@ -85,8 +71,6 @@ class LoginFormSubmit extends LoginFormEvent {
 }
 
 class LoginFormLoggedIn extends LoginFormEvent {}
-
-//class LoginFormError extends LoginFormEvent {}
 
 // States
 abstract class LoginFormState extends Equatable {

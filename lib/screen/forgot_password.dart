@@ -1,4 +1,5 @@
 import 'package:bynextcourier/bloc/forgot_password_bloc.dart';
+import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,10 +8,9 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String username;
-    String password;
 
     return BlocProvider(
-      create: (_) => ForgotPasswordBloc(),
+      create: (context) => ForgotPasswordBloc()..tokenRepository = context.repository<TokenRepository>(),
       child: Scaffold(
         appBar: AppBar(
           title:  Center(
@@ -52,7 +52,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                           BlocConsumer(
                             bloc: BlocProvider.of<ForgotPasswordBloc>(context),
                             listener: (context, state) async {
-                              if (state is LoginFormReady && state.error != null && state.error['non_field_errors'] != null){
+                              if (state is ForgotFormDone){
                                 await showDialog(
                                   context: context,
                                   builder: (context) {
@@ -69,7 +69,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                             Expanded(
                                               child: Center(
                                                 child: Text(
-                                                  state.error['non_field_errors'],
+                                                  "Reset message has been sent.",
                                                   style: TextStyle(
                                                     fontSize: 17,
                                                     fontWeight: FontWeight.normal,
@@ -84,6 +84,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                             RaisedButton(
                                               child: Text('OK'),
                                               onPressed: () {
+                                                Navigator.of(context).pop();
                                                 Navigator.of(context).pop();
                                               },
                                             ),
@@ -105,7 +106,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                     decoration: InputDecoration(
                                       hintText: 'Email',
                                       floatingLabelBehavior: FloatingLabelBehavior.never,
-                                      errorText:  state is LoginFormReady && state.error != null ? state.error['username'] : null,
+                                      errorText:  state is ForgotFormReady && state.error != null ? state.error['username'] : null,
                                     ),
                                     keyboardType: TextInputType.emailAddress,
                                     onChanged: (val) => username = val,
@@ -130,8 +131,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                           RaisedButton(
                             child: Text('Reset >>'),
                             onPressed: () =>
-                              context.bloc<ForgotPasswordBloc>().submit(
-                                username, password),
+                              context.bloc<ForgotPasswordBloc>().submit(username),
                           ),
                         ],
                       ),

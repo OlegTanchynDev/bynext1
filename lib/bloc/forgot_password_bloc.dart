@@ -9,66 +9,54 @@ import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
-  Timer _timer;
+//  Timer _timer;
   TokenRepository tokenRepository;
-
-  TokenBloc tokenBloc;
-
-  @override
-  ForgotPasswordState get initialState => LoginFormReady();
+//
+//  TokenBloc tokenBloc;
 
   @override
-  Future<void> close() {
-    _timer?.cancel();
-    return super.close();
-  }
+  ForgotPasswordState get initialState => ForgotFormReady();
+
+//  @override
+//  Future<void> close() {
+//    _timer?.cancel();
+//    return super.close();
+//  }
 
   @override
   Stream<ForgotPasswordState> mapEventToState(ForgotPasswordEvent event) async* {
     switch (event.runtimeType) {
-      case LoginFormSubmit:
-        if (state is LoginFormReady) {
-          yield LoginFormProcessing();
+      case ForgotFormSubmit:
+        if (state is ForgotFormReady) {
+          yield ForgotFormProcessing();
+          final response = await tokenRepository.resetPassword((event as ForgotFormSubmit).username);
 
-          try {
-            Token token = await tokenRepository.login(
-              (event as LoginFormSubmit).username,
-              (event as LoginFormSubmit).password);
 
-            tokenBloc.add(NewToken(token, (event as LoginFormSubmit).username));
-
-            yield LoginFormDone();
-          }
-          catch (error) {
-            if (error is RestError){
-              yield LoginFormReady(
-                error: error.errors,
-              );
-            }
-          }
-
-//          if (token != null){
-//            add(LoginFormLoggedIn());
+//          try {
+//            Token token = await tokenRepository.login(
+//              (event as LoginFormSubmit).username,
+//              (event as LoginFormSubmit).password);
+//
+//            tokenBloc.add(NewToken(token, (event as LoginFormSubmit).username));
+//
+//            yield ForgotFormDone();
 //          }
-//          else {
-//            add(LoginFormError());
+//          catch (error) {
+//            if (error is RestError){
+//              yield ForgotFormReady(
+//                error: error.errors,
+//              );
+//            }
 //          }
+
+          yield ForgotFormDone();
         }
         break;
-      case LoginFormLoggedIn:
-        yield LoginFormDone();
-        break;
-
-//      case LoginFormError:
-//        yield LoginFormReady(
-//          error:
-//        );
-//        break;
     }
   }
 
-  submit(String username, String password) {
-    add(LoginFormSubmit(username, password));
+  submit(String username) {
+    add(ForgotFormSubmit(username));
   }
 }
 
@@ -77,14 +65,11 @@ class ForgotPasswordEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoginFormSubmit extends ForgotPasswordEvent {
+class ForgotFormSubmit extends ForgotPasswordEvent {
   final String username;
-  final String password;
 
-  LoginFormSubmit(this.username, this.password);
+  ForgotFormSubmit(this.username);
 }
-
-class LoginFormLoggedIn extends ForgotPasswordEvent {}
 
 // States
 abstract class ForgotPasswordState extends Equatable {
@@ -92,12 +77,12 @@ abstract class ForgotPasswordState extends Equatable {
   List<Object> get props => [];
 }
 
-class LoginFormReady extends ForgotPasswordState {
+class ForgotFormReady extends ForgotPasswordState {
   final error;
 
-  LoginFormReady({this.error});
+  ForgotFormReady({this.error});
 }
 
-class LoginFormProcessing extends ForgotPasswordState {}
+class ForgotFormProcessing extends ForgotPasswordState {}
 
-class LoginFormDone extends ForgotPasswordState {}
+class ForgotFormDone extends ForgotPasswordState {}

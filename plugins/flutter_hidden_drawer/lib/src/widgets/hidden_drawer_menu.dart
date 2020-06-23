@@ -34,51 +34,42 @@ class HiddenDrawerMenu extends StatelessWidget {
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: size.height),
             child: IntrinsicHeight(
-              child: ListTileTheme(
-                dense: true,
-                contentPadding: EdgeInsets.all(0.0),
-                style: ListTileStyle.drawer,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: SizedBox(height: 10),
-                    ),
-                    SizedBox(
-                      height: HiddenDrawer.of(context).drawerHeaderHeight,
-                      width: HiddenDrawer.of(context).drawerWidth,
-                      child: Align(alignment: Alignment.bottomLeft, child: header != null ? header : Container()),
-                    ),
-                    Column(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    child: SizedBox(height: 10),
+                  ),
+                  SizedBox(
+                    height: HiddenDrawer.of(context).drawerHeaderHeight,
+                    width: HiddenDrawer.of(context).drawerWidth,
+                    child: Align(alignment: Alignment.bottomLeft, child: header != null ? header : Container()),
+                  ),
+                  Column(
                       mainAxisSize: MainAxisSize.min,
-                        children: menu.expand<Widget>((item) {
-                      int index = menu.indexOf(item);
-                      return [
-                        InkWell(
-                          onTap: () {
-                            state.changeIndexState(index);
-                            HiddenDrawer.of(context).handleDrawer();
-                            item.onPressed();
-                          },
-                          child: AnimatedContainer(
-                            duration: Duration(milliseconds: 500),
-                            color: state.currentMenuIndex == index ? menuActiveColor : menuColor,
-                            child: item.child,
+                      children: menu.expand<Widget>((item) {
+                        int index = menu.indexOf(item);
+                        return [
+                          InkWell(
+                            onTap: () {
+                              state.changeIndexState(index);
+                              HiddenDrawer.of(context).handleDrawer();
+                              item.onPressed();
+                            },
+                            child: AnimatedContainer(
+                              duration: Duration(milliseconds: 500),
+                              color: state.currentMenuIndex == index ? menuActiveColor : menuColor,
+                              child: item.child,
+                            ),
                           ),
-                        ),
-                        Divider()
-                      ];
-                    }).toList()),
-                    SizedBox(
-                      height: size.height * .1,
-                      width: HiddenDrawer.of(context).drawerWidth,
-                      child: footer != null ? footer : Container(),
-                    ),
-                    Expanded(
-                      child: SizedBox(height: 10),
-                    ),
-                  ],
-                ),
+                          Divider()
+                        ];
+                      }).toList()),
+                  Padding(padding: EdgeInsets.all(8), child: footer != null ? footer : Container()),
+                  Expanded(
+                    child: SizedBox(height: 10),
+                  ),
+                ],
               ),
             ),
           ),

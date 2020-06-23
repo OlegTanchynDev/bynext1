@@ -28,22 +28,25 @@ class HomeScreen extends StatelessWidget {
         ),
         drawer: HiddenDrawerMenu(
           header: DrawerHeader(
+            padding: EdgeInsets.only(left: 20),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 CircleAvatar(
                   backgroundColor: Colors.brown.shade800,
                   child: Text('AH'),
-                  radius: 30,
+                  radius: 27,
                 ),
+                const SizedBox(width: 12),
                 Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('John Jonson'),
+                    Text('John Jonson', style: Theme.of(context).textTheme.bodyText2.copyWith(fontWeight: FontWeight.w500),),
                     Row(
                       children: <Widget>[
-                        Text('Grade: 7.5'),
-                        Icon(Icons.star_border),
+                        Text('Grade: 7.5', style: Theme.of(context).textTheme.headline6),
+                        Icon(Icons.star_border, size: 14,),
                       ],
                     ),
                   ],
@@ -55,14 +58,14 @@ class HomeScreen extends StatelessWidget {
             DrawerMenu(
               child: DrawerMenuItem(
                 leading: Image.asset('assets/images/menu-back-to-shift.png'),
-                title: Text(S.of(context).drawerCloseMenu),
+                title: Text(S.of(context).drawerCloseMenu, style: TextStyle(color: Colors.green)),
               ),
               onPressed: () => HiddenDrawer.of(context).handleDrawer(),
             ),
             DrawerMenu(
               child: DrawerMenuItem(
                 leading: Image.asset('assets/images/menu-call.png'),
-                title: Text(S.of(context).drawerCallDispatcher),
+                title: Text(S.of(context).drawerCallDispatcher, style: TextStyle(color: Colors.amber)),
               ),
               onPressed: () {},
             ),
@@ -149,7 +152,7 @@ class HomeScreen extends StatelessWidget {
             DrawerMenu(
               child: DrawerMenuItem(
                 leading: Image.asset('assets/images/menu-logout.png'),
-                title: Text(S.of(context).drawerLogout),
+                title: Text(S.of(context).drawerLogout, style: TextStyle(color: Colors.red)),
               ),
               onPressed: () {
                 BlocProvider.of<TokenBloc>(context).add(ClearToken());

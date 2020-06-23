@@ -174,7 +174,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
         footer: DrawerFooter(),
-      ),
+      )
     );
   }
 }

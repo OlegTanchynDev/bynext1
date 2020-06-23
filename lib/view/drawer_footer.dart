@@ -7,10 +7,10 @@ class DrawerFooter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Text('Referral Code:'),
-        Text('CHENAT10'),
+        Expanded(child: Text('Referral Code:')),
+        Expanded(child: Text('CHENAT10')),
         SizedBox(height: 4),
-        Text('Version: 2.8.5'),
+        Expanded(child: Text('Version: 2.8.5')),
       ],
     );
   }

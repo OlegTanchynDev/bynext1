@@ -1,18 +1,9 @@
-import 'package:bynextcourier/bloc/LoginFormBloc.dart';
-import 'package:bynextcourier/repository/token_repository.dart';
-import 'package:bynextcourier/screen/login.dart';
-import 'package:bynextcourier/screen/splash.dart';
+import 'package:bynextcourier/screen/forgot_password.dart';
 import 'package:bynextcourier/screen/webview_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/splash_bloc.dart';
-import 'screen/home_screen.dart';
-
-//const homeRoute = 'home';
-//const loginRoute = 'login';
-//const splashRoute = 'splash';
 const webRoute = 'web';
+const forgotPasswordRoute = 'forgotPassword';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -56,6 +47,9 @@ class Router {
             case webRoute:
               final args = settings.arguments as Map;
               page = WebViewScreen(url: args['url']);
+              break;
+            case forgotPasswordRoute:
+              page = ForgotPasswordScreen();
               break;
             default:
               page = Scaffold(

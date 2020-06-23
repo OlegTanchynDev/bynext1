@@ -1,6 +1,7 @@
 import 'package:alice/alice.dart';
 import 'package:bynextcourier/bloc/LoginFormBloc.dart';
 import 'package:bynextcourier/bloc/delegate/bloc_delegate.dart';
+import 'package:bynextcourier/bloc/forgot_password_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:bynextcourier/screen/home_screen.dart';
@@ -44,7 +45,8 @@ class MyApp extends StatelessWidget {
             BlocProvider(
               lazy: false,
               create: (context) => (TokenBloc()..add(ValidateToken())
-              ..repository = context.repository<TokenRepository>()))
+              ..repository = context.repository<TokenRepository>())
+            ),
           ],
           child: MaterialApp(
             navigatorKey: alice.getNavigatorKey(),

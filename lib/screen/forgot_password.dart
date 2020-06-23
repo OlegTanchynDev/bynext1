@@ -13,8 +13,10 @@ class ForgotPasswordScreen extends StatelessWidget {
       create: (_) => ForgotPasswordBloc(),
       child: Scaffold(
         appBar: AppBar(
-          title:  Image(
-            image: AssetImage('assets/images/logo.png')
+          title:  Center(
+            child: Image(
+              image: AssetImage('assets/images/logo.png')
+            ),
           ),
           automaticallyImplyLeading: true,
         ),
@@ -37,16 +39,17 @@ class ForgotPasswordScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Text("Forgot your password"),
-                          const SizedBox(height: 14),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Image(
-                              image: AssetImage('assets/images/logotype.png'),
-                            ),
+                          SizedBox(
+                            height: 20.0,
                           ),
-                          const SizedBox(height: 14),
-                          BlocListener(
+                          Text("Forgot your password"),
+                          const SizedBox(height: 40),
+                          Text("Please send your email to reset your password"),
+                          SizedBox(
+                            height: 20,
+                          ),
+
+                          BlocConsumer(
                             bloc: BlocProvider.of<ForgotPasswordBloc>(context),
                             listener: (context, state) async {
                               if (state is LoginFormReady && state.error != null && state.error['non_field_errors'] != null){
@@ -95,59 +98,40 @@ class ForgotPasswordScreen extends StatelessWidget {
                                 );
                               }
                             },
-                            child: BlocBuilder(
-                              bloc: BlocProvider.of<ForgotPasswordBloc>(context),
-                              builder: (context, state) {
-                                return Column(
-                                  children: <Widget>[
-                                    TextFormField(
-                                      decoration: InputDecoration(
-                                        hintText: 'Email',
-                                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                                        errorText:  state is LoginFormReady && state.error != null ? state.error['username'] : null,
-                                      ),
-                                      keyboardType: TextInputType.emailAddress,
-                                      onChanged: (val) => username = val,
+                            builder: (context, state) {
+                              return Column(
+                                children: <Widget>[
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                      hintText: 'Email',
+                                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                                      errorText:  state is LoginFormReady && state.error != null ? state.error['username'] : null,
                                     ),
-                                    const SizedBox(
-                                      height: 20.0,
-                                    ),
-                                    TextFormField(
-                                      decoration: InputDecoration(hintText: 'Password',
-                                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                                        errorText:  state is LoginFormReady && state.error != null ? state.error['password'] : null,
-                                      ),
-                                      onChanged: (val) => password = val,
-                                    ),
-                                  ],
-                                );
-                              }
-                            ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    onChanged: (val) => username = val,
+                                  ),
+                                  const SizedBox(
+                                    height: 20.0,
+                                  )
+                                ],
+                              );
+                            }
                           ),
+                          Text("Note:"),
                           const SizedBox(
                             height: 16.0,
                           ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: GestureDetector(
-                              child: Text('Forgot your password?'),
-                              onTap: () {},
-                            ),
-                          ),
+                          Text("The password ..."),
                           Expanded(
                             child: SizedBox(
                               height: 0,
                             ),
                           ),
                           RaisedButton(
-                            child: Text('LOGIN'),
+                            child: Text('Reset >>'),
                             onPressed: () =>
                               context.bloc<ForgotPasswordBloc>().submit(
                                 username, password),
-                          ),
-                          RaisedButton(
-                            child: Text('DEMO MODE'),
-                            onPressed: () {},
                           ),
                         ],
                       ),

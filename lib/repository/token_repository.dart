@@ -66,10 +66,10 @@ class TokenRepository {
       return Future.value(true);
     } else {
       RestError restError = RestError(errors: {});
-      switch (parsed['status_code']) {
-        case 1:
+//      switch (parsed['status_code']) {
+//        case 1:
           restError.errors.putIfAbsent('non_field_errors', () => 'Error processing request.');
-      }
+//      }
       throw restError;
     }
   }

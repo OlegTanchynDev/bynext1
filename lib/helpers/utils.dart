@@ -30,18 +30,7 @@ Future<Widget> showCustomDialog(BuildContext context, {String message, Widget bu
                   ),
                 ),
               ),
-
               button,
-
-//              RaisedButton(
-//                child: Text('OK'),
-//                onPressed: () {
-//                  Navigator.of(context).pop();
-//                  if (state is ForgotFormDone) {
-//                    Navigator.of(context).pop();
-//                  }
-//                },
-//              ),
               SizedBox(
                 height: 5,
               )

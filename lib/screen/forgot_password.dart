@@ -54,55 +54,6 @@ class ForgotPasswordScreen extends StatelessWidget {
                             bloc: BlocProvider.of<ForgotPasswordBloc>(context),
                             listener: (context, state) async {
                               if (state is ForgotFormDone || (state is ForgotFormReady && state.error != null)){
-//                                await showDialog(
-//                                  barrierDismissible: false,
-//                                  context: context,
-//                                  builder: (context) {
-//                                    return Align(
-//                                      child: Container(
-//                                        width: 250,
-//                                        height: 150,
-//                                        decoration: BoxDecoration(
-//                                          color: Colors.white,
-//                                          borderRadius: BorderRadius.circular(5),
-//                                        ),
-//                                        child: Column(
-//                                          children: <Widget>[
-//                                            Expanded(
-//                                              child: Center(
-//                                                child: Text(
-//                                                  state is ForgotFormReady ? state.error['non_field_errors']
-//                                                  : "Reset message has been sent.",
-//                                                  style: TextStyle(
-//                                                    fontSize: 17,
-//                                                    fontWeight: FontWeight.normal,
-//                                                    fontStyle: FontStyle.normal,
-//                                                    color: Colors.black,
-//                                                    decoration: TextDecoration.none,
-//                                                  ),
-//                                                  textAlign: TextAlign.center,
-//                                                ),
-//                                              ),
-//                                            ),
-//                                            RaisedButton(
-//                                              child: Text('OK'),
-//                                              onPressed: () {
-//                                                Navigator.of(context).pop();
-//                                                if (state is ForgotFormDone) {
-//                                                  Navigator.of(context).pop();
-//                                                }
-//                                              },
-//                                            ),
-//                                            SizedBox(
-//                                              height: 5,
-//                                            )
-//                                          ],
-//                                        ),
-//                                      ),
-//                                    );
-//                                  }
-//                                );
-
                                 await showCustomDialog(
                                   context,
                                   message: state is ForgotFormReady ? state.error['non_field_errors']

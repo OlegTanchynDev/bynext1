@@ -59,7 +59,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         Align(
                             alignment: Alignment.topCenter,
                             child: Text('Welcome', style: Theme.of(context).textTheme.headline2)),
-                        Padding(
+                        Container(
+                          alignment: Alignment.topCenter,
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: CircleAvatar(
                             backgroundImage: NetworkImage(mediaUrl + (profileState.profile?.profilePhotoUrl ?? "")),

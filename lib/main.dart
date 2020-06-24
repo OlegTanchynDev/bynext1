@@ -21,8 +21,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     BlocSupervisor.delegate = SimpleBlocDelegate();
+
+    // primary color
+    const primaryColor = const Color(0xFF232456);
+
+    // appbar color
+    const primaryVariantColor = Color(0xFF4a4a4a);
+
+    const textColor = Color(0xFF232456);
 
     return MultiProvider(
         providers: [
@@ -52,19 +59,19 @@ class MyApp extends StatelessWidget {
                   scaffoldBackgroundColor: const Color(0xFFF2EDEB),
                   colorScheme: const ColorScheme(
                     brightness: Brightness.light,
-                    primary: const Color(0xFF232456),
-                    primaryVariant: const Color(0xFF4a4a4a),
-                    secondary: const Color(0xFF232456),
+                    primary: primaryColor,
+                    primaryVariant: primaryVariantColor,
+                    secondary: primaryColor,
                     // <-- text color
                     secondaryVariant: const Color(0xFF848484),
-                    surface: const Color(0xFF232456),
+                    surface: primaryColor,
                     background: const Color(0xFFF2EDEB),
                     error: Colors.red,
                     onPrimary: const Color(0xFFF2EDEB),
                     onSecondary: const Color(0xFFF2EDEB),
-                    onBackground: const Color(0xFF232456),
+                    onBackground: primaryColor,
                     onError: const Color(0xFFFFDDDD),
-                    onSurface: const Color(0xFF232456), // <-- disabled text color, INPUT DECORATION
+                    onSurface: primaryColor, // <-- disabled text color, INPUT DECORATION
                   ),
 
                   // This makes the visual density adapt to the platform that you run
@@ -82,23 +89,19 @@ class MyApp extends StatelessWidget {
                         fontFamily: 'Avenir',
                         fontSize: 16,
                         fontWeight: FontWeight.w300,
-                        color: Color(0xFF232456),
+                        color: textColor,
                       ),
-
-
                       headline3: const TextStyle(
                         fontFamily: 'Avenir',
                         fontSize: 17,
                         fontWeight: FontWeight.w300,
-                        color: const Color(0xFF232456),
+                        color: primaryColor,
                       ),
-
-
                       headline6: const TextStyle(
                         fontFamily: 'Avenir',
                         fontSize: 12,
                         fontWeight: FontWeight.w300,
-                        color: Color(0xFF232456),
+                        color: textColor,
                       ),
 
                       //buttons
@@ -125,6 +128,14 @@ class MyApp extends StatelessWidget {
                   appBarTheme: const AppBarTheme(
                     color: const Color(0xFFF2EDEB),
                     elevation: 0,
+                    textTheme: TextTheme(
+                      headline6: TextStyle(
+                        fontFamily: 'Avenir',
+                        fontSize: 17,
+                        fontWeight: FontWeight.w300,
+                        color: primaryVariantColor,
+                      ),
+                    ),
                   ),
                 ),
                 home: GestureDetector(

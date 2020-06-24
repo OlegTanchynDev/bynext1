@@ -58,7 +58,8 @@ class HiddenDrawerMenu extends StatelessWidget {
                             },
                             child: AnimatedContainer(
                               duration: Duration(milliseconds: 500),
-                              color: state.currentMenuIndex == index ? menuActiveColor : menuColor,
+                              color: menuColor,
+//                              color: state.currentMenuIndex == index ? menuActiveColor : menuColor,
                               child: item.child,
                             ),
                           ),

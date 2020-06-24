@@ -1,13 +1,23 @@
 import 'package:bynextcourier/screen/forgot_password.dart';
+import 'package:bynextcourier/screen/shifts.dart';
+import 'package:bynextcourier/screen/tasks.dart';
 import 'package:bynextcourier/screen/webview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/forgot_password_bloc.dart';
 import 'repository/token_repository.dart';
+import 'screen/issues.dart';
+import 'screen/my_salary.dart';
+import 'screen/navigation_settings.dart';
 
 const webRoute = 'web';
 const forgotPasswordRoute = 'forgotPassword';
+const tasksRoute = 'tasks';
+const navigationSettingsRoute = 'navigationSettings';
+const shiftsRoute = 'shifts';
+const mySalaryRoute = 'mySalary';
+const issuesRoute = 'issues';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -50,12 +60,27 @@ class Router {
 //              break;
             case webRoute:
               final args = settings.arguments as Map;
-              page = WebViewScreen(url: args['url']);
+              page = WebViewScreen(url: args['url'], title: args['title'] ?? '',);
               break;
             case forgotPasswordRoute:
               page = BlocProvider(
                   create: (context) => ForgotPasswordBloc()..tokenRepository = context.repository<TokenRepository>(),
                   child: ForgotPasswordScreen());
+              break;
+            case tasksRoute:
+              page = TasksScreen();
+              break;
+            case navigationSettingsRoute:
+              page = NavigationSettingsScreen();
+              break;
+            case shiftsRoute:
+              page = ShiftsScreen();
+              break;
+            case mySalaryRoute:
+              page = MySalaryScreen();
+              break;
+            case issuesRoute:
+              page = IssuesScreen();
               break;
             default:
               page = Scaffold(

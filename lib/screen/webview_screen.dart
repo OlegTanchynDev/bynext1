@@ -5,8 +5,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatefulWidget {
   final String url;
+  final String title;
 
-  const WebViewScreen({Key key, this.url}) : super(key: key);
+  const WebViewScreen({Key key, this.url, this.title}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _WebViewScreenState();
@@ -18,7 +19,11 @@ class _WebViewScreenState extends State<WebViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(widget. title),
+        centerTitle: true,
+        actions: <Widget>[const SizedBox(width: 50)],
+      ),
       body: WebView(
         initialUrl: widget.url,
         javascriptMode: JavascriptMode.unrestricted,

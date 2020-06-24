@@ -1,6 +1,7 @@
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/generated/l10n.dart';
+import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/view/drawer_footer.dart';
 import 'package:bynextcourier/view/drawer_menu_item.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                   leading: Image.asset('assets/images/menu-call.png'),
                   title: Text(S.of(context).drawerCallDispatcher, style: const TextStyle(color: Colors.amber)),
                 ),
-                onPressed: () {},
+                onPressed: () { callPhone('(818) 999-8888'); },
               ),
               DrawerMenu(
                 child: DrawerMenuItem(

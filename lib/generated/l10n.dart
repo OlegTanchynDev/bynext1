@@ -142,6 +142,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Forgot your password`
+  String get forgotPasswordHeader {
+    return Intl.message(
+      'Forgot your password',
+      name: 'forgotPasswordHeader',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your email to reset your password:`
+  String get forgotPasswordText {
+    return Intl.message(
+      'Please enter your email to reset your password:',
+      name: 'forgotPasswordText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset message has been sent.`
+  String get forgotPasswordResponseOk {
+    return Intl.message(
+      'Reset message has been sent.',
+      name: 'forgotPasswordResponseOk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note:`
+  String get forgotPasswordNote {
+    return Intl.message(
+      'Note:',
+      name: 'forgotPasswordNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The password reset links included in the emails are time-sensitive. If you click the link and it doesn't work, try requesting a new one and use the link as soon as you can.`
+  String get forgotPasswordNotesText {
+    return Intl.message(
+      'The password reset links included in the emails are time-sensitive. If you click the link and it doesn\'t work, try requesting a new one and use the link as soon as you can.',
+      name: 'forgotPasswordNotesText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

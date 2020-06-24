@@ -1,4 +1,3 @@
-import 'package:alice/alice.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/generated/l10n.dart';

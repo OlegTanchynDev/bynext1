@@ -11,7 +11,6 @@ class LoginScreen extends StatelessWidget {
     String password;
 
     return Scaffold(
-      appBar: AppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 23.0, vertical: 8.0),
@@ -31,6 +30,7 @@ class LoginScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        const SizedBox(height: 8),
                         Align(
                           alignment: Alignment.center,
                           child: Container(

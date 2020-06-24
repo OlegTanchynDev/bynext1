@@ -1,6 +1,10 @@
 import 'package:bynextcourier/screen/forgot_password.dart';
 import 'package:bynextcourier/screen/webview_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc/forgot_password_bloc.dart';
+import 'repository/token_repository.dart';
 
 const webRoute = 'web';
 const forgotPasswordRoute = 'forgotPassword';
@@ -49,7 +53,9 @@ class Router {
               page = WebViewScreen(url: args['url']);
               break;
             case forgotPasswordRoute:
-              page = ForgotPasswordScreen();
+              page = BlocProvider(
+                  create: (context) => ForgotPasswordBloc()..tokenRepository = context.repository<TokenRepository>(),
+                  child: ForgotPasswordScreen());
               break;
             default:
               page = Scaffold(

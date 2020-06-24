@@ -31,6 +31,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "drawerPolicies" : MessageLookupByLibrary.simpleMessage("Policies"),
     "drawerShifts" : MessageLookupByLibrary.simpleMessage("Shifts"),
     "drawerSwitchTask" : MessageLookupByLibrary.simpleMessage("Switch Task"),
-    "drawerTasks" : MessageLookupByLibrary.simpleMessage("Tasks")
+    "drawerTasks" : MessageLookupByLibrary.simpleMessage("Tasks"),
+    "forgotPasswordHeader" : MessageLookupByLibrary.simpleMessage("Forgot your password"),
+    "forgotPasswordNote" : MessageLookupByLibrary.simpleMessage("Note:"),
+    "forgotPasswordNotesText" : MessageLookupByLibrary.simpleMessage("The password reset links included in the emails are time-sensitive. If you click the link and it doesn\'t work, try requesting a new one and use the link as soon as you can."),
+    "forgotPasswordResponseOk" : MessageLookupByLibrary.simpleMessage("Reset message has been sent."),
+    "forgotPasswordText" : MessageLookupByLibrary.simpleMessage("Please enter your email to reset your password:")
   };
 }

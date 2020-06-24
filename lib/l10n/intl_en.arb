@@ -9,5 +9,10 @@
   "drawerGeneralInfo": "General Info",
   "drawerPolicies": "Policies",
   "drawerSwitchTask": "Switch Task",
-  "drawerLogout": "Logout"
+  "drawerLogout": "Logout",
+  "forgotPasswordHeader": "Forgot your password",
+  "forgotPasswordText": "Please enter your email to reset your password:",
+  "forgotPasswordResponseOk": "Reset message has been sent.",
+  "forgotPasswordNote": "Note:",
+  "forgotPasswordNotesText": "The password reset links included in the emails are time-sensitive. If you click the link and it doesn't work, try requesting a new one and use the link as soon as you can."
 }

@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hidden_drawer/flutter_hidden_drawer.dart';
 
 import '../router.dart';
+import 'welcome_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -17,14 +18,7 @@ class HomeScreen extends StatelessWidget {
         //MediaQuery.of(context).size.width * .4,
         drawerPosition: HiddenDrawerPosition.right,
         drawerHeaderHeight: 130,
-        child: Scaffold(
-          appBar: AppBar(
-            actions: <Widget>[
-              HiddenDrawerIcon(),
-            ],
-          ),
-          body: Center(child: Text('Hey, John!')),
-        ),
+        child: WelcomeScreen(),
         drawer: Builder(
           builder: (context) => HiddenDrawerMenu(
             menuActiveColor: Theme.of(context).selectedRowColor,

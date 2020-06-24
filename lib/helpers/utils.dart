@@ -31,9 +31,13 @@ Future<Widget> showCustomDialog(BuildContext context, {String message, Widget bu
                   ),
                 ),
               ),
-              Divider(
-                height: 2.5,
-                thickness: 1.2,
+//              Divider(
+//                height: 1.2,
+//                thickness: 1.2,
+//              ),
+              Container(
+                height: 1,
+                color: Colors.grey,
               ),
               button,
 //              SizedBox(

@@ -27,6 +27,7 @@ class HomeScreen extends StatelessWidget {
           body: Center(child: Text('Hey, John!')),
         ),
         drawer: HiddenDrawerMenu(
+          menuActiveColor: Theme.of(context).selectedRowColor,
           header: DrawerHeader(
             padding: EdgeInsets.only(left: 20),
             child: Row(

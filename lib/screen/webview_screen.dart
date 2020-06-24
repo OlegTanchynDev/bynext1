@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:bynextcourier/view/custom_progress_indicator.dart';

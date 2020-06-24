@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Future<Widget> showCustomDialog(BuildContext context, {String message, Widget button}) async {
+Future<void> showCustomDialog(BuildContext context, {String message, Widget button}) async {
   await showDialog(
       barrierDismissible: false,
       context: context,
@@ -32,40 +32,6 @@ Future<Widget> showCustomDialog(BuildContext context, {String message, Widget bu
               ),
               Divider(),
               button
-            ],
-          ),
-        );
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Text(
-                  message ?? "",
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.normal,
-                    fontStyle: FontStyle.normal,
-                    color: Colors.black,
-                    decoration: TextDecoration.none,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-//              Divider(
-//                height: 1.2,
-//                thickness: 1.2,
-//              ),
-              Divider(),
-              button,
-//              SizedBox(
-//                height: 5,
-//              )
             ],
           ),
         );

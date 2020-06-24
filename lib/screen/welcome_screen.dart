@@ -1,19 +1,14 @@
-import 'dart:io';
-
 import 'package:bynextcourier/view/app_bar_logo.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hidden_drawer/flutter_hidden_drawer.dart';
 import 'package:just_audio/just_audio.dart';
 
 class WelcomeScreen extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() => _WelcomeScreenState();
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-
   AudioPlayer _player;
 
   @override
@@ -21,15 +16,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     super.initState();
     AudioPlayer.setIosCategory(IosCategory.playback);
     _player = AudioPlayer();
-    _player
-        .setAsset(
-        'assets/audio/quiet_pig.mp3')
-        .catchError((error) {
+    _player.setAsset('assets/audio/quiet_pig.mp3').catchError((error) {
       // catch audio error ex: 404 url, wrong url ...
       print(error);
     });
   }
-
 
   @override
   void dispose() {
@@ -39,7 +30,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: AppBarLogo(),
@@ -60,13 +50,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Align(alignment: Alignment.topCenter, child: Text('Welcome')),
-                    CircleAvatar(
-                      backgroundColor: Colors.brown.shade800,
-                      child: Text('AH'),
-                      radius: 27,
+                    Align(
+                        alignment: Alignment.topCenter,
+                        child: Text('Welcome', style: Theme.of(context).textTheme.headline2)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.brown.shade800,
+                        child: Text('AH'),
+                        radius: 44,
+                      ),
                     ),
-                    Align(alignment: Alignment.topCenter, child: Text('Hey John')),
+                    Align(
+                        alignment: Alignment.topCenter,
+                        child: Text('Hey John', style: Theme.of(context).textTheme.headline2)),
                     const Expanded(
                       child: const SizedBox(
                         height: 0,
@@ -76,7 +73,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
-
                       children: <Widget>[
                         Text('Estimated Earnings:'),
                         Padding(

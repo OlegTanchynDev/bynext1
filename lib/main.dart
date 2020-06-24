@@ -97,6 +97,14 @@ class MyApp extends StatelessWidget {
                         fontWeight: FontWeight.w300,
                         color: textColor,
                       ),
+
+                      headline2: const TextStyle(
+                        fontFamily: 'Avenir',
+                        fontSize: 19,
+                        fontWeight: FontWeight.w300,
+                        color: primaryColor,
+                      ),
+
                       headline3: const TextStyle(
                         fontFamily: 'Avenir',
                         fontSize: 17,

@@ -1,3 +1,4 @@
+import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/generated/l10n.dart';
@@ -25,35 +26,42 @@ class HomeScreen extends StatelessWidget {
             menuActiveColor: Theme.of(context).selectedRowColor,
             header: DrawerHeader(
               padding: EdgeInsets.only(left: 20),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  CircleAvatar(
-                    backgroundColor: Colors.brown.shade800,
-                    child: Text('AH'),
-                    radius: 27,
-                  ),
-                  const SizedBox(width: 12),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              child: BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, profileState) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        'John Jonson',
-                        style: Theme.of(context).textTheme.bodyText2.copyWith(fontWeight: FontWeight.w500),
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(
+                          mediaUrl + (profileState.profile?.profilePhotoUrl ?? "")
+                        ),
+                        backgroundColor: Colors.brown.shade800,
+                        child: profileState.profile?.profilePhotoUrl == null ? Text('AH') : null,
+                        radius: 27,
                       ),
-                      Row(
+                      const SizedBox(width: 12),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('Grade: 7.5', style: Theme.of(context).textTheme.headline6),
-                          Icon(
-                            Icons.star_border,
-                            size: 14,
+                          Text(
+                            '${profileState.profile?.firstName ?? ""} ${profileState.profile?.lastName ?? ""}',
+                            style: Theme.of(context).textTheme.bodyText2.copyWith(fontWeight: FontWeight.w500),
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text('Grade: 7.5', style: Theme.of(context).textTheme.headline6),
+                              Icon(
+                                Icons.star_border,
+                                size: 14,
+                              ),
+                            ],
                           ),
                         ],
-                      ),
+                      )
                     ],
-                  )
-                ],
+                  );
+                }
               ),
             ),
             menu: <DrawerMenu>[

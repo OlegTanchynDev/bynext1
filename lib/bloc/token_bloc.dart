@@ -30,7 +30,7 @@ class TokenBloc extends Bloc<TokenEvent, TokenState> {
           email, "1.2.3", token);
 
         if (success) {
-          yield TokenValid();
+          yield TokenValid(token, email);
         }
         else {
           yield TokenNull();
@@ -46,7 +46,7 @@ class TokenBloc extends Bloc<TokenEvent, TokenState> {
       await prefs.setString('token', event.token.token);
       await prefs.setString('email', event.email);
 
-      yield TokenValid();
+      yield TokenValid(event.token.token, event.email);
     }
   }
 
@@ -71,12 +71,23 @@ class ClearToken  extends TokenEvent {}
 
 // States
 abstract class TokenState extends Equatable {
+  final String token;
+  final String email;
+
+  TokenState(this.token, this.email);
+
   @override
   List<Object> get props => [];
 }
 
-class TokenInitial extends TokenState {}
+class TokenInitial extends TokenState {
+  TokenInitial() : super(null, null);
+}
 
-class TokenValid extends TokenState {}
+class TokenValid extends TokenState {
+  TokenValid(String token, String email) : super(token, email);
+}
 
-class TokenNull extends TokenState {}
+class TokenNull extends TokenState {
+  TokenNull() : super(null, null);
+}

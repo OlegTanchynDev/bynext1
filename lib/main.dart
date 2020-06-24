@@ -1,6 +1,8 @@
 import 'package:bynextcourier/bloc/delegate/bloc_delegate.dart';
 import 'package:bynextcourier/bloc/login_form_bloc.dart';
+import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
+import 'package:bynextcourier/repository/profile_repository.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:bynextcourier/screen/home_screen.dart';
 import 'package:bynextcourier/screen/splash.dart';
@@ -44,6 +46,9 @@ class MyApp extends StatelessWidget {
             RepositoryProvider(
               create: (_) => TokenRepository(),
             ),
+            RepositoryProvider(
+              create: (_) => ProfileRepository(),
+            ),
           ],
           child: MultiBlocProvider(
             providers: [
@@ -51,7 +56,11 @@ class MyApp extends StatelessWidget {
                   lazy: false,
                   create: (context) => (TokenBloc()
                     ..add(ValidateToken())
-                    ..repository = context.repository<TokenRepository>())),
+                    ..repository = context.repository<TokenRepository>())
+              ),
+              BlocProvider(
+                create: (context) => ProfileBloc()..tokenBloc = context.bloc<TokenBloc>()..repository = context.repository<ProfileRepository>(),
+              ),
               BlocProvider(
                 lazy: false,
                 create: (_) => LocationTrackerBloc()..startLocationTracking(),
@@ -186,7 +195,6 @@ class MyApp extends StatelessWidget {
                       }
                     })),
                 onGenerateRoute: Router.generateRoute,
-//            initialRoute: splashRoute,
                 localizationsDelegates: [
                   S.delegate,
                 ]),

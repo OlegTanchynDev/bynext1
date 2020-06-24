@@ -4,6 +4,7 @@ import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:bynextcourier/screen/home_screen.dart';
 import 'package:bynextcourier/screen/splash.dart';
+import 'package:bynextcourier/view/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -153,9 +154,21 @@ class MyApp extends StatelessWidget {
                             create: (context) => LoginFormBloc()
                               ..tokenBloc = context.bloc<TokenBloc>()
                               ..tokenRepository = context.repository<TokenRepository>(),
-                            child: LoginScreen(),
+                            child: Stack(
+                              children: <Widget>[
+                                LoginScreen(),
+                                BlocBuilder<LoginFormBloc, LoginFormState>(
+                                  builder: (context, loginFormState) =>
+                                      loginFormState is LoginFormProcessing ? CustomProgressIndicator(text: 'Authenticating Driver') : Container(),
+                                ),
+                              ],
+                            ),
                           );
                           break;
+                        default:
+                          return Scaffold(
+                            body: Center(child: Text('not implemented screen for state ${tokenState.runtimeType}')),
+                          );
                       }
                     })),
                 onGenerateRoute: Router.generateRoute,

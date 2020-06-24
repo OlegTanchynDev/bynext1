@@ -78,6 +78,13 @@ class HiddenDrawerState extends State<HiddenDrawer> with SingleTickerProviderSta
       });
   }
 
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;

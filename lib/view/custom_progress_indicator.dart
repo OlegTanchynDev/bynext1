@@ -32,7 +32,7 @@ class _CustomProgressIndicatorState extends State<CustomProgressIndicator> with 
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Align(
       alignment: Alignment(0, -0.15),
       child: Container(
         decoration: BoxDecoration(
@@ -73,7 +73,7 @@ class _CustomProgressIndicatorState extends State<CustomProgressIndicator> with 
                     padding: const EdgeInsets.only(top: 12.0),
                     child: Text(widget.text, style: Theme.of(context).textTheme.bodyText1),
                   )
-                : Container(),
+                : Container(width: 0,),
           ],
         ),
       ),

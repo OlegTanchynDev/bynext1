@@ -85,6 +85,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             iconSize: 50,
                             icon: Image.asset('assets/images/piggy-bank.png'),
                             onPressed: () {
+                              _player.stop();
                               _player.play();
                             },
                           ),

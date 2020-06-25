@@ -28,7 +28,7 @@ class TasksListBloc extends Bloc<TasksListEvent, TasksListState> {
 
 
   @override
-  Future<Function> close() {
+  Future<void> close() {
     _shiftDetailsSubscription?.cancel();
     return super.close();
   }

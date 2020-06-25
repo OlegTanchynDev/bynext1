@@ -24,7 +24,7 @@ class ShiftDetailsBloc extends Bloc<ShiftDetailsEvent, ShiftDetailsState> {
   }
 
   @override
-  Future<Function> close() {
+  Future<void> close() {
     _tokenBlocSubscription?.cancel();
     return super.close();
   }

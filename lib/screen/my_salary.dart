@@ -24,22 +24,69 @@ class MySalaryScreen extends StatelessWidget {
                     Expanded(
                       child: Container(),
                     ),
-                    CircleAvatar(
-                      radius: 50,
-                      child: Text("\$" + state.payment?.totalPayment.toString()),
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.blue
+                          ),
+                          padding: EdgeInsets.all(3),
+                          child: CircleAvatar(
+                            radius: 50,
+                            child: Text(
+                              "\$" + state.payment?.totalPayment.toString(),
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.blue
+                              ),
+                            ),
+                          ),
+                        ),
+                        Text("Earned"),
+                      ],
                     ),
                     SizedBox(
                       width: 20,
                     ),
-                    CircleAvatar(
-                      radius: 40,
-                      child: Text(state.payment?.numberOfShifts.toString()),
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.blue
+                          ),
+                          padding: EdgeInsets.all(3),
+                          child: CircleAvatar(
+                            radius: 40,
+                            child: Text(
+                              state.payment?.numberOfShifts.toString(),
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.blue
+                              ),
+                            ),
+                          ),
+                        ),
+                        Text("Shifts",),
+                      ],
                     ),
                     Expanded(
                       child: Container(),
                     ),
                   ],
                 ),
+                GestureDetector(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        state.payment.currentPaymentPeriod.name,
+                      ),
+                      Icon(Icons.arrow_drop_down)
+                    ],
+                  ),
+                )
               ],
             ),
           );

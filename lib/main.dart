@@ -8,6 +8,8 @@ import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/repository/issues_repository.dart';
 import 'package:bynextcourier/repository/payment_repository.dart';
 import 'package:bynextcourier/repository/profile_repository.dart';
+import 'package:bynextcourier/repository/shift_details_repository.dart';
+import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:bynextcourier/screen/home_screen.dart';
 import 'package:bynextcourier/screen/splash.dart';
@@ -18,6 +20,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_hidden_drawer/flutter_hidden_drawer.dart';
 
 import 'bloc/location_tracker/location_tracker_bloc.dart';
+import 'bloc/shift_details_bloc.dart';
+import 'bloc/tasks_bloc.dart';
 import 'generated/l10n.dart';
 import 'router.dart';
 import 'screen/login.dart';
@@ -60,17 +64,20 @@ class MyApp extends StatelessWidget {
             RepositoryProvider(
               create: (_) => PaymentRepository(),
             ),
+            RepositoryProvider(create: (_) => ShiftDetailsRepository()),
+            RepositoryProvider(create: (_) => TasksRepository())
           ],
           child: MultiBlocProvider(
             providers: [
               BlocProvider(
                   lazy: false,
-                  create: (context) => (TokenBloc()
+                  create: (context) => TokenBloc()
                     ..add(ValidateToken())
-                    ..repository = context.repository<TokenRepository>())
-              ),
+                    ..repository = context.repository<TokenRepository>()),
               BlocProvider(
-                create: (context) => ProfileBloc()..tokenBloc = context.bloc<TokenBloc>()..repository = context.repository<ProfileRepository>(),
+                create: (context) => ProfileBloc()
+                  ..tokenBloc = context.bloc<TokenBloc>()
+                  ..repository = context.repository<ProfileRepository>(),
               ),
               BlocProvider(
                 lazy: false,
@@ -81,10 +88,25 @@ class MyApp extends StatelessWidget {
                 create: (_) => MapsBloc()..add(CheckInstalled()),
               ),
               BlocProvider(
-                create: (context) => IssuesBloc()..tokenBloc = context.bloc<TokenBloc>()..repository = context.repository<IssueRepository>(),
+                create: (context) => IssuesBloc()
+                  ..tokenBloc = context.bloc<TokenBloc>()
+                  ..repository = context.repository<IssueRepository>(),
               ),
               BlocProvider(
-                create: (context) => PaymentBloc()..tokenBloc = context.bloc<TokenBloc>()..repository = context.repository<PaymentRepository>(),
+                create: (context) => PaymentBloc()
+                  ..tokenBloc = context.bloc<TokenBloc>()
+                  ..repository = context.repository<PaymentRepository>(),
+              ),
+              BlocProvider(
+                create: (context) => ShiftDetailsBloc()
+                  ..tokenBloc = context.bloc<TokenBloc>()
+                  ..repository = context.repository<ShiftDetailsRepository>(),
+              ),
+              BlocProvider(
+                create: (context) => TasksBloc()
+                  ..tokenBloc = context.bloc<TokenBloc>()
+                  ..shiftDetailsBloc = context.bloc<ShiftDetailsBloc>()
+                  ..repository = context.repository<TasksRepository>(),
               ),
             ],
             child: MaterialApp(
@@ -127,14 +149,12 @@ class MyApp extends StatelessWidget {
                         fontWeight: FontWeight.w300,
                         color: textColor,
                       ),
-
                       headline2: const TextStyle(
                         fontFamily: 'Avenir',
                         fontSize: 19,
                         fontWeight: FontWeight.w300,
                         color: primaryColor,
                       ),
-
                       headline3: const TextStyle(
                         fontFamily: 'Avenir',
                         fontSize: 17,

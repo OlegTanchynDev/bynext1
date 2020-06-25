@@ -71,9 +71,15 @@ class _CustomProgressIndicatorState extends State<CustomProgressIndicator> with 
             widget.text != null
                 ? Padding(
                     padding: const EdgeInsets.only(top: 12.0),
-                    child: Text(widget.text, style: Theme.of(context).textTheme.bodyText1),
+                    child: Text(
+                      widget.text,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
                   )
-                : Container(width: 0,),
+                : Container(
+                    width: 0,
+                  ),
           ],
         ),
       ),

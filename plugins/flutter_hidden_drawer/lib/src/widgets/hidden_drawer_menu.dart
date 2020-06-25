@@ -29,7 +29,7 @@ class HiddenDrawerMenu extends StatelessWidget {
       child: Container(
         height: size.height,
         width: size.width,
-        decoration: drawerDecoration ?? BoxDecoration(color: Colors.white),
+        decoration: drawerDecoration ?? BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
         child: SingleChildScrollView(
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: size.height),
@@ -37,9 +37,6 @@ class HiddenDrawerMenu extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Expanded(
-                    child: SizedBox(height: 10),
-                  ),
                   SizedBox(
                     height: HiddenDrawer.of(context).drawerHeaderHeight,
                     width: HiddenDrawer.of(context).drawerWidth,
@@ -66,10 +63,10 @@ class HiddenDrawerMenu extends StatelessWidget {
                           Divider()
                         ];
                       }).toList()),
-                  Padding(padding: EdgeInsets.all(8), child: footer != null ? footer : Container()),
                   Expanded(
                     child: SizedBox(height: 10),
                   ),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 8, horizontal: 25), child: footer != null ? footer : Container()),
                 ],
               ),
             ),

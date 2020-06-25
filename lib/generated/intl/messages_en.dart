@@ -22,7 +22,6 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "drawerCallDispatcher" : MessageLookupByLibrary.simpleMessage("Call Dispatcher"),
-    "drawerCloseMenu" : MessageLookupByLibrary.simpleMessage("Close Menu"),
     "drawerGeneralInfo" : MessageLookupByLibrary.simpleMessage("General Info"),
     "drawerIssues" : MessageLookupByLibrary.simpleMessage("Issues"),
     "drawerLogout" : MessageLookupByLibrary.simpleMessage("Logout"),
@@ -35,7 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "forgotPasswordHeader" : MessageLookupByLibrary.simpleMessage("Forgot your password"),
     "forgotPasswordNote" : MessageLookupByLibrary.simpleMessage("Note:"),
     "forgotPasswordNotesText" : MessageLookupByLibrary.simpleMessage("The password reset links included in the emails are time-sensitive. If you click the link and it doesn\'t work, try requesting a new one and use the link as soon as you can."),
-    "forgotPasswordResponseOk" : MessageLookupByLibrary.simpleMessage("Reset message has been sent."),
+    "forgotPasswordResponseOk" : MessageLookupByLibrary.simpleMessage("In a few minutes you will receive an email with further instructions to reset your password"),
     "forgotPasswordText" : MessageLookupByLibrary.simpleMessage("Please enter your email to reset your password:")
   };
 }

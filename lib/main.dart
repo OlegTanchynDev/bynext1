@@ -181,7 +181,7 @@ class MyApp extends StatelessWidget {
                                 LoginScreen(),
                                 BlocBuilder<LoginFormBloc, LoginFormState>(
                                   builder: (context, loginFormState) => loginFormState is LoginFormProcessing
-                                      ? CustomProgressIndicator(text: 'Authenticating Driver')
+                                      ? CustomProgressIndicator(text: 'You should be good to go\nin a few seconds...')
                                       : Container(),
                                 ),
                               ],

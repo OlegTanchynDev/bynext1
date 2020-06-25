@@ -45,10 +45,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       body: LayoutBuilder(
         builder: (context, constraint) {
           return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                minHeight: constraint.maxHeight,
+                minHeight: constraint.maxHeight - 14,
               ),
               child: IntrinsicHeight(
                 child: BlocBuilder<ProfileBloc, ProfileState>(
@@ -56,9 +56,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        Align(
-                            alignment: Alignment.topCenter,
-                            child: Text('Welcome', style: Theme.of(context).textTheme.headline2)),
                         Container(
                           alignment: Alignment.topCenter,
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -154,10 +151,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Text('Estimated Earnings:'),
                             Padding(
-                              padding: const EdgeInsets.only(left: 16.0),
-                              child: Text('\$16.10'),
+                              padding: const EdgeInsets.only(top: 6.0),
+                              child: RichText(
+                                text: TextSpan(
+                                  style: Theme.of(context).textTheme.headline3,
+                                  children: [
+                                    TextSpan(text: 'Estimated Earnings: ', style: TextStyle(fontWeight: FontWeight.w400)),
+                                    TextSpan(text: '\$16.10', style: TextStyle(fontWeight: FontWeight.w500)),
+                                  ]
+                                )
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 8.0),

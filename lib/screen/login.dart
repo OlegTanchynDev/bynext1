@@ -26,10 +26,10 @@ class _LoginScreenState extends State<LoginScreen> {
         body: SafeArea(
       child: LayoutBuilder(builder: (context, constraint) {
         return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 23.0, vertical: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 23.0).copyWith(top: 8.0, bottom: 14),
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              minHeight: constraint.maxHeight - 8.0 * 2,
+              minHeight: constraint.maxHeight - (8.0 + 14),
             ),
             child: IntrinsicHeight(
               child: Column(

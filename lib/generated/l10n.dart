@@ -33,16 +33,6 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Close Menu`
-  String get drawerCloseMenu {
-    return Intl.message(
-      'Close Menu',
-      name: 'drawerCloseMenu',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Call Dispatcher`
   String get drawerCallDispatcher {
     return Intl.message(
@@ -163,7 +153,7 @@ class S {
     );
   }
 
-  /// `Reset message has been sent.`
+  /// `In a few minutes you will receive an email with further instructions to reset your password`
   String get forgotPasswordResponseOk {
     return Intl.message(
       'In a few minutes you will receive an email with further instructions to reset your password',

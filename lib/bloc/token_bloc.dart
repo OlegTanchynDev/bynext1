@@ -37,7 +37,14 @@ class TokenBloc extends Bloc<TokenEvent, TokenState> {
         }
       }
       else {
-        yield TokenNull();
+        // application start, show splash screen for 2 seconds
+        if (state is TokenInitial) {
+          Future.delayed(const Duration(seconds: 2), () {
+            add(ClearToken());
+          });
+        } else {
+          yield TokenNull();
+        }
       }
     }
 

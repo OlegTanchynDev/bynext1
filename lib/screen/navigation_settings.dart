@@ -1,39 +1,8 @@
 import 'package:bynextcourier/bloc/maps_bloc.dart';
-import 'package:bynextcourier/view/app_bar_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NavigationSettingsScreen extends StatelessWidget {
-
-//  @override
-//  _NavigationSettingsScreenState createState() => _NavigationSettingsScreenState();
-//}
-//
-//class _NavigationSettingsScreenState extends State<NavigationSettingsScreen> {
-//  List<Map> mapList;
-//
-//  @override
-//  void initState() {
-//    mapList = [
-//      {
-//        "name": "Apple Maps",
-//        "installed": true,
-//        "status": true,
-//      },
-//      {
-//        "name": "Google Maps",
-//        "installed": true,
-//        "status": false,
-//      },
-//      {
-//        "name": "Waze",
-//        "installed": false,
-//        "status": false,
-//      }
-//    ];
-//
-//    super.initState();
-//  }
 
   @override
   Widget build(BuildContext context) {

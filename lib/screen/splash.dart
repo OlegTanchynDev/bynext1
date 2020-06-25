@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
         // If the widget is hidden, animate to 1.0 (fully visible).
         opacity: _visible ? 1.0 : 0.0,
         duration: Duration(milliseconds: 500),
-        child: Image(image: AssetImage('assets/images/logo.png')),
+        child: Image(image: AssetImage('assets/images/logotype.png')),
       )),
     );
   }

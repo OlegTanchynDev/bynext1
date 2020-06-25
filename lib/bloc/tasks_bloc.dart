@@ -7,7 +7,7 @@ import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:equatable/equatable.dart';
 
-class TasksBloc extends Bloc<TasksListEvent, TasksListState> {
+class TasksListBloc extends Bloc<TasksListEvent, TasksListState> {
   TokenBloc tokenBloc;
   ShiftDetailsBloc _shiftDetailsBloc;
   TasksRepository repository;
@@ -20,7 +20,7 @@ class TasksBloc extends Bloc<TasksListEvent, TasksListState> {
       _shiftDetailsSubscription?.cancel();
       _shiftDetailsSubscription = _shiftDetailsBloc.listen((shiftDetailsState) {
         if (shiftDetailsState is ShiftDetailsReady) {
-          add(TaskListLoad(shiftDetailsState.shift.id));
+          add(TasksListLoad(shiftDetailsState.shift.id));
         }
       });
     }
@@ -38,12 +38,12 @@ class TasksBloc extends Bloc<TasksListEvent, TasksListState> {
 
   @override
   Stream<TasksListState> mapEventToState(TasksListEvent event) async* {
-    if (event is TaskListLoad) {
+    if (event is TasksListLoad) {
       yield* _mapLoadToState(event);
     }
   }
 
-  Stream<TasksListState> _mapLoadToState(TaskListLoad event) async* {
+  Stream<TasksListState> _mapLoadToState(TasksListLoad event) async* {
     yield TasksListLoading();
 
     final tasks = await repository.fetchTasks(tokenBloc.state?.token, event.shiftId);
@@ -55,10 +55,10 @@ class TasksBloc extends Bloc<TasksListEvent, TasksListState> {
 // Events
 abstract class TasksListEvent extends Equatable {}
 
-class TaskListLoad extends TasksListEvent {
+class TasksListLoad extends TasksListEvent {
   final int shiftId;
 
-  TaskListLoad(this.shiftId);
+  TasksListLoad(this.shiftId);
 
   @override
   List<Object> get props => [shiftId];

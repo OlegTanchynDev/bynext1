@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
                   ..repository = context.repository<ShiftDetailsRepository>(),
               ),
               BlocProvider(
-                create: (context) => TasksBloc()
+                create: (context) => TasksListBloc()
                   ..tokenBloc = context.bloc<TokenBloc>()
                   ..shiftDetailsBloc = context.bloc<ShiftDetailsBloc>()
                   ..repository = context.repository<TasksRepository>(),

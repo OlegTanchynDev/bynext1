@@ -1,3 +1,7 @@
+import 'package:bynextcourier/bloc/shift_details_bloc.dart';
+import 'package:bynextcourier/bloc/tasks_bloc.dart';
+import 'package:bynextcourier/bloc/token_bloc.dart';
+import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:bynextcourier/screen/forgot_password.dart';
 import 'package:bynextcourier/screen/shifts.dart';
 import 'package:bynextcourier/screen/tasks.dart';
@@ -60,7 +64,10 @@ class Router {
 //              break;
             case webRoute:
               final args = settings.arguments as Map;
-              page = WebViewScreen(url: args['url'], title: args['title'] ?? '',);
+              page = WebViewScreen(
+                url: args['url'],
+                title: args['title'] ?? '',
+              );
               break;
             case forgotPasswordRoute:
               page = BlocProvider(
@@ -68,7 +75,12 @@ class Router {
                   child: ForgotPasswordScreen());
               break;
             case tasksRoute:
-              page = TasksScreen();
+              page = BlocProvider(
+                  create: (context) => TasksListBloc()
+                    ..repository = context.repository<TasksRepository>()
+                    ..tokenBloc = context.bloc<TokenBloc>()
+                    ..shiftDetailsBloc = context.bloc<ShiftDetailsBloc>(),
+                  child: TasksScreen());
               break;
             case navigationSettingsRoute:
               page = NavigationSettingsScreen();

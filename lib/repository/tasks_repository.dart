@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bynextcourier/model/rest_error.dart';
 import 'package:http/http.dart' as http;
 import 'package:bynextcourier/model/task.dart';
 import '../constants.dart';
@@ -16,10 +17,10 @@ class TasksRepository {
 
     final parsed = json.decode(response.body);
 
-//    if (response.statusCode == 200) {
-//      return Future.value(Profile.fromMap(parsed));
-//    } else {
-//      throw RestError.fromMap(parsed);
-//    }
+    if (response.statusCode == 200) {
+      return parsed.map<Task>((item) => Task.fromMap(item)).toList();
+    } else {
+      throw RestError.fromMap(parsed);
+    }
   }
 }

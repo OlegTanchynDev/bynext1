@@ -2,9 +2,11 @@ import 'package:bynextcourier/bloc/delegate/bloc_delegate.dart';
 import 'package:bynextcourier/bloc/issues_bloc.dart';
 import 'package:bynextcourier/bloc/login_form_bloc.dart';
 import 'package:bynextcourier/bloc/maps_bloc.dart';
+import 'package:bynextcourier/bloc/payment_bloc.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/repository/issues_repository.dart';
+import 'package:bynextcourier/repository/payment_repository.dart';
 import 'package:bynextcourier/repository/profile_repository.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:bynextcourier/screen/home_screen.dart';
@@ -55,6 +57,9 @@ class MyApp extends StatelessWidget {
             RepositoryProvider(
               create: (_) => IssueRepository(),
             ),
+            RepositoryProvider(
+              create: (_) => PaymentRepository(),
+            ),
           ],
           child: MultiBlocProvider(
             providers: [
@@ -77,6 +82,9 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider(
                 create: (context) => IssuesBloc()..tokenBloc = context.bloc<TokenBloc>()..repository = context.repository<IssueRepository>(),
+              ),
+              BlocProvider(
+                create: (context) => PaymentBloc()..tokenBloc = context.bloc<TokenBloc>()..repository = context.repository<PaymentRepository>(),
               ),
             ],
             child: MaterialApp(

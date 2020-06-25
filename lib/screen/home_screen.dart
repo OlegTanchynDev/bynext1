@@ -21,8 +21,8 @@ class HomeScreen extends StatelessWidget {
         drawerPosition: HiddenDrawerPosition.right,
         drawerHeaderHeight: 90,
         child: WelcomeScreen(),
-        drawer: Builder(
-          builder: (context) => HiddenDrawerMenu(
+        drawer: BlocBuilder<TokenBloc, TokenState>(
+          builder: (context, tokenState) => HiddenDrawerMenu(
             menuActiveColor: Theme.of(context).selectedRowColor,
             header: DrawerHeader(
               padding: EdgeInsets.only(left: 20),
@@ -61,111 +61,117 @@ class HomeScreen extends StatelessWidget {
               }),
             ),
             menu: <DrawerMenu>[
-              DrawerMenu(
-                child: DrawerMenuItem(
-                  leading: ColorFiltered(
-                      colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
-                      child: Image.asset('assets/images/menu-call.png')),
-                  title: Text(S.of(context).drawerCallDispatcher),
-                ),
-                onPressed: () {
-                  callPhone('(818) 999-8888');
-                },
-              ),
-              DrawerMenu(
-                child: DrawerMenuItem(
-                  leading: ColorFiltered(
-                    colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
-                    child: Image.asset('assets/images/menu-completed-orders.png'),
+                  DrawerMenu(
+                    child: DrawerMenuItem(
+                      leading: ColorFiltered(
+                          colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
+                          child: Image.asset('assets/images/menu-call.png')),
+                      title: Text(S.of(context).drawerCallDispatcher),
+                    ),
+                    onPressed: () {
+                      callPhone('(818) 999-8888');
+                    },
                   ),
-                  title: Text(S.of(context).drawerTasks),
-                ),
-                onPressed: () => Navigator.of(context).pushNamed(tasksRoute),
-              ),
-              DrawerMenu(
-                child: DrawerMenuItem(
-                  leading: ColorFiltered(
-                    colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
-                    child: Image.asset('assets/images/menu-navigation.png'),
+                  DrawerMenu(
+                    child: DrawerMenuItem(
+                      leading: ColorFiltered(
+                        colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
+                        child: Image.asset('assets/images/menu-completed-orders.png'),
+                      ),
+                      title: Text(S.of(context).drawerTasks),
+                    ),
+                    onPressed: () => Navigator.of(context).pushNamed(tasksRoute),
                   ),
-                  title: Text(S.of(context).drawerNavigation),
-                ),
-                onPressed: () => Navigator.of(context).pushNamed(navigationSettingsRoute),
-              ),
-              DrawerMenu(
-                child: DrawerMenuItem(
-                  leading: ColorFiltered(
-                    colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
-                    child: Image.asset('assets/images/menu-shifts.png'),
+                  DrawerMenu(
+                    child: DrawerMenuItem(
+                      leading: ColorFiltered(
+                        colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
+                        child: Image.asset('assets/images/menu-navigation.png'),
+                      ),
+                      title: Text(S.of(context).drawerNavigation),
+                    ),
+                    onPressed: () => Navigator.of(context).pushNamed(navigationSettingsRoute),
                   ),
-                  title: Text(S.of(context).drawerShifts),
-                ),
-                onPressed: () => Navigator.of(context).pushNamed(shiftsRoute),
-              ),
-              DrawerMenu(
-                child: DrawerMenuItem(
-                  leading: ColorFiltered(
-                    colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
-                    child: Image.asset('assets/images/menu-my-paycheck.png'),
+                  DrawerMenu(
+                    child: DrawerMenuItem(
+                      leading: ColorFiltered(
+                        colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
+                        child: Image.asset('assets/images/menu-shifts.png'),
+                      ),
+                      title: Text(S.of(context).drawerShifts),
+                    ),
+                    onPressed: () => Navigator.of(context).pushNamed(shiftsRoute),
                   ),
-                  title: Text(S.of(context).drawerMySalary),
-                ),
-                onPressed: () => Navigator.of(context).pushNamed(mySalaryRoute),
-              ),
-              DrawerMenu(
-                child: DrawerMenuItem(
-                  leading: ColorFiltered(
-                    colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
-                    child: Image.asset('assets/images/menu-issues.png'),
+                  DrawerMenu(
+                    child: DrawerMenuItem(
+                      leading: ColorFiltered(
+                        colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
+                        child: Image.asset('assets/images/menu-my-paycheck.png'),
+                      ),
+                      title: Text(S.of(context).drawerMySalary),
+                    ),
+                    onPressed: () => Navigator.of(context).pushNamed(mySalaryRoute),
                   ),
-                  title: Text(S.of(context).drawerIssues),
-                ),
-                onPressed: () => Navigator.of(context).pushNamed(issuesRoute),
-              ),
-              DrawerMenu(
-                child: DrawerMenuItem(
-                  leading: ColorFiltered(
-                    colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
-                    child: Image.asset('assets/images/menu-language.png'),
+                  DrawerMenu(
+                    child: DrawerMenuItem(
+                      leading: ColorFiltered(
+                        colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
+                        child: Image.asset('assets/images/menu-issues.png'),
+                      ),
+                      title: Text(S.of(context).drawerIssues),
+                    ),
+                    onPressed: () => Navigator.of(context).pushNamed(issuesRoute),
                   ),
-                  title: Text(S.of(context).drawerGeneralInfo),
-                ),
-                onPressed: () => Navigator.of(context)
-                    .pushNamed(webRoute, arguments: {'url': generalInfoUrl, 'title': 'General Info'}),
-              ),
-              DrawerMenu(
-                child: DrawerMenuItem(
-                  leading: ColorFiltered(
-                    colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
-                    child: Image.asset('assets/images/menu-policy.png'),
+                  DrawerMenu(
+                    child: DrawerMenuItem(
+                      leading: ColorFiltered(
+                        colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
+                        child: Image.asset('assets/images/menu-language.png'),
+                      ),
+                      title: Text(S.of(context).drawerGeneralInfo),
+                    ),
+                    onPressed: () => Navigator.of(context)
+                        .pushNamed(webRoute, arguments: {'url': generalInfoUrl, 'title': 'General Info'}),
                   ),
-                  title: Text(S.of(context).drawerPolicies),
-                ),
-                onPressed: () =>
-                    Navigator.of(context).pushNamed(webRoute, arguments: {'url': policyUrl, 'title': 'Policies'}),
-              ),
-              DrawerMenu(
-                child: DrawerMenuItem(
-                  leading: ColorFiltered(
-                    colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
-                    child: Image.asset('assets/images/menu-question.png'),
+                  DrawerMenu(
+                    child: DrawerMenuItem(
+                      leading: ColorFiltered(
+                        colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
+                        child: Image.asset('assets/images/menu-policy.png'),
+                      ),
+                      title: Text(S.of(context).drawerPolicies),
+                    ),
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed(webRoute, arguments: {'url': policyUrl, 'title': 'Policies'}),
                   ),
-                  title: Text(S.of(context).drawerSwitchTask),
-                ),
-                onPressed: () {},
-              ),
-              DrawerMenu(
-                child: DrawerMenuItem(
-                  leading: ColorFiltered(
-                    colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
-                    child: Image.asset('assets/images/menu-logout.png'),
+                ] +
+                (tokenState.demo
+                    ? [
+                        DrawerMenu(
+                          child: DrawerMenuItem(
+                            leading: ColorFiltered(
+                              colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
+                              child: Image.asset('assets/images/menu-question.png'),
+                            ),
+                            title: Text(S.of(context).drawerSwitchTask),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ]
+                    : []) +
+                [
+                  DrawerMenu(
+                    child: DrawerMenuItem(
+                      leading: ColorFiltered(
+                        colorFilter: const ColorFilter.mode(const Color(0xFF232456), BlendMode.srcIn),
+                        child: Image.asset('assets/images/menu-logout.png'),
+                      ),
+                      title: Text(S.of(context).drawerLogout),
+                    ),
+                    onPressed: () {
+                      BlocProvider.of<TokenBloc>(context).add(ClearToken());
+                    },
                   ),
-                  title: Text(S.of(context).drawerLogout),
-                ),
-                onPressed: () {
-                  BlocProvider.of<TokenBloc>(context).add(ClearToken());
-                },
-              ),
 //          DrawerMenu(
 //            child: ListTile(
 //              title: Text('Alice'),
@@ -175,7 +181,7 @@ class HomeScreen extends StatelessWidget {
 //              context.read<Alice>().showInspector();
 //            },
 //          ),
-            ],
+                ],
             footer: DrawerFooter(),
           ),
         ));

@@ -18,19 +18,21 @@ class TokenBloc extends Bloc<TokenEvent, TokenState> {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', null);
       await prefs.setString('email', null);
+      await prefs.setBool('demo', false);
       yield TokenNull();
     }
 
     if (event is ValidateToken) {
       final prefs = await SharedPreferences.getInstance();
-      final token = await prefs.get('token');
-      final email = await prefs.get('email');
+      final token = prefs.getString('token');
+      final email = prefs.getString('email');
+      final demo = prefs.getBool('demo') ?? false;
       if (email != null && token != null) {
         final success = await repository.validateCourierLogin(
           email, "1.2.3", token);
 
         if (success) {
-          yield TokenValid(token, email);
+          yield TokenValid(token, email, demo);
         }
         else {
           yield TokenNull();
@@ -52,8 +54,9 @@ class TokenBloc extends Bloc<TokenEvent, TokenState> {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', event.token.token);
       await prefs.setString('email', event.email);
+      await prefs.setBool('demo', event.demo);
 
-      yield TokenValid(event.token.token, event.email);
+      yield TokenValid(event.token.token, event.email, event.demo);
     }
   }
 
@@ -70,8 +73,12 @@ class ValidateToken  extends TokenEvent {}
 class NewToken  extends TokenEvent {
   final Token token;
   final String email;
+  final bool demo;
 
-  NewToken(this.token, this.email);
+  NewToken(this.token, this.email, {this.demo = false});
+
+  @override
+  List<Object> get props => [token, email, demo];
 }
 
 class ClearToken  extends TokenEvent {}
@@ -80,21 +87,22 @@ class ClearToken  extends TokenEvent {}
 abstract class TokenState extends Equatable {
   final String token;
   final String email;
+  final bool demo;
 
-  TokenState(this.token, this.email);
+  TokenState(this.token, this.email, this.demo);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [token, email, demo];
 }
 
 class TokenInitial extends TokenState {
-  TokenInitial() : super(null, null);
+  TokenInitial() : super(null, null, false);
 }
 
 class TokenValid extends TokenState {
-  TokenValid(String token, String email) : super(token, email);
+  TokenValid(String token, String email, bool demo) : super(token, email, demo);
 }
 
 class TokenNull extends TokenState {
-  TokenNull() : super(null, null);
+  TokenNull() : super(null, null, false);
 }

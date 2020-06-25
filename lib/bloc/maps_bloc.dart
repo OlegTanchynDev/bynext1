@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
@@ -9,22 +10,14 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
   @override
   get initialState => MapsBlocState(
     installed: [],
-    enabled: ""
+    enabled: "",
   );
 
   @override
   Stream<MapsBlocState> mapEventToState(MapsBlocEvent event) async* {
     if (event is CheckInstalled) {
-      List<String> installed = [];
-      if(await canLaunch("comgooglemaps://")){
-        installed.add("Google Maps");
-      }
-      if(await canLaunch("https://maps.apple.com/")){
-        installed.add("Apple Maps");
-      }
-      if(await canLaunch("waze://")){
-        installed.add("Waze");
-      }
+      List<AvailableMap> available = await MapLauncher.installedMaps;
+      List<String> installed = available.map((e) => e.mapName).toList();
 
       yield MapsBlocState(
         installed: installed,
@@ -72,5 +65,5 @@ class MapsBlocState extends Equatable {
   MapsBlocState({this.installed, this.enabled});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [installed, enabled];
 }

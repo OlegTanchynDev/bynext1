@@ -41,25 +41,29 @@ class NavigationSettingsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: AppBarLogo(),
+        title: Text("Navigation Selection"),
         centerTitle: true,
         actions: <Widget>[const SizedBox(width: 50)],
       ),
       body: BlocBuilder<MapsBloc, MapsBlocState>(
         builder: (context, mapsState) {
           return Column(
-            children: mapList.map((e) =>
-              ListTile(
+            children: mapList.map((e) {
+              return ListTile(
                 title: Text(e),
                 subtitle: mapsState.installed.contains(e) ? null : Text(
                   "You don't have ${e} installed"),
                 trailing: Switch(
                   value: e == mapsState.enabled,
-                  onChanged: mapsState.installed.contains(e) && mapsState.enabled != e ? (val) {
-                    context.bloc<MapsBloc>().add(SetNavigationType(e));
-                  } : null,
+                  onChanged: mapsState.installed.contains(e) ? (val){
+                    if(mapsState.enabled != e){
+                      context.bloc<MapsBloc>().add(SetNavigationType(e));
+                    }
+                  }
+                   : null,
                 ),
-              )).toList(),
+              );
+            }).toList(),
           );
         }
       ),

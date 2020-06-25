@@ -8,6 +8,8 @@ PODS:
     - Flutter
   - "location_permissions (3.0.0+1)":
     - Flutter
+  - map_launcher (0.0.1):
+    - Flutter
   - package_info (0.0.1):
     - Flutter
   - path_provider (0.0.1):
@@ -37,6 +39,7 @@ DEPENDENCIES:
   - google_api_availability (from `.symlinks/plugins/google_api_availability/ios`)
   - just_audio (from `.symlinks/plugins/just_audio/ios`)
   - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
+  - map_launcher (from `.symlinks/plugins/map_launcher/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - path_provider_linux (from `.symlinks/plugins/path_provider_linux/ios`)
@@ -60,6 +63,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/just_audio/ios"
   location_permissions:
     :path: ".symlinks/plugins/location_permissions/ios"
+  map_launcher:
+    :path: ".symlinks/plugins/map_launcher/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
   path_provider:
@@ -89,6 +94,7 @@ SPEC CHECKSUMS:
   google_api_availability: 15fa42a8cd83c0a6738507ffe6e87096f12abcb8
   just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
   location_permissions: 7e0f9aa0f60deb8ff93ddf0e2a164c7e8197bc94
+  map_launcher: e325db1261d029ff33e08e03baccffe09593ffea
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
@@ -103,4 +109,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.8.4

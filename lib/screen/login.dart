@@ -37,14 +37,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      height: 70,
-                      child: Image(image: AssetImage('assets/images/logo.png')),
-                    ),
-                  ),
-                  const SizedBox(height: 14),
+//                  Align(
+//                    alignment: Alignment.center,
+//                    child: Container(
+//                      height: 70,
+//                      child: Image(image: AssetImage('assets/images/logo.png')),
+//                    ),
+//                  ),
+//                  const SizedBox(height: 14),
                   Align(
                     alignment: Alignment.center,
                     child: Image(
@@ -117,9 +117,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   RaisedButton(
                     child: Text('LOGIN'),
-                    onPressed: () => context
+                    onPressed: _usernameController.text != '' && _passwordController.text != '' ? () => context
                         .bloc<LoginFormBloc>()
-                        .submit(_usernameController.text.trim(), _passwordController.text),
+                        .submit(_usernameController.text.trim(), _passwordController.text) : null,
                   ),
                   RaisedButton(
                     child: Text('DEMO MODE'),

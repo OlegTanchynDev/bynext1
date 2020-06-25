@@ -166,7 +166,7 @@ class S {
   /// `Reset message has been sent.`
   String get forgotPasswordResponseOk {
     return Intl.message(
-      'Reset message has been sent.',
+      'In a few minutes you will receive an email with further instructions to reset your password',
       name: 'forgotPasswordResponseOk',
       desc: '',
       args: [],

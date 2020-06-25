@@ -62,7 +62,7 @@ class TokenRepository {
       RestError restError = RestError(errors: {});
 //      switch (parsed['status_code']) {
 //        case 1:
-          restError.errors.putIfAbsent('non_field_errors', () => 'Error processing request.');
+          restError.errors.putIfAbsent('non_field_errors', () => 'Email address is not recognised');
 //      }
       throw restError;
     }

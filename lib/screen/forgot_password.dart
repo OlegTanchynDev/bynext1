@@ -79,7 +79,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(
                                     height: 20.0,
-                                  )
+                                  ),
                                 ],
                               );
                             }),
@@ -95,9 +95,14 @@ class ForgotPasswordScreen extends StatelessWidget {
                             height: 0,
                           ),
                         ),
-                        RaisedButton(
-                          child: Text('Reset >>'),
-                          onPressed: () => context.bloc<ForgotPasswordBloc>().submit(username),
+                        BlocBuilder(
+                          bloc: BlocProvider.of<ForgotPasswordBloc>(context),
+                          builder: (context, state) {
+                            return RaisedButton(
+                              child: Text('Reset your password'),
+                              onPressed: state is ForgotFormReady ? () => context.bloc<ForgotPasswordBloc>().submit(username) : null,
+                            );
+                          }
                         ),
                       ],
                     ),

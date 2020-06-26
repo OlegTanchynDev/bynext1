@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
-import 'package:bynextcourier/model/issue.dart';
 import 'package:bynextcourier/model/payment.dart';
-import 'package:bynextcourier/repository/issues_repository.dart';
 import 'package:bynextcourier/repository/payment_repository.dart';
 import 'package:equatable/equatable.dart';
 

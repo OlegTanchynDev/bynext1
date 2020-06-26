@@ -1,6 +1,7 @@
 import 'package:bynextcourier/bloc/shift_details_bloc.dart';
 import 'package:bynextcourier/bloc/tasks_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
+import 'package:bynextcourier/repository/schedule_repository.dart';
 import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:bynextcourier/screen/forgot_password.dart';
 import 'package:bynextcourier/screen/shifts.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/forgot_password_bloc.dart';
+import 'bloc/schedule_bloc.dart';
 import 'repository/token_repository.dart';
 import 'screen/issues.dart';
 import 'screen/my_salary.dart';
@@ -86,7 +88,14 @@ class Router {
               page = NavigationSettingsScreen();
               break;
             case shiftsRoute:
-              page = ShiftsScreen();
+              page = BlocProvider(
+                create: (context) => ScheduleBloc()..
+                repository = context.repository<ScheduleRepository>()
+                ..tokenBloc = context.bloc<TokenBloc>()
+                  ..add(ScheduleLoad()),
+                  child: ShiftsScreen()
+
+              );
               break;
             case mySalaryRoute:
               page = MySalaryScreen();

@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:bynextcourier/model/issue.dart';
-import 'package:bynextcourier/model/profile.dart';
-import 'package:bynextcourier/model/rest_error.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';

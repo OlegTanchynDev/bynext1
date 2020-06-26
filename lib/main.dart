@@ -16,13 +16,13 @@ import 'package:bynextcourier/screen/splash.dart';
 import 'package:bynextcourier/view/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_hidden_drawer/flutter_hidden_drawer.dart';
+import 'package:provider/provider.dart';
 
 import 'bloc/location_tracker/location_tracker_bloc.dart';
 import 'bloc/shift_details_bloc.dart';
-import 'bloc/tasks_bloc.dart';
 import 'generated/l10n.dart';
+import 'repository/schedule_repository.dart';
 import 'router.dart';
 import 'screen/login.dart';
 
@@ -65,7 +65,8 @@ class MyApp extends StatelessWidget {
               create: (_) => PaymentRepository(),
             ),
             RepositoryProvider(create: (_) => ShiftDetailsRepository()),
-            RepositoryProvider(create: (_) => TasksRepository())
+            RepositoryProvider(create: (_) => TasksRepository()),
+            RepositoryProvider(create: (_) => ScheduleRepository()),
           ],
           child: MultiBlocProvider(
             providers: [
@@ -102,12 +103,12 @@ class MyApp extends StatelessWidget {
                   ..tokenBloc = context.bloc<TokenBloc>()
                   ..repository = context.repository<ShiftDetailsRepository>(),
               ),
-              BlocProvider(
-                create: (context) => TasksListBloc()
-                  ..tokenBloc = context.bloc<TokenBloc>()
-                  ..shiftDetailsBloc = context.bloc<ShiftDetailsBloc>()
-                  ..repository = context.repository<TasksRepository>(),
-              ),
+//              BlocProvider(
+//                create: (context) => TasksListBloc()
+//                  ..tokenBloc = context.bloc<TokenBloc>()
+//                  ..shiftDetailsBloc = context.bloc<ShiftDetailsBloc>()
+//                  ..repository = context.repository<TasksRepository>(),
+//              ),
             ],
             child: MaterialApp(
                 title: 'ByNext',

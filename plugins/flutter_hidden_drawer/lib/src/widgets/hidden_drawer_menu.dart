@@ -25,49 +25,53 @@ class HiddenDrawerMenu extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     final DrawerMenuState state = Provider.of(context);
 
+    final saPadding = MediaQuery.of(context).padding;
     return Material(
-      child: Container(
-        height: size.height,
-        width: size.width,
-        decoration: drawerDecoration ?? BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
-        child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: size.height),
-            child: IntrinsicHeight(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: HiddenDrawer.of(context).drawerHeaderHeight,
-                    width: HiddenDrawer.of(context).drawerWidth,
-                    child: Align(alignment: Alignment.bottomLeft, child: header != null ? header : Container()),
-                  ),
-                  Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: menu.expand<Widget>((item) {
-                        int index = menu.indexOf(item);
-                        return [
-                          InkWell(
-                            onTap: () {
-                              state.changeIndexState(index);
-                              HiddenDrawer.of(context).handleDrawer();
-                              item.onPressed();
-                            },
-                            child: AnimatedContainer(
-                              duration: Duration(milliseconds: 500),
-                              color: menuColor,
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: SafeArea(
+        child: Container(
+          height: size.height,
+          width: size.width,
+          decoration: drawerDecoration ?? BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: size.height - saPadding.top - saPadding.bottom),
+              child: IntrinsicHeight(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      height: HiddenDrawer.of(context).drawerHeaderHeight,
+                      width: HiddenDrawer.of(context).drawerWidth,
+                      child: Align(alignment: Alignment.bottomLeft, child: header != null ? header : Container()),
+                    ),
+                    Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: menu.expand<Widget>((item) {
+                          int index = menu.indexOf(item);
+                          return [
+                            InkWell(
+                              onTap: () {
+                                state.changeIndexState(index);
+                                HiddenDrawer.of(context).handleDrawer();
+                                item.onPressed();
+                              },
+                              child: AnimatedContainer(
+                                duration: Duration(milliseconds: 500),
+                                color: menuColor,
 //                              color: state.currentMenuIndex == index ? menuActiveColor : menuColor,
-                              child: item.child,
+                                child: item.child,
+                              ),
                             ),
-                          ),
-                          Divider()
-                        ];
-                      }).toList()),
-                  Expanded(
-                    child: SizedBox(height: 10),
-                  ),
-                  Padding(padding: EdgeInsets.symmetric(vertical: 8, horizontal: 25), child: footer != null ? footer : Container()),
-                ],
+                            Divider()
+                          ];
+                        }).toList()),
+                    Expanded(
+                      child: SizedBox(height: 10),
+                    ),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 8, horizontal: 25), child: footer != null ? footer : Container()),
+                  ],
+                ),
               ),
             ),
           ),

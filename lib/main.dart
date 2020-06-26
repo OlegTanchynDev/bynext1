@@ -1,8 +1,6 @@
 import 'package:bynextcourier/bloc/delegate/bloc_delegate.dart';
-import 'package:bynextcourier/bloc/issues_bloc.dart';
 import 'package:bynextcourier/bloc/login_form_bloc.dart';
 import 'package:bynextcourier/bloc/maps_bloc.dart';
-import 'package:bynextcourier/bloc/payment_bloc.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/repository/issues_repository.dart';
@@ -87,16 +85,6 @@ class MyApp extends StatelessWidget {
               BlocProvider(
                 lazy: false,
                 create: (_) => MapsBloc()..add(CheckInstalled()),
-              ),
-              BlocProvider(
-                create: (context) => IssuesBloc()
-                  ..tokenBloc = context.bloc<TokenBloc>()
-                  ..repository = context.repository<IssueRepository>(),
-              ),
-              BlocProvider(
-                create: (context) => PaymentBloc()
-                  ..tokenBloc = context.bloc<TokenBloc>()
-                  ..repository = context.repository<PaymentRepository>(),
               ),
               BlocProvider(
                 create: (context) => ShiftDetailsBloc()

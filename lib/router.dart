@@ -11,7 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/forgot_password_bloc.dart';
+import 'bloc/issues_bloc.dart';
+import 'bloc/payment_bloc.dart';
 import 'bloc/schedule_bloc.dart';
+import 'repository/issues_repository.dart';
+import 'repository/payment_repository.dart';
 import 'repository/token_repository.dart';
 import 'screen/issues.dart';
 import 'screen/my_salary.dart';
@@ -89,19 +93,25 @@ class Router {
               break;
             case shiftsRoute:
               page = BlocProvider(
-                create: (context) => ScheduleBloc()..
-                repository = context.repository<ScheduleRepository>()
-                ..tokenBloc = context.bloc<TokenBloc>()
-                  ..add(ScheduleLoad()),
-                  child: ShiftsScreen()
-
-              );
+                  create: (context) => ScheduleBloc()
+                    ..repository = context.repository<ScheduleRepository>()
+                    ..tokenBloc = context.bloc<TokenBloc>()
+                    ..add(ScheduleLoad()),
+                  child: ShiftsScreen());
               break;
             case mySalaryRoute:
-              page = MySalaryScreen();
+              page = BlocProvider(
+                  create: (context) => PaymentBloc()
+                    ..tokenBloc = context.bloc<TokenBloc>()
+                    ..repository = context.repository<PaymentRepository>(),
+                  child: MySalaryScreen());
               break;
             case issuesRoute:
-              page = IssuesScreen();
+              page = BlocProvider(
+                  create: (context) => IssuesBloc()
+                    ..tokenBloc = context.bloc<TokenBloc>()
+                    ..repository = context.repository<IssueRepository>(),
+                  child: IssuesScreen());
               break;
             default:
               page = Scaffold(

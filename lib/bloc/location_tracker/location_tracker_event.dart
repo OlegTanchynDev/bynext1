@@ -6,12 +6,12 @@ abstract class LocationTrackerEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class InitAndStartLocationTrackingEvent extends LocationTrackerEvent {}
 class StartLocationTrackingEvent extends LocationTrackerEvent {}
-
 class StopLocationTrackingEvent extends LocationTrackerEvent {}
 
 class OnUpdateLocationEvent extends LocationTrackerEvent {
-  final Position position;
+  final location;
 
-  OnUpdateLocationEvent(this.position);
+  OnUpdateLocationEvent(this.location);
 }

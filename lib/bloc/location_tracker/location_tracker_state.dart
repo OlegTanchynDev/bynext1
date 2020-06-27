@@ -1,18 +1,20 @@
 part of 'location_tracker_bloc.dart';
 
 @immutable
-abstract class LocationTrackerState extends Equatable {
+class LocationTrackerBaseState extends Equatable {
+  final bool isServiceRunning;
+  final LocationDto location;
+
+  LocationTrackerBaseState(this.isServiceRunning, this.location);
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [isServiceRunning, location];
 }
 
-class InitialLocationTrackerState extends LocationTrackerState {}
+class InitialLocationTrackerState extends LocationTrackerBaseState {
+  InitialLocationTrackerState() : super(false, null);
+}
 
-class OnUpdateLocationTrackerState extends LocationTrackerState {
-  final Position position;
-
-  OnUpdateLocationTrackerState(this.position);
-
-  @override
-  List<Object> get props => [position];
+class LocationTrackerState extends LocationTrackerBaseState {
+  LocationTrackerState(bool isServiceRunning, LocationDto location) : super(isServiceRunning, location);
 }

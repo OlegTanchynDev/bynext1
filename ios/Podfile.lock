@@ -1,4 +1,6 @@
 PODS:
+  - background_locator (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - "geolocator (5.3.2+2)":
     - Flutter
@@ -34,6 +36,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - background_locator (from `.symlinks/plugins/background_locator/ios`)
   - Flutter (from `Flutter`)
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
   - google_api_availability (from `.symlinks/plugins/google_api_availability/ios`)
@@ -53,6 +56,8 @@ DEPENDENCIES:
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
 EXTERNAL SOURCES:
+  background_locator:
+    :path: ".symlinks/plugins/background_locator/ios"
   Flutter:
     :path: Flutter
   geolocator:
@@ -89,6 +94,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
+  background_locator: d8daad218f2282920654de8a649b430d75c218d9
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   geolocator: f7622e0e7e2a24718285b73916d60c4a54b9f5b6
   google_api_availability: 15fa42a8cd83c0a6738507ffe6e87096f12abcb8
@@ -109,4 +115,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.3

@@ -34,7 +34,7 @@ class TokenRepository {
       },
     ).timeout(requestTimeout);
 
-    final parsed = json.decode(response.body);
+//    final parsed = json.decode(response.body);
 
     if (response.statusCode == 200) {
       return Future.value(true);

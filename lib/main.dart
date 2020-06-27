@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider(
                 lazy: false,
-                create: (_) => LocationTrackerBloc()..startLocationTracking(),
+                create: (_) => LocationTrackerBloc()..initAndStartLocationTrackingIfNeeded(),
               ),
               BlocProvider(
                 lazy: false,

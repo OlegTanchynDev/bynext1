@@ -5,6 +5,7 @@ import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/model/profile.dart';
 import 'package:bynextcourier/repository/profile_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileRepository repository;
@@ -44,6 +45,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is GetProfile) {
       try {
         final profile = await repository.fetchProfile(_tokenBloc.state.token);
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setInt(Profile.keyCaptureLocationIntervalSec, profile.captureLocationIntervalSec);
+        await prefs.setInt(Profile.keySendLocationIntervalSec, profile.sendLocationIntervalSec);
+        await prefs.setInt(Profile.keyDistanceToleranceMeter, profile.distanceToleranceMeter);
+        await prefs.setInt(Profile.keyMinimumGeoLocationDistance, profile.minimumGeoLocationDistance);
         yield ProfileState(profile);
       }
       catch (e){

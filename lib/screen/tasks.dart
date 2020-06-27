@@ -52,13 +52,6 @@ class TasksScreen extends StatelessWidget {
             cleaningOptions.add('LS');
           }
 
-          Color cellColor = Theme.of(context).scaffoldBackgroundColor;
-          if (task.status == 3)
-            cellColor = Colors.lightGreen;
-          else if (task.status == 1)
-            cellColor = Colors.lime;
-          else if (task.status == 5) cellColor = Color.fromRGBO(248, 231, 28, 1.0);
-
           String taskTypeImage;
           switch (task.type) {
             case 0:
@@ -77,43 +70,40 @@ class TasksScreen extends StatelessWidget {
               taskTypeImage = 'assets/images/header-laundromat.png';
               break;
           }
-          return Container(
-            color: cellColor,
-            child: ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-              leading: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                padding: EdgeInsets.all(1),
-                child: CircleAvatar(
-                  backgroundImage: AssetImage(taskTypeImage),
-                  radius: 26,
-                ),
+          return ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+            leading: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
               ),
-              title: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Expanded(child: Text(task.location.name)),
-                  (task.meta?.firstOrder ?? false)
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Image.asset(
-                            'assets/images/heart-icon-fill.png',
-                            width: 20,
-                          ),
-                        )
-                      : Container(),
-                  Text(DateFormat.jm().format(task.actionTime))
-                ],
+              padding: EdgeInsets.all(1),
+              child: CircleAvatar(
+                backgroundImage: AssetImage(taskTypeImage),
+                radius: 26,
               ),
-              subtitle: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[Expanded(child: Text(
-                    cleaningOptions.join(' | ')
-                )), Text(address)],
-              ),
+            ),
+            title: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Expanded(child: Text(task.location.name)),
+                (task.meta?.firstOrder ?? false)
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Image.asset(
+                          'assets/images/heart-icon-fill.png',
+                          width: 20,
+                        ),
+                      )
+                    : Container(),
+                Text(DateFormat.jm().format(task.actionTime))
+              ],
+            ),
+            subtitle: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[Expanded(child: Text(
+                  cleaningOptions.join(' | ')
+              )), Text(address)],
             ),
           );
         },

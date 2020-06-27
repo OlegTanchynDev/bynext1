@@ -1,4 +1,4 @@
-enum ShiftMode { regular, business, regularOrBusiness }
+enum ShiftMode { regular, business }
 
 ShiftMode parseShiftModeFromString(String str) {
   switch (str) {
@@ -6,8 +6,8 @@ ShiftMode parseShiftModeFromString(String str) {
       return ShiftMode.regular;
     case 'business':
       return ShiftMode.business;
-    case 'regular/business':
-      return ShiftMode.regularOrBusiness;
+    default:
+      return null;
   }
 }
 

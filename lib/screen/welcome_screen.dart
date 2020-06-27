@@ -91,7 +91,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             BlocBuilder<ShiftDetailsBloc, ShiftDetailsState>(
                                 builder: (context, shiftState) {
                               final shift = shiftState is ShiftDetailsReady
-                                  ? shiftState.shift
+                                  ? shiftState.current
                                   : null;
 //                          Locale myLocale = Localizations.localeOf(context);
                               String startDate;
@@ -217,7 +217,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             BlocBuilder<ShiftDetailsBloc, ShiftDetailsState>(
                                 builder: (context, shiftState) {
                               final shift = shiftState is ShiftDetailsReady
-                                  ? shiftState.shift
+                                  ? shiftState.current
                                   : null;
                               return Column(
                                 mainAxisSize: MainAxisSize.min,

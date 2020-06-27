@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import '../constants.dart';
 
 class ShiftDetailsRepository {
-  Future<Shift> fetchShiftDetails(String token) async {
+  Future<Map<ShiftMode, Shift>> fetchShiftDetails(String token) async {
     final response = await http.get(
       '$servicesUrl/delivery/v2/shift/getShiftDetails/',
       headers: {
@@ -19,7 +19,15 @@ class ShiftDetailsRepository {
     final parsed = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      return Shift.fromMap(parsed);
+      final shiftMode = parsed['shift_mode'];
+      if ( shiftMode == 'regular/business') {
+        return {
+          ShiftMode.regular: Shift.fromMap(parsed['regular']),
+          ShiftMode.business: Shift.fromMap(parsed['business']),
+        };
+      } else {
+        return { parseShiftModeFromString(shiftMode): Shift.fromMap(parsed)};
+      }
     } else {
       throw RestError.fromMap(parsed);
     }

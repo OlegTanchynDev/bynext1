@@ -21,7 +21,7 @@ class NavigationSettingsScreen extends StatelessWidget {
               return ListTile(
                 title: Text(e),
                 subtitle: mapsState.installed.contains(e) ? null : Text(
-                  "You don't have ${e} installed"),
+                  "You don't have $e installed"),
                 trailing: Switch(
                   value: e == mapsState.enabled,
                   onChanged: mapsState.installed.contains(e) ? (val){

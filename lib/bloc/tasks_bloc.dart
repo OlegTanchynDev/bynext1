@@ -20,7 +20,7 @@ class TasksListBloc extends Bloc<TasksListEvent, TasksListState> {
       _shiftDetailsSubscription?.cancel();
       _shiftDetailsSubscription = _shiftDetailsBloc.listen((shiftDetailsState) {
         if (shiftDetailsState is ShiftDetailsReady) {
-          add(TasksListLoad(shiftDetailsState.shift.id));
+          add(TasksListLoad(shiftDetailsState.current.id));
         }
       });
     }

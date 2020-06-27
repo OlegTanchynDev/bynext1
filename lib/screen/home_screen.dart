@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
         drawer: BlocBuilder<TokenBloc, TokenState>(
           builder: (context, tokenState) => BlocBuilder<ShiftDetailsBloc, ShiftDetailsState>(
             builder: (context, shiftDetailsState) {
-              final shift = shiftDetailsState is ShiftDetailsReady ? shiftDetailsState.shift : null;
+              final shift = shiftDetailsState is ShiftDetailsReady ? shiftDetailsState.current : null;
               final dispatcherPhone = shift?.dispatcherPhone;
               return Container(
                 color: Theme.of(context).scaffoldBackgroundColor,

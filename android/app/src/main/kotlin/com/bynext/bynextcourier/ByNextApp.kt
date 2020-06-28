@@ -6,6 +6,7 @@ import io.flutter.view.FlutterMain
 import io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin
 import io.flutter.plugins.packageinfo.PackageInfoPlugin
 import rekab.app.background_locator.LocatorService
+import com.baseflow.geolocator.GeolocatorPlugin;
 
 class ByNextApp : FlutterApplication(), PluginRegistry.PluginRegistrantCallback {
     override fun onCreate() {
@@ -20,6 +21,9 @@ class ByNextApp : FlutterApplication(), PluginRegistry.PluginRegistrantCallback 
         }
         if (!registry.hasPlugin("io.flutter.plugins.packageinfo")) {
             PackageInfoPlugin.registerWith(registry.registrarFor("io.flutter.plugins.packageinfo"))
+        }
+        if (!registry.hasPlugin("com.baseflow.geolocator")) {
+            GeolocatorPlugin.registerWith(registry.registrarFor("com.baseflow.geolocator"))
         }
     }
 }

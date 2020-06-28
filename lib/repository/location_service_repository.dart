@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:isolate';
 import 'dart:ui';
 import 'package:bynextcourier/constants.dart';
-import 'package:bynextcourier/model/rest_error.dart';
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 import 'package:background_locator/location_dto.dart';
@@ -65,6 +64,10 @@ class LocationServiceRepository {
     printLabel("end", 'LocationServiceRepository');
     final SendPort send = IsolateNameServer.lookupPortByName(isolateName);
     send?.send(null);
+    myLocationArray.clear();
+    myLastSentToServerLocation = null;
+    locationUpdateTimer?.cancel();
+    minimumUserLocationTimer?.cancel();
   }
 
   void callback(LocationDto locationDto) {
@@ -107,8 +110,10 @@ class LocationServiceRepository {
     // If the array is 0, get the last location
     // Sometimes due to network issue or unknown reason, you could not get the location during that  period, the best you can do is sending the last known location to the server
     if (myLocationArray.length == 0) {
+      printLabel('myLocation=myLastLocation', 'LocationServiceRepository');
       myLocation = myLastLocation;
     } else {
+      printLabel('myLocation=myBestLocation', 'LocationServiceRepository');
       myLocation = myBestLocation;
     }
 
@@ -118,12 +123,14 @@ class LocationServiceRepository {
     }
     // sending location to server
     bool locationChanged = true;
+    printLabel('locationChanged:$locationChanged', 'LocationServiceRepository');
     if (myLastSentToServerLocation != null) {
       final double meters = await Geolocator().distanceBetween(myLocation.latitude, myLocation.longitude,
           myLastSentToServerLocation.latitude, myLastSentToServerLocation.longitude);
       num distanceTolerance = prefs.getInt(Profile.keyDistanceToleranceMeter) ?? _keyDefaultDistanceToleranceMeter;
       printLabel('profile distanceTolerance: $distanceTolerance, meters:$meters', 'LocationServiceRepository');
       if (meters < distanceTolerance) {
+        printLabel('meters < distanceTolerance, locationChanged:$locationChanged', 'LocationServiceRepository');
         locationChanged = false;
       }
       if (token != null && locationChanged) {
@@ -134,6 +141,7 @@ class LocationServiceRepository {
       // It is to make sure that you clear up old location in the array and add the new locations from locationManager
       myLocationArray.clear();
     } else {
+      printLabel('myLastSentToServerLocation==NULL', 'LocationServiceRepository');
       if (token != null) {
         //logged in
         _sendLocationToServer(myLocation, token);
@@ -159,12 +167,9 @@ class LocationServiceRepository {
       printLabel('response string: ${response.body}', 'LocationServiceRepository');
       final parsed = json.decode(response.body);
       printLabel('response: $parsed', 'LocationServiceRepository');
-      return Future.value(Profile.fromMap(parsed));
+      myLastSentToServerLocation = myLocation;
     } else {
       printLabel('error response string: ${response.body}', 'LocationServiceRepository');
-      final parsed = json.decode(response.body);
-      printLabel('error: $parsed', 'LocationServiceRepository');
-      throw RestError.fromMap(parsed);
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bynextcourier/client/app_http_client.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -21,6 +21,7 @@ import 'bloc/http_client_bloc.dart';
 import 'bloc/location_tracker/location_tracker_bloc.dart';
 import 'bloc/shift_details_bloc.dart';
 import 'generated/l10n.dart';
+import 'helpers/reload_shift_details_navigator_observer.dart';
 import 'repository/schedule_repository.dart';
 import 'router.dart';
 import 'screen/login.dart';
@@ -108,137 +109,150 @@ class MyApp extends StatelessWidget {
 //                  ..repository = context.repository<TasksRepository>(),
 //              ),
             ],
-            child: MaterialApp(
-                title: 'ByNext',
-                theme: ThemeData(
-                  brightness: Brightness.light,
-                  primarySwatch: Colors.grey,
-                  scaffoldBackgroundColor: const Color(0xFFF2EDEB),
-                  colorScheme: const ColorScheme(
+            child: Builder(
+              builder: (context) => MaterialApp(
+                  title: 'ByNext',
+                  theme: ThemeData(
                     brightness: Brightness.light,
-                    primary: primaryColor,
-                    primaryVariant: primaryVariantColor,
-                    secondary: primaryColor,
-                    // <-- text color
-                    secondaryVariant: const Color(0xFF848484),
-                    surface: primaryColor,
-                    background: const Color(0xFFF2EDEB),
-                    error: Colors.red,
-                    onPrimary: const Color(0xFFF2EDEB),
-                    onSecondary: const Color(0xFFF2EDEB),
-                    onBackground: primaryColor,
-                    onError: const Color(0xFFFFDDDD),
-                    onSurface: primaryColor, // <-- disabled text color, INPUT DECORATION
-                  ),
+                    primarySwatch: Colors.grey,
+                    scaffoldBackgroundColor: const Color(0xFFF2EDEB),
+                    colorScheme: const ColorScheme(
+                      brightness: Brightness.light,
+                      primary: primaryColor,
+                      primaryVariant: primaryVariantColor,
+                      secondary: primaryColor,
+                      // <-- text color
+                      secondaryVariant: const Color(0xFF848484),
+                      surface: primaryColor,
+                      background: const Color(0xFFF2EDEB),
+                      error: Colors.red,
+                      onPrimary: const Color(0xFFF2EDEB),
+                      onSecondary: const Color(0xFFF2EDEB),
+                      onBackground: primaryColor,
+                      onError: const Color(0xFFFFDDDD),
+                      onSurface: primaryColor, // <-- disabled text color, INPUT DECORATION
+                    ),
 
-                  // This makes the visual density adapt to the platform that you run
-                  // the app on. For desktop platforms, the controls will be smaller and
-                  // closer together (more dense) than on mobile platforms.
-                  visualDensity: VisualDensity.adaptivePlatformDensity,
-                  textTheme: const TextTheme(
-                      // edit text
-                      subtitle1: const TextStyle(
-                        fontFamily: 'Avenir',
-                        fontSize: 15,
-                        fontWeight: FontWeight.w300,
-                      ),
-                      bodyText2: const TextStyle(
-                        fontFamily: 'Avenir',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w300,
-                        color: textColor,
-                      ),
-                      headline2: const TextStyle(
-                        fontFamily: 'Avenir',
-                        fontSize: 19,
-                        fontWeight: FontWeight.w300,
-                        color: primaryColor,
-                      ),
-                      headline3: const TextStyle(
-                        fontFamily: 'Avenir',
-                        fontSize: 17,
-                        fontWeight: FontWeight.w300,
-                        color: primaryColor,
-                      ),
-                      headline6: const TextStyle(
-                        fontFamily: 'Avenir',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w300,
-                        color: textColor,
-                      ),
+                    // This makes the visual density adapt to the platform that you run
+                    // the app on. For desktop platforms, the controls will be smaller and
+                    // closer together (more dense) than on mobile platforms.
+                    visualDensity: VisualDensity.adaptivePlatformDensity,
+                    textTheme: const TextTheme(
+                        // edit text
+                        subtitle1: const TextStyle(
+                          fontFamily: 'Avenir',
+                          fontSize: 15,
+                          fontWeight: FontWeight.w300,
+                        ),
+                        bodyText2: const TextStyle(
+                          fontFamily: 'Avenir',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300,
+                          color: textColor,
+                        ),
+                        headline2: const TextStyle(
+                          fontFamily: 'Avenir',
+                          fontSize: 19,
+                          fontWeight: FontWeight.w300,
+                          color: primaryColor,
+                        ),
+                        headline3: const TextStyle(
+                          fontFamily: 'Avenir',
+                          fontSize: 17,
+                          fontWeight: FontWeight.w300,
+                          color: primaryColor,
+                        ),
+                        headline6: const TextStyle(
+                          fontFamily: 'Avenir',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w300,
+                          color: textColor,
+                        ),
 
-                      //buttons
-                      button: const TextStyle(
-                        fontFamily: 'Avenir',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
-                      )),
-                  buttonTheme: const ButtonThemeData(
-                    textTheme: ButtonTextTheme.primary,
-                    height: 41,
-                    buttonColor: const Color(0xFF403D9C),
-                  ),
-                  inputDecorationTheme: const InputDecorationTheme(
-                    isDense: true,
-                    border: const OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(0.0))),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                  ),
-                  dividerTheme: const DividerThemeData(
-                    color: const Color(0xFF848484),
-                    space: 0,
-                    thickness: 1,
-                  ),
-                  appBarTheme: const AppBarTheme(
-                    color: const Color(0xFFF2EDEB),
-                    elevation: 0,
-                    textTheme: TextTheme(
-                      headline6: TextStyle(
-                        fontFamily: 'Avenir',
-                        fontSize: 17,
-                        fontWeight: FontWeight.w300,
-                        color: primaryVariantColor,
+                        //buttons
+                        button: const TextStyle(
+                          fontFamily: 'Avenir',
+                          fontSize: 18,
+                          fontWeight: FontWeight.w300,
+                        )),
+                    buttonTheme: const ButtonThemeData(
+                      textTheme: ButtonTextTheme.primary,
+                      height: 41,
+                      buttonColor: const Color(0xFF403D9C),
+                    ),
+                    inputDecorationTheme: const InputDecorationTheme(
+                      isDense: true,
+                      border: const OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(0.0))),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                    ),
+                    dividerTheme: const DividerThemeData(
+                      color: const Color(0xFF848484),
+                      space: 0,
+                      thickness: 1,
+                    ),
+                    appBarTheme: const AppBarTheme(
+                      color: const Color(0xFFF2EDEB),
+                      elevation: 0,
+                      textTheme: TextTheme(
+                        headline6: TextStyle(
+                          fontFamily: 'Avenir',
+                          fontSize: 17,
+                          fontWeight: FontWeight.w300,
+                          color: primaryVariantColor,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                home: GestureDetector(
-                    onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-                    child: BlocBuilder<TokenBloc, TokenState>(builder: (context, tokenState) {
-                      switch (tokenState.runtimeType) {
-                        case TokenInitial:
-                          return SplashScreen();
-                          break;
-                        case TokenValid:
-                          return HomeScreen();
-                          break;
-                        case TokenNull:
-                          return BlocProvider(
-                            create: (context) => LoginFormBloc()
-                              ..httpClientBloc = context.bloc<HttpClientBloc>()
-                              ..tokenBloc = context.bloc<TokenBloc>()
-                              ..tokenRepository = context.repository<TokenRepository>(),
-                            child: Stack(
-                              children: <Widget>[
-                                LoginScreen(),
-                                BlocBuilder<LoginFormBloc, LoginFormState>(
-                                  builder: (context, loginFormState) => loginFormState is LoginFormProcessing
-                                      ? CustomProgressIndicator(text: 'You should be good to go\nin a few seconds...')
-                                      : Container(),
-                                ),
-                              ],
-                            ),
-                          );
-                          break;
-                        default:
-                          return Scaffold(
-                            body: Center(child: Text('not implemented screen for state ${tokenState.runtimeType}')),
-                          );
-                      }
-                    })),
-                onGenerateRoute: Router.generateRoute,
-                localizationsDelegates: [
-                  S.delegate,
-                ]),
+                  home: GestureDetector(
+                      onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+                      child: BlocBuilder<TokenBloc, TokenState>(builder: (context, tokenState) {
+                        switch (tokenState.runtimeType) {
+                          case TokenInitial:
+                            return SplashScreen();
+                            break;
+                          case TokenValid:
+                            return BlocBuilder<ShiftDetailsBloc, ShiftDetailsState>(
+                                builder: (context, shiftDetailsState) => Stack(
+                                      children: <Widget>[
+                                        HomeScreen(),
+                                        shiftDetailsState is ShiftDetailsLoading
+                                            ? CustomProgressIndicator()
+                                            : Container()
+                                      ],
+                                    ));
+                            break;
+                          case TokenNull:
+                            return BlocProvider(
+                              create: (context) => LoginFormBloc()
+                                ..httpClientBloc = context.bloc<HttpClientBloc>()
+                                ..tokenBloc = context.bloc<TokenBloc>()
+                                ..tokenRepository = context.repository<TokenRepository>(),
+                              child: Stack(
+                                children: <Widget>[
+                                  LoginScreen(),
+                                  BlocBuilder<LoginFormBloc, LoginFormState>(
+                                    builder: (context, loginFormState) => loginFormState is LoginFormProcessing
+                                        ? CustomProgressIndicator(text: 'You should be good to go\nin a few seconds...')
+                                        : Container(),
+                                  ),
+                                ],
+                              ),
+                            );
+                            break;
+                          default:
+                            return Scaffold(
+                              body: Center(child: Text('not implemented screen for state ${tokenState.runtimeType}')),
+                            );
+                        }
+                      })),
+                  onGenerateRoute: Router.generateRoute,
+                  navigatorObservers: <NavigatorObserver>[
+                    ReloadShiftDetailsNavigatorObserver(context),
+                  ],
+                  localizationsDelegates: [
+                    S.delegate,
+                  ]),
+            ),
           ),
         ));
   }

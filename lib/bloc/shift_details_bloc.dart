@@ -42,6 +42,8 @@ class ShiftDetailsBloc extends Bloc<ShiftDetailsEvent, ShiftDetailsState> {
       yield* _mapLoadToState();
     } else if (event is ShiftDetailsSwitch) {
       yield* _mapSwitchToState(event);
+    } else if (event is ShiftDetailsReload) {
+      add(ShiftDetailsLoad());
     }
   }
 
@@ -92,6 +94,11 @@ class ShiftDetailsSwitch extends ShiftDetailsEvent {
 
   @override
   List<Object> get props => [shiftMode];
+}
+
+class ShiftDetailsReload extends ShiftDetailsEvent {
+  @override
+  List<Object> get props => ['reload'];
 }
 
 // States

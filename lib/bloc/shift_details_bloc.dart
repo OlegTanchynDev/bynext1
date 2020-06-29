@@ -53,7 +53,15 @@ class ShiftDetailsBloc extends Bloc<ShiftDetailsEvent, ShiftDetailsState> {
     final shiftsMap = await repository.fetchShiftDetails(httpClientBloc.state.client, _tokenBloc.state?.token);
 
     final prefs = await SharedPreferences.getInstance();
-    final bool businessShift = prefs.getBool('business') ?? false;
+    bool businessShift = prefs.getBool('business') ?? false;
+
+    if (businessShift && shiftsMap[ShiftMode.business] == null && shiftsMap[ShiftMode.regular] != null) {
+      businessShift = false;
+      prefs.setBool('business', false);
+    } else if (!businessShift && shiftsMap[ShiftMode.regular] == null && shiftsMap[ShiftMode.business] != null) {
+      businessShift = true;
+      prefs.setBool('business', true);
+    }
 
     yield ShiftDetailsReady(shiftsMap[ShiftMode.regular], shiftsMap[ShiftMode.business],
         shiftsMap[businessShift ? ShiftMode.business : ShiftMode.regular]);

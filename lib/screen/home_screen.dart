@@ -203,6 +203,7 @@ class HomeScreen extends StatelessWidget {
                                 title: Text(S.of(context).drawerLogout),
                               ),
                               onPressed: () {
+                                BlocProvider.of<HttpClientBloc>(context).add(HttpClientDemo(false));
                                 BlocProvider.of<TokenBloc>(context).add(ClearToken());
                               },
                             ),

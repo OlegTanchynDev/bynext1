@@ -42,7 +42,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   Stream<PaymentState> mapEventToState(PaymentEvent event) async* {
     if (event is GetPayment) {
       try {
-        final payment = await repository.fetchPayment(httpClientBloc.state.client, _tokenBloc.state.token);
+        final payment = await repository.fetchPayment(httpClientBloc.state.client, _tokenBloc.state.token, event.periodId);
         yield PaymentState(payment);
       }
       catch (e){
@@ -58,7 +58,11 @@ abstract class PaymentEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetPayment  extends PaymentEvent {}
+class GetPayment  extends PaymentEvent {
+  final int periodId;
+
+  GetPayment({this.periodId});
+}
 
 // States
 class PaymentState extends Equatable {

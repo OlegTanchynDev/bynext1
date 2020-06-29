@@ -1,10 +1,39 @@
 import 'package:bynextcourier/bloc/payment_bloc.dart';
 import 'package:bynextcourier/view/app_bar_logo.dart';
 import 'package:bynextcourier/view/custom_progress_indicator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MySalaryScreen extends StatelessWidget {
+  showPicker(BuildContext context) {
+    var items = List.from(BlocProvider.of<PaymentBloc>(context).state.payment.paymentPeriods);
+    var currentItem = BlocProvider.of<PaymentBloc>(context).state.payment.currentPaymentPeriod;
+    items.add(currentItem);
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext ctx) {
+        return Column(
+          children: <Widget>[
+            FlatButton(
+              child: Text("Select"),
+              onPressed: (){
+
+              },
+            ),
+            CupertinoPicker(
+//          backgroundColor: Colors.white,
+              onSelectedItemChanged: (value) {
+
+              },
+              itemExtent: 32.0,
+              children: items.map((el) => Text(el.name)).toList(),
+            ),
+          ],
+        );
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +119,10 @@ class MySalaryScreen extends StatelessWidget {
                         Icon(Icons.arrow_drop_down)
                       ],
                     ),
-                  )
+                    onTap: (){
+                      showPicker(context);
+                    },
+                  ),
                 ],
               ),
             );
@@ -99,5 +131,4 @@ class MySalaryScreen extends StatelessWidget {
       ),
     );
   }
-  
 }

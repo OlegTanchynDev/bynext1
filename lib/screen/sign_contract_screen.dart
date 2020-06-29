@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:bynextcourier/bloc/profile_bloc.dart';
+import 'package:bynextcourier/bloc/sign_contract/sign_contract_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
-import 'package:bynextcourier/view/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:signature/signature.dart';
@@ -16,7 +17,7 @@ class SignContractScreen extends StatefulWidget {
 class _SignContractScreenState extends State<SignContractScreen> {
   final SignatureController _controller = SignatureController(
     penStrokeWidth: 5,
-    penColor: Colors.blue,
+    penColor: Color(0xFF403D9C),
     exportBackgroundColor: Colors.white,
   );
 
@@ -28,7 +29,6 @@ class _SignContractScreenState extends State<SignContractScreen> {
 
   List<Widget> actions(BuildContext context) {
     var declineButton = FlatButton(
-//      shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
       child: Text('Cancel'),
       onPressed: () async {
         await showCustomDialog(
@@ -51,8 +51,24 @@ class _SignContractScreenState extends State<SignContractScreen> {
     var title = Text('Sign Contract');
     var acceptButton = FlatButton(
       child: Text('Submit'),
-      onPressed: () {
-        Navigator.of(context).pop();
+      onPressed: () async {
+//        Navigator.of(context).pop();
+        if (_controller.isNotEmpty) {
+          Uint8List data = await _controller.toPngBytes();
+          context.bloc<SignContractBloc>().add(StartUploadEvent(data));
+//          Navigator.of(context).push(
+//            MaterialPageRoute(
+//              builder: (BuildContext context) {
+//                return Scaffold(
+//                  appBar: AppBar(),
+//                  body: Center(
+//                      child: Container(
+//                          color: Colors.grey[300], child: Image.memory(data))),
+//                );
+//              },
+//            ),
+//          );
+        }
       },
     );
     return <Widget>[declineButton, Expanded(child: Center(child: title)), acceptButton];
@@ -60,47 +76,54 @@ class _SignContractScreenState extends State<SignContractScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        return Future.value(false);
+    return BlocListener<SignContractBloc, SignContractState>(
+      listener: (BuildContext context, state) {
+        if(state is SignContractDone){
+          Navigator.of(context).pop();
+        }
       },
-      child: Scaffold(
-          appBar: AppBar(
-            title: null,
-            automaticallyImplyLeading: false,
-            actions: actions(context),
-          ),
-          body: BlocBuilder<ProfileBloc, ProfileState>(
-            builder: (BuildContext context, ProfileState state) {
-              double width = MediaQuery.of(context).size.width;
-              return Center(
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(height: 50),
-                    Text(
-                      'I, ${state.profile.firstName} ${state.profile.lastName}, agree to the Terms of the Contract\n\n(Sign below)',
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 50),
-                    Container(
-                      height: 200,
-                      width: width * 0.85,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        border: Border.all(color: Colors.black),
+      child: WillPopScope(
+        onWillPop: () {
+          return Future.value(false);
+        },
+        child: Scaffold(
+            appBar: AppBar(
+              title: null,
+              automaticallyImplyLeading: false,
+              actions: actions(context),
+            ),
+            body: BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (BuildContext context, ProfileState state) {
+                double width = MediaQuery.of(context).size.width;
+                return Center(
+                  child: Column(
+                    children: <Widget>[
+                      const SizedBox(height: 50),
+                      Text(
+                        'I, ${state.profile.firstName} ${state.profile.lastName}, agree to the Terms of the Contract\n\n(Sign below)',
+                        textAlign: TextAlign.center,
                       ),
-                      child: Signature(
-                        controller: _controller,
+                      const SizedBox(height: 50),
+                      Container(
                         height: 200,
-                        width: width * 0.75,
-                        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                        width: width * 0.85,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Signature(
+                          controller: _controller,
+                          height: 200,
+                          width: width * 0.85,
+                          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          )),
+                    ],
+                  ),
+                );
+              },
+            )),
+      ),
     );
   }
 }

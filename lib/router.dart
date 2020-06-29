@@ -3,12 +3,14 @@ import 'package:bynextcourier/bloc/sign_contract/sign_contract_bloc.dart';
 import 'package:bynextcourier/bloc/tasks_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/repository/schedule_repository.dart';
+import 'package:bynextcourier/repository/sign_contract_repository.dart';
 import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:bynextcourier/screen/forgot_password.dart';
 import 'package:bynextcourier/screen/shifts.dart';
 import 'package:bynextcourier/screen/sign_contract_screen.dart';
 import 'package:bynextcourier/screen/tasks.dart';
 import 'package:bynextcourier/screen/webview_screen.dart';
+import 'package:bynextcourier/view/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -128,9 +130,19 @@ class Router {
               page = BlocProvider(
                   create: (context) => SignContractBloc()
                     ..tokenBloc = context.bloc<TokenBloc>()
+                    ..shiftDetailsBloc = context.bloc<ShiftDetailsBloc>()
                     ..httpClientBloc = context.bloc<HttpClientBloc>()
-                    ..repository = context.repository<IssueRepository>(),
-                  child: SignContractScreen());
+                    ..repository = context.repository<SignContractRepository>(),
+                  child: Stack(
+                    children: <Widget>[
+                      SignContractScreen(),
+                      BlocBuilder<SignContractBloc, SignContractState>(
+                        builder: (context, state) => state is SignContractProcessing
+                            ? CustomProgressIndicator()
+                            : Container(),
+                      )
+                    ],
+                  ));
               break;
             default:
               page = Scaffold(

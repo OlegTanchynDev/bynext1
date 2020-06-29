@@ -74,6 +74,7 @@ class Router {
               page = WebViewScreen(
                 url: args['url'],
                 title: args['title'] ?? '',
+                shouldSignContract: args['shouldSignContract'] ?? false,
               );
               break;
             case forgotPasswordRoute:

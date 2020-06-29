@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:bynextcourier/bloc/shift_details_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/model/shift.dart';
+import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/app_bar_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +20,7 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   AudioPlayer _player;
+  StreamSubscription<ShiftDetailsState> _shiftDetailsBlocSubscription;
 
   @override
   void initState() {
@@ -27,11 +31,26 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       // catch audio error ex: 404 url, wrong url ...
       print(error);
     });
+    _shiftDetailsBlocSubscription = BlocProvider.of<ShiftDetailsBloc>(context)
+        .listen((shiftDetailsState) {
+      if(shiftDetailsState is ShiftDetailsReady){
+        final shift = shiftDetailsState.current;
+        printLabel('shift:$shift', 'WelcomeScreen');
+        if(shift.contractSignedOnDate == null){
+          printLabel('contractSignedOnDate is NULL', 'WelcomeScreen');
+          Navigator.of(context)
+              .pushNamed(webRoute, arguments: {'url': shift.contractUrl, 'title': 'Terms of Service', 'shouldSignContract':true});
+        }else{
+          printLabel('contractSignedOnDate is $shift.contractSignedOnDate', 'WelcomeScreen');
+        }
+      }
+    });
   }
 
   @override
   void dispose() {
     _player.dispose();
+    _shiftDetailsBlocSubscription?.cancel();
     super.dispose();
   }
 

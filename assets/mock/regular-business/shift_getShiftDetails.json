@@ -15,7 +15,7 @@
         "name" : "Bart Simpson"
     },
     "contract" : {
-        "contract_url" : "http:\/\/playground.cleanlyapp.com:8080\/services\/delivery\/v2\/contract\/view\/?key=88c197f4-dde7-49e8-ac1a-633bffbbc6b8",
+        "contract_url" : "https://playground.cleanlyapp.com/services/delivery/v2/contract/view/?key=47074946-aeaa-41a8-bfc6-b21eb5fa13a2",
         "id" : 45,
         "contract_rate_system" : 2,
         "signed_on_date" : "2018-12-02 11:25:20.157801"

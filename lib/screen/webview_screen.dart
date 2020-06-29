@@ -56,40 +56,49 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: widget.shouldSignContract ? null : Text(widget.title),
-        centerTitle: true,
-        automaticallyImplyLeading: !widget.shouldSignContract,
-        actions: actions(context),
-      ),
-      body: Stack(
-        children: <Widget>[
-          Offstage(
-            offstage: _loading,
-            child: WebView(
-              initialUrl: 'about:blank',
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (WebViewController webViewController) {
-                _controller = webViewController;
-                _controller.loadUrl(Uri.dataFromString('<html><body style="background-color: $colorStr"></body></html>',
-                        mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
-                    .toString());
-              },
-              onPageFinished: (String url) {
-                if (url.startsWith('data:')) {
-                  _controller.loadUrl(widget.url);
-                } else if (url.startsWith('http')) {
-                  setState(() {
-                    _loading = false;
-                  });
-                }
-              },
-              gestureNavigationEnabled: true,
+    return WillPopScope(
+      onWillPop: widget.shouldSignContract
+          ? () {
+              return Future.value(false);
+            }
+          : null,
+      child: Scaffold(
+        appBar: AppBar(
+          title: widget.shouldSignContract ? null : Text(widget.title),
+          centerTitle: true,
+          automaticallyImplyLeading: !widget.shouldSignContract,
+          actions: actions(context),
+        ),
+        body: Stack(
+          children: <Widget>[
+            Offstage(
+              offstage: _loading,
+              child: WebView(
+                initialUrl: 'about:blank',
+                javascriptMode: JavascriptMode.unrestricted,
+                onWebViewCreated: (WebViewController webViewController) {
+                  _controller = webViewController;
+                  _controller.loadUrl(Uri.dataFromString(
+                          '<html><body style="background-color: $colorStr"></body></html>',
+                          mimeType: 'text/html',
+                          encoding: Encoding.getByName('utf-8'))
+                      .toString());
+                },
+                onPageFinished: (String url) {
+                  if (url.startsWith('data:')) {
+                    _controller.loadUrl(widget.url);
+                  } else if (url.startsWith('http')) {
+                    setState(() {
+                      _loading = false;
+                    });
+                  }
+                },
+                gestureNavigationEnabled: true,
+              ),
             ),
-          ),
-          _loading ? CustomProgressIndicator() : Container()
-        ],
+            _loading ? CustomProgressIndicator() : Container()
+          ],
+        ),
       ),
     );
   }

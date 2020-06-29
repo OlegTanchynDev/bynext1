@@ -1,0 +1,44 @@
+{
+  "minimum_ios_version" : "2.6.2",
+  "profile_photo_url" : "couriers\/thumbnails\/cdc925e05ea571a85b0adf4767d8cbfb_N2i8M6H.jpg",
+  "rate_system" : 4,
+  "send_location_interval_sec" : 20,
+  "vehicle_registration_photo" : "",
+  "vehicle_insurance_photo" : "",
+  "courier_id":"0",
+  "chat_enabled":true,
+  "bank_details" : {
+    "bank_state" : null,
+    "bank_name" : null,
+    "routing_number" : null,
+    "account_type" : null,
+    "account_number" : null
+  },
+  "last_name" : "Jonison",
+  "driver_license_photo" : "https:\/\/s3.amazonaws.com\/cleanly-uploads\/couriers_verification\/5272f7510a2f11e5a6f180e6500e6190.jpeg",
+  "date_joined" : "2013-09-29 16:58:00",
+  "email" : "atlaschen1@gmail.com",
+  "phone" : "(646) 808-5942",
+  "capture_location_interval_sec" : 20,
+  "referral_code" : "CHENAT10",
+  "weighted_grade" : 7.5,
+  "distance_tolerance_meter" : 9,
+  "minimum_geo_location_distance" : 400,
+  "car_details" : {
+    "car_license_plate" : "",
+    "license" : "[$AES$]",
+    "car_type" : "",
+    "car_name" : "",
+    "car_year" : "",
+    "car_manufacture_year" : ""
+  },
+  "no_show_waiting_time" : 120,
+  "first_name" : "Jon",
+  "address" : {
+    "state" : "v534v5",
+    "street_field_2" : "",
+    "city" : "3v543v543",
+    "street_field_1" : "5v3v4",
+    "zipcode" : "v543v543"
+  }
+}

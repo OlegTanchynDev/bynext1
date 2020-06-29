@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum ShiftMode { regular, business }
 
 ShiftMode parseShiftModeFromString(String str) {
@@ -8,6 +10,31 @@ ShiftMode parseShiftModeFromString(String str) {
       return ShiftMode.business;
     default:
       return null;
+  }
+}
+
+enum RateSystem {
+  DELIVERY_COURIER_PAYMENT_RATE_HOURLY,
+  DELIVERY_COURIER_PAYMENT_RATE_FIXED,
+  DELIVERY_COURIER_PAYMENT_EMPLOYEE,
+  DELIVERY_COURIER_PAYMENT_EMPLOYEE_FIXED_RUN_COST,
+  DELIVERY_COURIER_PAYMENT_EMPLOYEE_HIDE_INFO
+}
+
+RateSystem parseRateSystemFromInt(int val) {
+  switch (val) {
+    case 0:
+      return RateSystem.DELIVERY_COURIER_PAYMENT_RATE_HOURLY;
+    case 1:
+      return RateSystem.DELIVERY_COURIER_PAYMENT_RATE_FIXED;
+    case 2:
+      return RateSystem.DELIVERY_COURIER_PAYMENT_EMPLOYEE;
+    case 3:
+      return RateSystem.DELIVERY_COURIER_PAYMENT_EMPLOYEE_FIXED_RUN_COST;
+    case 4:
+      return RateSystem.DELIVERY_COURIER_PAYMENT_EMPLOYEE_HIDE_INFO;
+    default:
+      null;
   }
 }
 
@@ -36,7 +63,7 @@ class Shift {
   final String dispatcherPhone;
   final int contractId;
   final String contractUrl;
-  final int contractRateSystem;
+  final RateSystem contractRateSystem;
   final DateTime contractSignedOnDate;
   final double shiftPayment;
 
@@ -73,7 +100,7 @@ class Shift {
       dispatcherPhone: dispatcher != null ? dispatcher['phone'] as String : null,
       contractId: contract != null ? contract['id'] as int : null,
       contractUrl: contract != null ? contract['contract_url'] as String : null,
-      contractRateSystem: contract != null ? contract['contract_rate_system'] as int : null,
+      contractRateSystem: contract != null ? parseRateSystemFromInt(contract['contract_rate_system'] as int) : null,
       contractSignedOnDate: contract != null ? DateTime.tryParse(contract['signed_on_date'] as String ?? '') : null,
       shiftPayment: map['shift_payment'] as double,
     );

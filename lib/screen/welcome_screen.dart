@@ -2,6 +2,7 @@ import 'package:bynextcourier/bloc/shift_details_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/constants.dart';
+import 'package:bynextcourier/model/shift.dart';
 import 'package:bynextcourier/view/app_bar_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -168,42 +169,52 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               return Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 6.0),
-                                        child: RichText(
-                                            text: TextSpan(style: Theme.of(context).textTheme.headline3, children: [
-                                          TextSpan(
-                                              text: 'Estimated Earnings: ',
-                                              style: TextStyle(fontWeight: FontWeight.w400)),
-                                          TextSpan(
-                                              text: shift != null ? '\$${shift.shiftPayment.toStringAsFixed(2)}' : '',
-                                              style: TextStyle(fontWeight: FontWeight.w500)),
-                                        ])),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 8.0),
-                                        child: IconButton(
-                                          iconSize: 50,
-                                          icon: Image.asset('assets/images/piggy-bank.png'),
-                                          onPressed: () {
-                                            _player.stop();
-                                            _player.play();
-                                          },
-                                        ),
+                                children: ((profileState.profile?.rateSystem ??
+                                                RateSystem.DELIVERY_COURIER_PAYMENT_EMPLOYEE_HIDE_INFO) ==
+                                            RateSystem.DELIVERY_COURIER_PAYMENT_EMPLOYEE_HIDE_INFO
+                                        ? <Widget>[]
+                                        : [
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top: 6.0),
+                                                  child: RichText(
+                                                      text: TextSpan(
+                                                          style: Theme.of(context).textTheme.headline3,
+                                                          children: [
+                                                        TextSpan(
+                                                            text: 'Estimated Earnings: ',
+                                                            style: TextStyle(fontWeight: FontWeight.w400)),
+                                                        TextSpan(
+                                                            text: shift != null
+                                                                ? '\$${shift.shiftPayment.toStringAsFixed(2)}'
+                                                                : '',
+                                                            style: TextStyle(fontWeight: FontWeight.w500)),
+                                                      ])),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 8.0),
+                                                  child: IconButton(
+                                                    iconSize: 50,
+                                                    icon: Image.asset('assets/images/piggy-bank.png'),
+                                                    onPressed: () {
+                                                      _player.stop();
+                                                      _player.play();
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ]) +
+                                    <Widget>[
+                                      RaisedButton(
+                                        child: Text('Start Job'),
+                                        onPressed: shift != null && shift.canStart ? () {} : null,
                                       ),
                                     ],
-                                  ),
-                                  RaisedButton(
-                                    child: Text('Start Job'),
-                                    onPressed: shift != null && shift.canStart ? () {} : null,
-                                  ),
-                                ],
                               );
                             }),
                           ],

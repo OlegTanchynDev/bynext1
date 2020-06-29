@@ -73,11 +73,31 @@ class S {
     );
   }
 
+  /// `Jobs`
+  String get drawerJobs {
+    return Intl.message(
+      'Jobs',
+      name: 'drawerJobs',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `My Salary`
   String get drawerMySalary {
     return Intl.message(
       'My Salary',
       name: 'drawerMySalary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Invoice`
+  String get drawerMyInvoice {
+    return Intl.message(
+      'My Invoice',
+      name: 'drawerMyInvoice',
       desc: '',
       args: [],
     );

@@ -9,7 +9,8 @@ import 'demo_response.dart';
 class DemoHttpClient extends BaseClient {
 
   final requestsMap = <String, DemoResponse>{
-    '$servicesUrl/delivery/v2/shift/getShiftDetails/': DemoResponse('assets/mock/regular-business/shift_getShiftDetails.json')
+    '$servicesUrl/delivery/v2/shift/getShiftDetails/': DemoResponse('assets/mock/regular-business/shift_getShiftDetails.json'),
+    '$servicesUrl/delivery/v2/courier/getCourierProfile/':DemoResponse('assets/mock/regular-business/courier_getCourierProfile.json')
   };
 
   final BuildContext context;

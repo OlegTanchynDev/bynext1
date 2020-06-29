@@ -1,3 +1,5 @@
+import 'package:bynextcourier/model/shift.dart';
+
 class Profile {
   const Profile({
     this.firstName,
@@ -9,6 +11,7 @@ class Profile {
     this.sendLocationIntervalSec,
     this.distanceToleranceMeter,
     this.minimumGeoLocationDistance,
+    this.rateSystem,
   });
 
   final String firstName;
@@ -20,6 +23,7 @@ class Profile {
   final num sendLocationIntervalSec;
   final num distanceToleranceMeter;
   final num minimumGeoLocationDistance;
+  final RateSystem rateSystem;
 
   static final String _keyFirstName = "first_name";
   static final String _keyLastName = "last_name";
@@ -30,18 +34,7 @@ class Profile {
   static final String keySendLocationIntervalSec = "send_location_interval_sec";
   static final String keyDistanceToleranceMeter = "distance_tolerance_meter";
   static final String keyMinimumGeoLocationDistance = "minimum_geo_location_distance";
-
-  Map<String, dynamic> toMap() => <String, dynamic>{
-    _keyFirstName: firstName,
-    _keyLastName: lastName,
-    _keyProfilePhotoUrl: profilePhotoUrl,
-    _keyReferralCode: referralCode,
-    _keyWeightedGrade: weightedGrade,
-    keyCaptureLocationIntervalSec: captureLocationIntervalSec,
-    keySendLocationIntervalSec: sendLocationIntervalSec,
-    keyDistanceToleranceMeter: distanceToleranceMeter,
-    keyMinimumGeoLocationDistance: minimumGeoLocationDistance,
-  };
+  static final String _keyRateSystem = "rate_system";
 
   factory Profile.fromMap(Map<String, dynamic> map) => Profile(
     firstName: map[_keyFirstName] as String,
@@ -53,5 +46,6 @@ class Profile {
     sendLocationIntervalSec: map[keySendLocationIntervalSec] as num,
     distanceToleranceMeter: map[keyDistanceToleranceMeter] as num,
     minimumGeoLocationDistance: map[keyMinimumGeoLocationDistance] as num,
+    rateSystem: parseRateSystemFromInt(map[_keyRateSystem] as int)
   );
 }

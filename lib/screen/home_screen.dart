@@ -102,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                               onPressed: dispatcherPhone != null
                                   ? () {
-                                      callPhone(dispatcherPhone);
+                                      callPhone(context, dispatcherPhone, shift?.dispatcherName);
                                     }
                                   : null,
                             ),

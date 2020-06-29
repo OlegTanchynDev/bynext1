@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-Future<void> showCustomDialog(BuildContext context, {String message, Widget button}) async {
-  await showDialog(
+Future<dynamic> showCustomDialog<T>(BuildContext context, {String title, String message, List<Widget> buttons}) async {
+  return await showDialog<T>(
       barrierDismissible: false,
       context: context,
       builder: (context) {
@@ -15,37 +15,62 @@ Future<void> showCustomDialog(BuildContext context, {String message, Widget butt
           buttonPadding: EdgeInsets.all(0),
           actionsPadding: EdgeInsets.all(0),
           insetPadding: EdgeInsets.symmetric(horizontal: 50),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
-                child: Text(
-                  message ?? "",
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.normal,
-                    fontStyle: FontStyle.normal,
-                    color: Colors.black,
-                    decoration: TextDecoration.none,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Divider(),
-              button
-            ],
+          title: title != null ? Text(title, textAlign: TextAlign.center) : null,
+          titleTextStyle: TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.normal,
+            fontStyle: FontStyle.normal,
+            color: Colors.black,
+            decoration: TextDecoration.none,
           ),
+          content: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+                      child: Text(
+                        message ?? "",
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal,
+                          fontStyle: FontStyle.normal,
+                          color: Colors.black,
+                          decoration: TextDecoration.none,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ] +
+                  ((buttons?.length ?? 0) > 0
+                      ? [
+                          Divider(),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: buttons.map<Widget>((item) => Expanded(child: item)).toList(),
+                          ),
+                        ]
+                      : [])),
         );
       });
 }
 
-callPhone(String phoneNumber) async {
-  if (await canLaunch('tel://')) {
+callPhone(BuildContext context, String phoneNumber, String name) async {
+//  if (await canLaunch('tel://')) {
+  if (await showCustomDialog<bool>(context, title: 'Call Dispatcher', message: 'Call $name', buttons: [
+        FlatButton(
+          child: Text('Confirm'),
+          onPressed: () => Navigator.of(context).pop(true),
+        ),
+        FlatButton(
+          child: Text('Cancel'),
+          onPressed: () => Navigator.of(context).pop(false),
+        )
+      ]) ??
+      false) {
     await launch('tel://${phoneNumber.replaceAll(RegExp(r'[^\+\d]'), '')}');
-//    '"(818) 999-8888"'
   }
+//  }
 }
 
 launchMaps(double lat, double lon) async {

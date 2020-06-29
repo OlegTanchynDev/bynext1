@@ -58,12 +58,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         await showCustomDialog(
                           context,
                           message: state.error['non_field_errors'],
-                          button: FlatButton(
-                            child: Text('OK'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
+                          buttons: [
+                            FlatButton(
+                              child: Text('OK'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
                         );
                       }
                     },

@@ -53,15 +53,17 @@ class ForgotPasswordScreen extends StatelessWidget {
                                   message: state is ForgotFormReady
                                       ? state.error['non_field_errors']
                                       : S.of(context).forgotPasswordResponseOk,
-                                  button: FlatButton(
-                                    child: Text('OK'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      if (state is ForgotFormDone) {
+                                  buttons: [
+                                    FlatButton(
+                                      child: Text('OK'),
+                                      onPressed: () {
                                         Navigator.of(context).pop();
-                                      }
-                                    },
-                                  ),
+                                        if (state is ForgotFormDone) {
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
+                                    )
+                                  ],
                                 );
                               }
                             },
@@ -83,27 +85,31 @@ class ForgotPasswordScreen extends StatelessWidget {
                                 ],
                               );
                             }),
-                        const SizedBox(height:30.0),
+                        const SizedBox(height: 30.0),
                         Text(
                           S.of(context).forgotPasswordNote,
                           style: TextStyle(fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(height: 18.0),
-                        Text(S.of(context).forgotPasswordNotesText, textAlign: TextAlign.justify,),
+                        Text(
+                          S.of(context).forgotPasswordNotesText,
+                          textAlign: TextAlign.justify,
+                        ),
                         Expanded(
                           child: const SizedBox(
                             height: 0,
                           ),
                         ),
                         BlocBuilder(
-                          bloc: BlocProvider.of<ForgotPasswordBloc>(context),
-                          builder: (context, state) {
-                            return RaisedButton(
-                              child: Text('Reset your password'),
-                              onPressed: state is ForgotFormReady ? () => context.bloc<ForgotPasswordBloc>().submit(username) : null,
-                            );
-                          }
-                        ),
+                            bloc: BlocProvider.of<ForgotPasswordBloc>(context),
+                            builder: (context, state) {
+                              return RaisedButton(
+                                child: Text('Reset your password'),
+                                onPressed: state is ForgotFormReady
+                                    ? () => context.bloc<ForgotPasswordBloc>().submit(username)
+                                    : null,
+                              );
+                            }),
                       ],
                     ),
                   ),

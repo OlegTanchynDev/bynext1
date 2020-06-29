@@ -17,6 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hidden_drawer/flutter_hidden_drawer.dart';
 import 'package:provider/provider.dart';
 
+import 'bloc/http_client_bloc.dart';
 import 'bloc/location_tracker/location_tracker_bloc.dart';
 import 'bloc/shift_details_bloc.dart';
 import 'generated/l10n.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
 
     const textColor = Color(0xFF232456);
 
+//    final httpClient = http.Client();
+//    final httpClient = DemoHttpClient();
+
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
@@ -62,20 +66,25 @@ class MyApp extends StatelessWidget {
             RepositoryProvider(
               create: (_) => PaymentRepository(),
             ),
-            RepositoryProvider(create: (_) => ShiftDetailsRepository()),
+            RepositoryProvider(create: (context) => ShiftDetailsRepository()),
             RepositoryProvider(create: (_) => TasksRepository()),
             RepositoryProvider(create: (_) => ScheduleRepository()),
           ],
           child: MultiBlocProvider(
             providers: [
               BlocProvider(
+                create: (context) => HttpClientBloc(context)..add(HttpClientInitialize()),
+              ),
+              BlocProvider(
                   lazy: false,
                   create: (context) => TokenBloc()
+                    ..httpClientBloc = context.bloc<HttpClientBloc>()
                     ..add(ValidateToken())
                     ..repository = context.repository<TokenRepository>()),
               BlocProvider(
                 create: (context) => ProfileBloc()
                   ..tokenBloc = context.bloc<TokenBloc>()
+                  ..httpClientBloc = context.bloc<HttpClientBloc>()
                   ..repository = context.repository<ProfileRepository>(),
               ),
               BlocProvider(
@@ -89,6 +98,7 @@ class MyApp extends StatelessWidget {
               BlocProvider(
                 create: (context) => ShiftDetailsBloc()
                   ..tokenBloc = context.bloc<TokenBloc>()
+                  ..httpClientBloc = context.bloc<HttpClientBloc>()
                   ..repository = context.repository<ShiftDetailsRepository>(),
               ),
 //              BlocProvider(
@@ -204,6 +214,7 @@ class MyApp extends StatelessWidget {
                         case TokenNull:
                           return BlocProvider(
                             create: (context) => LoginFormBloc()
+                              ..httpClientBloc = context.bloc<HttpClientBloc>()
                               ..tokenBloc = context.bloc<TokenBloc>()
                               ..tokenRepository = context.repository<TokenRepository>(),
                             child: Stack(

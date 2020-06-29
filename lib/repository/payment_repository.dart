@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:bynextcourier/model/payment.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import '../constants.dart';
 
 class PaymentRepository {
 
-  Future<Payment> fetchPayment(String token) async {
+  Future<Payment> fetchPayment(Client http, String token) async {
     final response = await http.get(
       '$servicesUrl/delivery/v2/payment/',
       headers: {

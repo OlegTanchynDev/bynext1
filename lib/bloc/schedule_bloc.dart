@@ -3,11 +3,13 @@ import 'package:bynextcourier/model/schedule.dart';
 import 'package:bynextcourier/repository/schedule_repository.dart';
 import 'package:equatable/equatable.dart';
 
+import 'http_client_bloc.dart';
 import 'token_bloc.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   TokenBloc tokenBloc;
   ScheduleRepository repository;
+  HttpClientBloc httpClientBloc;
 
   @override
   ScheduleState get initialState => ScheduleUninitialized();
@@ -22,7 +24,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   Stream<ScheduleState> _mapLoadToState(ScheduleLoad event) async* {
     yield ScheduleLoading();
 
-    final items = await repository.fetchUpcomingShifts(tokenBloc.state?.token);
+    final items = await repository.fetchUpcomingShifts(httpClientBloc.state.client, tokenBloc.state?.token);
 
     yield ScheduleReady(items);
   }

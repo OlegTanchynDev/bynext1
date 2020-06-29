@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/model/token.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -8,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenBloc extends Bloc<TokenEvent, TokenState> {
   TokenRepository repository;
+  HttpClientBloc httpClientBloc;
 
   @override
   get initialState => TokenInitial();
@@ -18,7 +20,6 @@ class TokenBloc extends Bloc<TokenEvent, TokenState> {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', null);
       await prefs.setString('email', null);
-      await prefs.setBool('demo', false);
       yield TokenNull();
     }
 
@@ -26,13 +27,12 @@ class TokenBloc extends Bloc<TokenEvent, TokenState> {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
       final email = prefs.getString('email');
-      final demo = prefs.getBool('demo') ?? false;
       if (email != null && token != null) {
-        final success = await repository.validateCourierLogin(
+        final success = await repository.validateCourierLogin(httpClientBloc.state.client,
           email, "1.2.3", token);
 
         if (success) {
-          yield TokenValid(token, email, demo);
+          yield TokenValid(token, email);
         }
         else {
           yield TokenNull();
@@ -54,9 +54,8 @@ class TokenBloc extends Bloc<TokenEvent, TokenState> {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', event.token.token);
       await prefs.setString('email', event.email);
-      await prefs.setBool('demo', event.demo);
 
-      yield TokenValid(event.token.token, event.email, event.demo);
+      yield TokenValid(event.token.token, event.email);
     }
   }
 
@@ -87,22 +86,21 @@ class ClearToken  extends TokenEvent {}
 abstract class TokenState extends Equatable {
   final String token;
   final String email;
-  final bool demo;
 
-  TokenState(this.token, this.email, this.demo);
+  TokenState(this.token, this.email);
 
   @override
-  List<Object> get props => [token, email, demo];
+  List<Object> get props => [token, email];
 }
 
 class TokenInitial extends TokenState {
-  TokenInitial() : super(null, null, false);
+  TokenInitial() : super(null, null);
 }
 
 class TokenValid extends TokenState {
-  TokenValid(String token, String email, bool demo) : super(token, email, demo);
+  TokenValid(String token, String email) : super(token, email);
 }
 
 class TokenNull extends TokenState {
-  TokenNull() : super(null, null, false);
+  TokenNull() : super(null, null);
 }

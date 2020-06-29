@@ -7,10 +7,13 @@ import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:equatable/equatable.dart';
 
+import 'http_client_bloc.dart';
+
 class TasksListBloc extends Bloc<TasksListEvent, TasksListState> {
   TokenBloc tokenBloc;
   ShiftDetailsBloc _shiftDetailsBloc;
   TasksRepository repository;
+  HttpClientBloc httpClientBloc;
 
   StreamSubscription<ShiftDetailsState> _shiftDetailsSubscription;
 
@@ -25,7 +28,6 @@ class TasksListBloc extends Bloc<TasksListEvent, TasksListState> {
       });
     }
   }
-
 
   @override
   Future<void> close() {
@@ -46,7 +48,7 @@ class TasksListBloc extends Bloc<TasksListEvent, TasksListState> {
   Stream<TasksListState> _mapLoadToState(TasksListLoad event) async* {
     yield TasksListLoading();
 
-    final tasks = await repository.fetchTasks(tokenBloc.state?.token, event.shiftId);
+    final tasks = await repository.fetchTasks(httpClientBloc.state.client, tokenBloc.state?.token, event.shiftId);
 
     yield TasksListReady(tasks);
   }

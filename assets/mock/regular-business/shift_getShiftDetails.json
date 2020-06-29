@@ -1,0 +1,48 @@
+{
+    "shift_mode" : "regular/business",
+
+    "regular" : {
+    "start_location" : {
+        "lat" : 40.785100999999997,
+        "lng" : -73.973866599999994,
+        "name" : "100 W 84TH ST New York 10024"
+    },
+    "shift_payment" : 16.200000000000003,
+    "can_start_shift" : true,
+    "id" : 484,
+    "dispatcher" : {
+        "phone" : "(818) 999-8888",
+        "name" : "Bart Simpson"
+    },
+    "contract" : {
+        "contract_url" : "http:\/\/playground.cleanlyapp.com:8080\/services\/delivery\/v2\/contract\/view\/?key=88c197f4-dde7-49e8-ac1a-633bffbbc6b8",
+        "id" : 45,
+        "contract_rate_system" : 2,
+        "signed_on_date" : "2018-12-02 11:25:20.157801"
+    },
+    "shift_mode" : "regular",
+    "start_datetime" : "2015-11-02 17:45:00"
+    },
+    
+    "business" : {
+    "start_location" : {
+        "lat" : 40.785100999999997,
+        "lng" : -73.973866599999994,
+        "name" : "100 W 84TH ST New York 10024"
+    },
+    "shift_payment" : 42.0,
+    "can_start_shift" : true,
+    "id" : 484,
+    "dispatcher" : {
+        "name" : "Bart"
+    },
+    "contract" : {
+        "contract_url" : "http:\/\/playground.cleanlyapp.com:8080\/services\/delivery\/v2\/contract\/view\/?key=88c197f4-dde7-49e8-ac1a-633bffbbc6b8",
+        "id" : 45,
+        "contract_rate_system" : 2,
+        "signed_on_date" : "2018-12-02 11:25:20.157801"
+    },
+    "shift_mode" : "business",
+    "start_datetime" : "2015-11-02 17:45:00"
+    }
+}

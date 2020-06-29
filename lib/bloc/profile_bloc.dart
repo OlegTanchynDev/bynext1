@@ -7,18 +7,20 @@ import 'package:bynextcourier/repository/profile_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'http_client_bloc.dart';
+
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileRepository repository;
   TokenBloc _tokenBloc;
+  HttpClientBloc httpClientBloc;
 
   StreamSubscription<TokenState> _tokenSubscription;
 
-
   set tokenBloc(TokenBloc value) {
-    if (_tokenBloc != value){
+    if (_tokenBloc != value) {
       _tokenBloc = value;
       _tokenSubscription = _tokenBloc.listen((tokenState) {
-        if(tokenState.token != null){
+        if (tokenState.token != null) {
           add(GetProfile());
 //          _tokenSubscription.cancel();
         }
@@ -26,9 +28,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
-
   @override
-  Future<Function> close() {
+  Future<void> close() {
     _tokenSubscription?.cancel();
     return super.close();
   }
@@ -44,15 +45,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     if (event is GetProfile) {
       try {
-        final profile = await repository.fetchProfile(_tokenBloc.state.token);
+        final profile = await repository.fetchProfile(httpClientBloc.state.client, _tokenBloc.state.token);
         final prefs = await SharedPreferences.getInstance();
         await prefs.setInt(Profile.keyCaptureLocationIntervalSec, profile.captureLocationIntervalSec);
         await prefs.setInt(Profile.keySendLocationIntervalSec, profile.sendLocationIntervalSec);
         await prefs.setInt(Profile.keyDistanceToleranceMeter, profile.distanceToleranceMeter);
         await prefs.setInt(Profile.keyMinimumGeoLocationDistance, profile.minimumGeoLocationDistance);
         yield ProfileState(profile);
-      }
-      catch (e){
+      } catch (e) {
         yield ProfileState(null);
       }
     }
@@ -65,9 +65,9 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetProfile  extends ProfileEvent {}
+class GetProfile extends ProfileEvent {}
 
-class ClearProfile  extends ProfileEvent {}
+class ClearProfile extends ProfileEvent {}
 
 // States
 class ProfileState extends Equatable {

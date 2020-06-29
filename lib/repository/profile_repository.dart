@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:bynextcourier/model/profile.dart';
 import 'package:bynextcourier/model/rest_error.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import '../constants.dart';
 
 class ProfileRepository {
 
-  Future<Profile> fetchProfile(String token) async {
+  Future<Profile> fetchProfile(Client http, String token) async {
     final response = await http.get(
       '$servicesUrl/delivery/v2/courier/getCourierProfile/',
       headers: {

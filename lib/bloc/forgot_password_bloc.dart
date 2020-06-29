@@ -5,9 +5,12 @@ import 'package:bynextcourier/model/rest_error.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:equatable/equatable.dart';
 
+import 'http_client_bloc.dart';
+
 class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
 //  Timer _timer;
   TokenRepository tokenRepository;
+  HttpClientBloc httpClientBloc;
 
   @override
   ForgotPasswordState get initialState => ForgotFormReady();
@@ -26,11 +29,11 @@ class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> 
           yield ForgotFormProcessing();
 
           try {
-            final response = await tokenRepository.resetPassword((event as ForgotFormSubmit).username);
+            final response =
+                await tokenRepository.resetPassword(httpClientBloc.state.client, (event as ForgotFormSubmit).username);
             yield ForgotFormDone();
-          }
-          catch (error) {
-            if (error is RestError){
+          } catch (error) {
+            if (error is RestError) {
               yield ForgotFormReady(
                 error: error.errors,
               );

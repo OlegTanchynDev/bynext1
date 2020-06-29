@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:bynextcourier/model/rest_error.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:bynextcourier/model/task.dart';
 import '../constants.dart';
 
 class TasksRepository {
-  Future<List<Task>> fetchTasks(String token, int shiftId) async {
+  Future<List<Task>> fetchTasks(Client http, String token, int shiftId) async {
     final response = await http.get(
       '$servicesUrl/delivery/v2/tasks/getTaskQueue/?shift_id=$shiftId',
       headers: {

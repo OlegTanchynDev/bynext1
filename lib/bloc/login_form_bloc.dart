@@ -7,9 +7,12 @@ import 'package:bynextcourier/model/token.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:equatable/equatable.dart';
 
+import 'http_client_bloc.dart';
+
 class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
   Timer _timer;
   TokenRepository tokenRepository;
+  HttpClientBloc httpClientBloc;
 
   TokenBloc tokenBloc;
 
@@ -31,6 +34,7 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
 
           try {
             Token token = await tokenRepository.login(
+              httpClientBloc.state.client,
               (event as LoginFormSubmit).username,
               (event as LoginFormSubmit).password);
 

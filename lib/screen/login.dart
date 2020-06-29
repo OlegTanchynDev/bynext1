@@ -1,3 +1,4 @@
+import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/login_form_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/router.dart';
@@ -22,8 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
+    return Scaffold(body: SafeArea(
       child: LayoutBuilder(builder: (context, constraint) {
         return SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 23.0).copyWith(top: 8.0, bottom: 14),
@@ -52,8 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 14),
-                  BlocListener(
-                    bloc: BlocProvider.of<LoginFormBloc>(context),
+                  BlocListener<LoginFormBloc, LoginFormState>(
                     listener: (context, state) async {
                       if (state is LoginFormReady && state.error != null && state.error['non_field_errors'] != null) {
                         await showCustomDialog(
@@ -117,13 +116,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   RaisedButton(
                     child: Text('LOGIN'),
-                    onPressed: _usernameController.text != '' && _passwordController.text != '' ? () => context
-                        .bloc<LoginFormBloc>()
-                        .submit(_usernameController.text.trim(), _passwordController.text) : null,
+                    onPressed: _usernameController.text != '' && _passwordController.text != ''
+                        ? () {
+                            context.bloc<HttpClientBloc>().add(HttpClientDemo(false));
+                            context
+                                .bloc<LoginFormBloc>()
+                                .submit(_usernameController.text.trim(), _passwordController.text);
+                          }
+                        : null,
                   ),
                   RaisedButton(
                     child: Text('DEMO MODE'),
-                    onPressed: () => context.bloc<LoginFormBloc>().submit('demo', 'demo'),
+                    onPressed: _usernameController.text != '' && _passwordController.text != ''
+                        ? () {
+                            context.bloc<HttpClientBloc>().add(HttpClientDemo(true));
+                            context
+                                .bloc<LoginFormBloc>()
+                                .submit(_usernameController.text.trim(), _passwordController.text);
+                          }
+                        : null,
+                    //() => context.bloc<LoginFormBloc>().submit('demo', 'demo'),
                   ),
                 ],
               ),

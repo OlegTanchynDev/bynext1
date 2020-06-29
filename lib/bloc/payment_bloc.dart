@@ -6,9 +6,12 @@ import 'package:bynextcourier/model/payment.dart';
 import 'package:bynextcourier/repository/payment_repository.dart';
 import 'package:equatable/equatable.dart';
 
+import 'http_client_bloc.dart';
+
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   PaymentRepository repository;
   TokenBloc _tokenBloc;
+  HttpClientBloc httpClientBloc;
 
   StreamSubscription<TokenState> _tokenSubscription;
 
@@ -27,7 +30,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
 
   @override
-  Future<Function> close() {
+  Future<void> close() {
     _tokenSubscription?.cancel();
     return super.close();
   }
@@ -39,7 +42,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   Stream<PaymentState> mapEventToState(PaymentEvent event) async* {
     if (event is GetPayment) {
       try {
-        final payment = await repository.fetchPayment(_tokenBloc.state.token);
+        final payment = await repository.fetchPayment(httpClientBloc.state.client, _tokenBloc.state.token);
         yield PaymentState(payment);
       }
       catch (e){

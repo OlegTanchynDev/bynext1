@@ -67,14 +67,14 @@ class Shift {
       startLocationName: startLocation != null ? startLocation['name'] : null,
       startLocationLat: startLocation != null ? startLocation['lat'] as double : null,
       startLocationLng: startLocation != null ? startLocation['lng'] as double : null,
-      startDateTime: DateTime.parse(map['start_datetime'] as String),
+      startDateTime: DateTime.tryParse(map['start_datetime'] as String ?? ''),
       canStart: map['can_start_shift'] as bool,
       dispatcherName: dispatcher != null ? dispatcher['name'] as String : null,
       dispatcherPhone: dispatcher != null ? dispatcher['phone'] as String : null,
       contractId: contract != null ? contract['id'] as int : null,
       contractUrl: contract != null ? contract['contract_url'] as String : null,
       contractRateSystem: contract != null ? contract['contract_rate_system'] as int : null,
-      contractSignedOnDate: contract != null ? DateTime.parse(contract['signed_on_date'] as String) : null,
+      contractSignedOnDate: contract != null ? DateTime.tryParse(contract['signed_on_date'] as String ?? '') : null,
       shiftPayment: map['shift_payment'] as double,
     );
   }

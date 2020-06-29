@@ -7,9 +7,12 @@ import 'package:bynextcourier/repository/shift_details_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'http_client_bloc.dart';
+
 class ShiftDetailsBloc extends Bloc<ShiftDetailsEvent, ShiftDetailsState> {
   ShiftDetailsRepository repository;
   TokenBloc _tokenBloc;
+  HttpClientBloc httpClientBloc;
 
   StreamSubscription<TokenState> _tokenBlocSubscription;
 
@@ -45,7 +48,7 @@ class ShiftDetailsBloc extends Bloc<ShiftDetailsEvent, ShiftDetailsState> {
   Stream<ShiftDetailsState> _mapLoadToState() async* {
     yield ShiftDetailsLoading();
 
-    final shiftsMap = await repository.fetchShiftDetails(_tokenBloc.state?.token);
+    final shiftsMap = await repository.fetchShiftDetails(httpClientBloc.state.client, _tokenBloc.state?.token);
 
     final prefs = await SharedPreferences.getInstance();
     final bool businessShift = prefs.getBool('business') ?? false;

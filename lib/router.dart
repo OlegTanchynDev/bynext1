@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/forgot_password_bloc.dart';
+import 'bloc/http_client_bloc.dart';
 import 'bloc/issues_bloc.dart';
 import 'bloc/payment_bloc.dart';
 import 'bloc/schedule_bloc.dart';
@@ -77,7 +78,9 @@ class Router {
               break;
             case forgotPasswordRoute:
               page = BlocProvider(
-                  create: (context) => ForgotPasswordBloc()..tokenRepository = context.repository<TokenRepository>(),
+                  create: (context) => ForgotPasswordBloc()
+                    ..tokenRepository = context.repository<TokenRepository>()
+                    ..httpClientBloc = context.bloc<HttpClientBloc>(),
                   child: ForgotPasswordScreen());
               break;
             case tasksRoute:
@@ -85,6 +88,7 @@ class Router {
                   create: (context) => TasksListBloc()
                     ..repository = context.repository<TasksRepository>()
                     ..tokenBloc = context.bloc<TokenBloc>()
+                    ..httpClientBloc = context.bloc<HttpClientBloc>()
                     ..shiftDetailsBloc = context.bloc<ShiftDetailsBloc>(),
                   child: TasksScreen());
               break;
@@ -96,6 +100,7 @@ class Router {
                   create: (context) => ScheduleBloc()
                     ..repository = context.repository<ScheduleRepository>()
                     ..tokenBloc = context.bloc<TokenBloc>()
+                    ..httpClientBloc = context.bloc<HttpClientBloc>()
                     ..add(ScheduleLoad()),
                   child: ShiftsScreen());
               break;
@@ -103,6 +108,7 @@ class Router {
               page = BlocProvider(
                   create: (context) => PaymentBloc()
                     ..tokenBloc = context.bloc<TokenBloc>()
+                    ..httpClientBloc = context.bloc<HttpClientBloc>()
                     ..repository = context.repository<PaymentRepository>(),
                   child: MySalaryScreen());
               break;
@@ -110,6 +116,7 @@ class Router {
               page = BlocProvider(
                   create: (context) => IssuesBloc()
                     ..tokenBloc = context.bloc<TokenBloc>()
+                    ..httpClientBloc = context.bloc<HttpClientBloc>()
                     ..repository = context.repository<IssueRepository>(),
                   child: IssuesScreen());
               break;

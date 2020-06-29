@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:bynextcourier/model/issue.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import '../constants.dart';
 
 class IssueRepository {
 
-  Future<List> fetchIssues(String token) async {
+  Future<List> fetchIssues(Client http, String token) async {
     final response = await http.get(
       '$servicesUrl/delivery/v2/issues/courier/',
       headers: {

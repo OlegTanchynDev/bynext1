@@ -6,9 +6,12 @@ import 'package:bynextcourier/model/issue.dart';
 import 'package:bynextcourier/repository/issues_repository.dart';
 import 'package:equatable/equatable.dart';
 
+import 'http_client_bloc.dart';
+
 class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
   IssueRepository repository;
   TokenBloc _tokenBloc;
+  HttpClientBloc httpClientBloc;
 
   StreamSubscription<TokenState> _tokenSubscription;
 
@@ -27,7 +30,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
 
 
   @override
-  Future<Function> close() {
+  Future<void> close() {
     _tokenSubscription?.cancel();
     return super.close();
   }
@@ -39,7 +42,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
   Stream<IssuesState> mapEventToState(IssuesEvent event) async* {
     if (event is GetIssues) {
       try {
-        final profile = await repository.fetchIssues(_tokenBloc.state.token);
+        final profile = await repository.fetchIssues(httpClientBloc.state.client, _tokenBloc.state.token);
         yield IssuesState(profile);
       }
       catch (e){

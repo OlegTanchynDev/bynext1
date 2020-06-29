@@ -47,6 +47,7 @@ dependencies:
   package_info: '>=0.4.1 <2.0.0'
   map_launcher: ^0.6.0
   intl: ^0.16.1
+  signature: ^3.1.2
 
 dev_dependencies:
   flutter_test:

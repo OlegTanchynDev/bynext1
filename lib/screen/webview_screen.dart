@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
+import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,7 +48,9 @@ class _WebViewScreenState extends State<WebViewScreen> {
     var title = Text(widget.title);
     var acceptButton = FlatButton(
       child: Text('Accept'),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).pushReplacementNamed(signContract);
+      },
     );
     return widget.shouldSignContract
         ? <Widget>[declineButton, Expanded(child: Center(child: title)), acceptButton]

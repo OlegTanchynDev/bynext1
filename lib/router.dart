@@ -1,10 +1,12 @@
 import 'package:bynextcourier/bloc/shift_details_bloc.dart';
+import 'package:bynextcourier/bloc/sign_contract/sign_contract_bloc.dart';
 import 'package:bynextcourier/bloc/tasks_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/repository/schedule_repository.dart';
 import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:bynextcourier/screen/forgot_password.dart';
 import 'package:bynextcourier/screen/shifts.dart';
+import 'package:bynextcourier/screen/sign_contract_screen.dart';
 import 'package:bynextcourier/screen/tasks.dart';
 import 'package:bynextcourier/screen/webview_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ import 'screen/my_salary.dart';
 import 'screen/navigation_settings.dart';
 
 const webRoute = 'web';
+const signContract = 'signContract';
 const forgotPasswordRoute = 'forgotPassword';
 const tasksRoute = 'tasks';
 const navigationSettingsRoute = 'navigationSettings';
@@ -120,6 +123,14 @@ class Router {
                     ..httpClientBloc = context.bloc<HttpClientBloc>()
                     ..repository = context.repository<IssueRepository>(),
                   child: IssuesScreen());
+              break;
+            case signContract:
+              page = BlocProvider(
+                  create: (context) => SignContractBloc()
+                    ..tokenBloc = context.bloc<TokenBloc>()
+                    ..httpClientBloc = context.bloc<HttpClientBloc>()
+                    ..repository = context.repository<IssueRepository>(),
+                  child: SignContractScreen());
               break;
             default:
               page = Scaffold(

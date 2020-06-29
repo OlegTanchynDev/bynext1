@@ -1,7 +1,7 @@
 {
   "minimum_ios_version" : "2.6.2",
   "profile_photo_url" : "couriers\/thumbnails\/cdc925e05ea571a85b0adf4767d8cbfb_N2i8M6H.jpg",
-  "rate_system" : 4,
+  "rate_system" : 2,
   "send_location_interval_sec" : 20,
   "vehicle_registration_photo" : "",
   "vehicle_insurance_photo" : "",

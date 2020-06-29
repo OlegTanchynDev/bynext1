@@ -173,7 +173,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                                 RateSystem.DELIVERY_COURIER_PAYMENT_EMPLOYEE_HIDE_INFO) ==
                                             RateSystem.DELIVERY_COURIER_PAYMENT_EMPLOYEE_HIDE_INFO
                                         ? <Widget>[]
-                                        : [
+                                        : <Widget>[
                                             Row(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

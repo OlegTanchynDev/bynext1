@@ -75,11 +75,14 @@ class MySalaryScreen extends StatelessWidget {
                             padding: EdgeInsets.all(3),
                             child: CircleAvatar(
                               radius: 50,
-                              child: Text(
-                                "\$" + state.payment?.totalPayment.toString(),
-                                style: TextStyle(
-                                    fontSize: 30,
-                                    color: Colors.blue
+                              child: FittedBox(
+                                child: Text(
+                                  "\$" + state.payment?.totalPayment.toString(),textScaleFactor: 1,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      color: Colors.blue
+                                  ),
                                 ),
                               ),
                             ),
@@ -100,11 +103,13 @@ class MySalaryScreen extends StatelessWidget {
                             padding: EdgeInsets.all(3),
                             child: CircleAvatar(
                               radius: 40,
-                              child: Text(
-                                state.payment?.numberOfShifts.toString(),
-                                style: TextStyle(
-                                    fontSize: 30,
-                                    color: Colors.blue
+                              child: FittedBox(
+                                child: Text(
+                                  state.payment?.numberOfShifts.toString(),
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      color: Colors.blue
+                                  ),
                                 ),
                               ),
                             ),

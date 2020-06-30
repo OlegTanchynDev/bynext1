@@ -1,6 +1,7 @@
 import 'package:bynextcourier/bloc/payment_bloc.dart';
 import 'package:bynextcourier/view/app_bar_logo.dart';
 import 'package:bynextcourier/view/custom_progress_indicator.dart';
+import 'package:bynextcourier/view/salary_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -132,6 +133,10 @@ class MySalaryScreen extends StatelessWidget {
                       showPicker(context);
                     },
                   ),
+                  Column(
+                    children: state.payment.shiftsDetails.map((el) => SalaryListItem(el)).toList(),
+                  ),
+
                 ],
               ),
             );

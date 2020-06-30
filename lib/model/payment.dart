@@ -17,7 +17,7 @@ class Payment {
   final num totalPayment;
   final List shiftsDetails;
   final int rateSystem;
-  final int extras;
+  final num extras;
   final List extrasDetails;
   final paymentDetailsJson;
 
@@ -48,8 +48,8 @@ class Payment {
 
   factory Payment.fromMap(Map<String, dynamic> map) {
     final p_periods = (map[_keyPaymentPeriods] as List).map((e) => PaymentPeriod.fromMap(e)).toList();
-    final c_p_period = PaymentPeriod.fromMap(map[_keyCurrentPaymentPeriod]);
-
+    final c_p_period = PaymentPeriod.fromMap(map[_keyCurrentPaymentPeriod] as Map);
+print('jjj');
     return Payment(
       paymentPeriods: p_periods,
       numberOfShifts: map[_keyNumberOfShifts] as int,
@@ -57,7 +57,7 @@ class Payment {
       totalPayment: map[_keyTotalPayment] as num,
       shiftsDetails: map[_keyShiftsDetails] as List,
       rateSystem: map[_keyRateSystem] as int,
-      extras: map[_keyExtras] as int,
+      extras: map[_keyExtras] as num,
       extrasDetails: map[_keyExtrasDetails] as List,
       paymentDetailsJson: map[_keyPaymentDetailsJson],
     );
@@ -75,12 +75,13 @@ class PaymentPeriod{
   static final String _keyRateSystem = "rate_system";
   static final String _keyName = "name";
 
-  factory PaymentPeriod.fromMap(Map<String, dynamic> map) =>
-    PaymentPeriod(
+  factory PaymentPeriod.fromMap(Map<String, dynamic> map) {
+    return PaymentPeriod(
       id: map[_keyId] as int,
-      rateSystem: map[_keyRateSystem] as int,
+      rateSystem: (map[_keyRateSystem] ?? 0) as int,
       name: map[_keyName] as String,
     );
+  }
 
   Map<String, dynamic> toMap() =>
     <String, dynamic>{

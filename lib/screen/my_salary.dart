@@ -7,27 +7,35 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MySalaryScreen extends StatelessWidget {
   showPicker(BuildContext context) {
-    var items = List.from(BlocProvider.of<PaymentBloc>(context).state.payment.paymentPeriods);
-    var currentItem = BlocProvider.of<PaymentBloc>(context).state.payment.currentPaymentPeriod;
+    final paymentBloc = BlocProvider.of<PaymentBloc>(context);
+    var items = List.from(paymentBloc.state.payment.paymentPeriods);
+    var currentItem = paymentBloc.state.payment.currentPaymentPeriod;
     items.add(currentItem);
+    items.sort((a, b) => b.name.compareTo(a.name));
+
     showModalBottomSheet(
       context: context,
       builder: (BuildContext ctx) {
+        int index = 0;
+
         return Column(
           children: <Widget>[
             FlatButton(
               child: Text("Select"),
               onPressed: (){
-
+                paymentBloc.add(GetPayment(periodId: items[index].id));
+                Navigator.of(ctx).pop();
               },
             ),
-            CupertinoPicker(
+            Expanded(
+              child: CupertinoPicker(
 //          backgroundColor: Colors.white,
-              onSelectedItemChanged: (value) {
-
-              },
-              itemExtent: 32.0,
-              children: items.map((el) => Text(el.name)).toList(),
+                onSelectedItemChanged: (value) {
+                  index = value;
+                },
+                itemExtent: 32.0,
+                children: items.map((el) => Text(el.name)).toList(),
+              ),
             ),
           ],
         );

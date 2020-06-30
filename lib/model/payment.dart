@@ -1,3 +1,5 @@
+import 'package:bynextcourier/model/shift.dart';
+
 class Payment {
   const Payment({
     this.paymentPeriods,
@@ -16,7 +18,7 @@ class Payment {
   final PaymentPeriod currentPaymentPeriod;
   final num totalPayment;
   final List shiftsDetails;
-  final int rateSystem;
+  final RateSystem rateSystem;
   final num extras;
   final List extrasDetails;
   final paymentDetailsJson;
@@ -40,7 +42,7 @@ class Payment {
       _keyCurrentPaymentPeriod: currentPaymentPeriod,
       _keyTotalPayment: totalPayment,
       _keyShiftsDetails: shiftsDetails,
-      _keyRateSystem: rateSystem,
+      _keyRateSystem: rateSystem.index,
       _keyExtras: extras,
       _keyExtrasDetails: extrasDetails,
       _keyPaymentDetailsJson: paymentDetailsJson,
@@ -49,14 +51,13 @@ class Payment {
   factory Payment.fromMap(Map<String, dynamic> map) {
     final p_periods = (map[_keyPaymentPeriods] as List).map((e) => PaymentPeriod.fromMap(e)).toList();
     final c_p_period = PaymentPeriod.fromMap(map[_keyCurrentPaymentPeriod] as Map);
-print('jjj');
     return Payment(
       paymentPeriods: p_periods,
       numberOfShifts: map[_keyNumberOfShifts] as int,
       currentPaymentPeriod: c_p_period,
       totalPayment: map[_keyTotalPayment] as num,
       shiftsDetails: map[_keyShiftsDetails] as List,
-      rateSystem: map[_keyRateSystem] as int,
+      rateSystem: parseRateSystemFromInt(map[_keyRateSystem] as int),
       extras: map[_keyExtras] as num,
       extrasDetails: map[_keyExtrasDetails] as List,
       paymentDetailsJson: map[_keyPaymentDetailsJson],
@@ -66,7 +67,7 @@ print('jjj');
 
 class PaymentPeriod{
   final int id;
-  final int rateSystem;
+  final RateSystem rateSystem;
   final String name;
 
   PaymentPeriod({this.id, this.rateSystem, this.name});
@@ -78,7 +79,7 @@ class PaymentPeriod{
   factory PaymentPeriod.fromMap(Map<String, dynamic> map) {
     return PaymentPeriod(
       id: map[_keyId] as int,
-      rateSystem: (map[_keyRateSystem] ?? 0) as int,
+      rateSystem: parseRateSystemFromInt((map[_keyRateSystem] ?? 0) as int),
       name: map[_keyName] as String,
     );
   }
@@ -86,7 +87,7 @@ class PaymentPeriod{
   Map<String, dynamic> toMap() =>
     <String, dynamic>{
       _keyId: id,
-      _keyRateSystem: rateSystem,
+      _keyRateSystem: rateSystem.index,
       _keyName: name,
     };
 }

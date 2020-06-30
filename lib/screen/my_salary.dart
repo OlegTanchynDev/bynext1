@@ -146,50 +146,7 @@ class MySalaryScreen extends StatelessWidget {
           Column(
             children: state.payment.shiftsDetails.map((el) => SalaryListRateEmployeeItem(el)).toList(),
           ),
-          Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Divider(
-                  color: Colors.black,
-                ),
-              ),
-              SalaryListItemFooter(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Divider(
-                  color: Colors.black,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(child: Text('TOTAL BEFORE TAX:')),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                        child: Text(
-                      "\$" + state.payment?.totalPayment.toString(),
-                    )),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                    'This information is only an ESTIMATE. Your final numbers will be provided and calculated by Gusto on your weekly paycheck.',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 12,
-                    )),
-              )
-            ],
-          ),
+          state.payment.shiftsDetails.length == 0 ? Container() : buildFooterColumn(state),
         ],
       );
     } else {
@@ -197,5 +154,53 @@ class MySalaryScreen extends StatelessWidget {
         children: state.payment.shiftsDetails.map((el) => SalaryListItem(el)).toList(),
       );
     }
+  }
+
+  Column buildFooterColumn(PaymentState state) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Divider(
+            color: Colors.black,
+          ),
+        ),
+        SalaryListItemFooter(state.payment.shiftsDetails),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Divider(
+            color: Colors.black,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Row(
+            children: <Widget>[
+              Expanded(flex: 3, child: Text('TOTAL BEFORE TAX:')),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                  flex: 2,
+                  child: Text(
+                    "\$" + state.payment?.totalPayment.toString(),
+                  )),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+              'This information is only an ESTIMATE. Your final numbers will be provided and calculated by Gusto on your weekly paycheck.',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 12,
+              )),
+        )
+      ],
+    );
   }
 }

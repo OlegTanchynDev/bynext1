@@ -34,9 +34,9 @@ class SalaryListRateEmployeeItem extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              Expanded(child: FittedBox(child: Text('Mileage Reimbursement: \$${shiftItem['mileage_reimbursement_payment']}'))),
+              Expanded(flex: 4,child: Text('Mileage Reimbursement: \$${shiftItem['mileage_reimbursement_payment']}')),
               SizedBox(width: 10,),
-              Expanded(child: Text('Total Hours: \$${shiftItem['working_hours']}')),
+              Expanded(flex: 3,child: Text('Total Hours: \$${shiftItem['working_hours']}')),
             ],
           ),
         ],

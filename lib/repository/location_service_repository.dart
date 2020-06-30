@@ -94,6 +94,7 @@ class LocationServiceRepository {
   void _updateLocationToServer(Timer timer) async {
 //    printLabel('_updateLocationToServer', 'LocationServiceRepository');
     final prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
     final token = prefs.getString('token');
 //    printLabel('_updateLocationToServer token: $token', 'LocationServiceRepository');
     LocationDto myBestLocation;

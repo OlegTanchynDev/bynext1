@@ -21,6 +21,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "alertMessageCallReminder" : MessageLookupByLibrary.simpleMessage("The shift start time is too close.\n\nIf there is an emergency please call and leave a message."),
+    "alertMessageLessThan24hCancellation" : MessageLookupByLibrary.simpleMessage("Canceling a shift that starts in less than 24h will affect your grade and might result in temporary suspension. Are you sure you want to cancel this shift?"),
+    "alertTitleReminder" : MessageLookupByLibrary.simpleMessage("Reminder"),
+    "alertTitleShiftCancellation" : MessageLookupByLibrary.simpleMessage("Shift Cancellation"),
+    "alertTitleShiftCancellationReason" : MessageLookupByLibrary.simpleMessage("Reason for canceling"),
+    "call" : MessageLookupByLibrary.simpleMessage("CALL"),
     "drawerCallDispatcher" : MessageLookupByLibrary.simpleMessage("Call Dispatcher"),
     "drawerGeneralInfo" : MessageLookupByLibrary.simpleMessage("General Info"),
     "drawerIssues" : MessageLookupByLibrary.simpleMessage("Issues"),
@@ -37,6 +43,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "forgotPasswordNote" : MessageLookupByLibrary.simpleMessage("Note:"),
     "forgotPasswordNotesText" : MessageLookupByLibrary.simpleMessage("The password reset links included in the emails are time-sensitive. If you click the link and it doesn\'t work, try requesting a new one and use the link as soon as you can."),
     "forgotPasswordResponseOk" : MessageLookupByLibrary.simpleMessage("In a few minutes you will receive an email with further instructions to reset your password"),
-    "forgotPasswordText" : MessageLookupByLibrary.simpleMessage("Please enter your email to reset your password:")
+    "forgotPasswordText" : MessageLookupByLibrary.simpleMessage("Please enter your email to reset your password:"),
+    "no" : MessageLookupByLibrary.simpleMessage("No"),
+    "ok" : MessageLookupByLibrary.simpleMessage("OK"),
+    "save" : MessageLookupByLibrary.simpleMessage("Save"),
+    "yes" : MessageLookupByLibrary.simpleMessage("Yes")
   };
 }

@@ -1,0 +1,26 @@
+[
+  {
+    "status" : 1,
+    "actual_end_time" : "22:00:00",
+    "is_less_then_24h" : false,
+    "actual_start_time" : "18:00:00",
+    "shift_id" : 2541,
+    "can_change" : true
+  },
+  {
+    "status" : 1,
+    "actual_end_time" : "11:00:00",
+    "is_less_then_24h" : false,
+    "actual_start_time" : "07:00:00",
+    "shift_id" : 2542,
+    "can_change" : true
+  },
+  {
+    "status" : 0,
+    "actual_end_time" : "22:00:00",
+    "is_less_then_24h" : false,
+    "actual_start_time" : "18:00:00",
+    "shift_id" : 2545,
+    "can_change" : true
+  }
+]

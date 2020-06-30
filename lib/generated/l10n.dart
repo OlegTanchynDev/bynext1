@@ -202,6 +202,106 @@ class S {
       args: [],
     );
   }
+
+  /// `Shift Cancellation`
+  String get alertTitleShiftCancellation {
+    return Intl.message(
+      'Shift Cancellation',
+      name: 'alertTitleShiftCancellation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Canceling a shift that starts in less than 24h will affect your grade and might result in temporary suspension. Are you sure you want to cancel this shift?`
+  String get alertMessageLessThan24hCancellation {
+    return Intl.message(
+      'Canceling a shift that starts in less than 24h will affect your grade and might result in temporary suspension. Are you sure you want to cancel this shift?',
+      name: 'alertMessageLessThan24hCancellation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get no {
+    return Intl.message(
+      'No',
+      name: 'no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yes {
+    return Intl.message(
+      'Yes',
+      name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reminder`
+  String get alertTitleReminder {
+    return Intl.message(
+      'Reminder',
+      name: 'alertTitleReminder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The shift start time is too close.\n\nIf there is an emergency please call and leave a message.`
+  String get alertMessageCallReminder {
+    return Intl.message(
+      'The shift start time is too close.\n\nIf there is an emergency please call and leave a message.',
+      name: 'alertMessageCallReminder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OK`
+  String get ok {
+    return Intl.message(
+      'OK',
+      name: 'ok',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CALL`
+  String get call {
+    return Intl.message(
+      'CALL',
+      name: 'call',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reason for canceling`
+  String get alertTitleShiftCancellationReason {
+    return Intl.message(
+      'Reason for canceling',
+      name: 'alertTitleShiftCancellationReason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -15,5 +15,15 @@
   "forgotPasswordText": "Please enter your email to reset your password:",
   "forgotPasswordResponseOk": "In a few minutes you will receive an email with further instructions to reset your password",
   "forgotPasswordNote": "Note:",
-  "forgotPasswordNotesText": "The password reset links included in the emails are time-sensitive. If you click the link and it doesn't work, try requesting a new one and use the link as soon as you can."
+  "forgotPasswordNotesText": "The password reset links included in the emails are time-sensitive. If you click the link and it doesn't work, try requesting a new one and use the link as soon as you can.",
+  "alertTitleShiftCancellation": "Shift Cancellation",
+  "alertMessageLessThan24hCancellation": "Canceling a shift that starts in less than 24h will affect your grade and might result in temporary suspension. Are you sure you want to cancel this shift?",
+  "no": "No",
+  "yes": "Yes",
+  "alertTitleReminder": "Reminder",
+  "alertMessageCallReminder": "The shift start time is too close.\n\nIf there is an emergency please call and leave a message.",
+  "ok": "OK",
+  "call": "CALL",
+  "alertTitleShiftCancellationReason": "Reason for canceling",
+  "save": "Save"
 }

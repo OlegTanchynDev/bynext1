@@ -1,0 +1,255 @@
+[
+  {
+    "day_name" : "Tuesday",
+    "index" : 0,
+    "shifts" : [
+      {
+        "shift_type" : "3",
+        "end_hour" : "22:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2539",
+        "start_hour" : "18:00:00"
+      },
+      {
+        "shift_type" : "1",
+        "end_hour" : "11:00:00",
+        "is_edit_allowed" : false,
+        "shift_id" : "2538",
+        "start_hour" : "07:00:00"
+      }
+    ],
+
+    "date" : "12\/4\/2018"
+  },
+  {
+    "day_name" : "Wednesday",
+    "index" : 2,
+    "shifts" : [
+      {
+        "shift_type" : "3",
+        "end_hour" : "22:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2541",
+        "start_hour" : "18:00:00"
+      },
+      {
+        "shift_type" : "1",
+        "end_hour" : "11:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2540",
+        "start_hour" : "07:00:00"
+      }
+    ],
+    "date" : "12\/5\/2018"
+  },
+  {
+    "day_name" : "Thursday",
+    "index" : 4,
+    "shifts" : [
+      {
+        "shift_type" : "3",
+        "end_hour" : "22:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2543",
+        "start_hour" : "18:00:00"
+      },
+      {
+        "shift_type" : "1",
+        "end_hour" : "11:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2542",
+        "start_hour" : "07:00:00"
+      }
+    ],
+    "date" : "12\/6\/2018"
+  },
+  {
+    "day_name" : "Friday",
+    "index" : 6,
+    "shifts" : [
+      {
+        "shift_type" : "3",
+        "end_hour" : "22:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2545",
+        "start_hour" : "18:00:00"
+      },
+      {
+        "shift_type" : "1",
+        "end_hour" : "11:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2544",
+        "start_hour" : "07:00:00"
+      }
+    ],
+    "date" : "12\/7\/2018"
+  },
+  {
+    "day_name" : "Saturday",
+    "index" : 8,
+    "shifts" : [
+      {
+        "shift_type" : "3",
+        "end_hour" : "23:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2547",
+        "start_hour" : "16:00:00"
+      },
+      {
+        "shift_type" : "1",
+        "end_hour" : "13:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2546",
+        "start_hour" : "07:00:00"
+      }
+    ],
+    "date" : "12\/8\/2018"
+  },
+  {
+    "day_name" : "Sunday",
+    "index" : 10,
+    "shifts" : [
+      {
+        "shift_type" : "3",
+        "end_hour" : "23:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2549",
+        "start_hour" : "16:00:00"
+      },
+      {
+        "shift_type" : "1",
+        "end_hour" : "13:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2548",
+        "start_hour" : "07:00:00"
+      }
+    ],
+    "date" : "12\/9\/2018"
+  },
+  {
+    "day_name" : "Monday",
+    "index" : 12,
+    "shifts" : [
+      {
+        "shift_type" : "3",
+        "end_hour" : "22:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2551",
+        "start_hour" : "18:00:00"
+      },
+      {
+        "shift_type" : "1",
+        "end_hour" : "11:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2550",
+        "start_hour" : "07:00:00"
+      }
+    ],
+    "date" : "12\/10\/2018"
+  },
+  {
+    "day_name" : "Tuesday",
+    "index" : 14,
+    "shifts" : [
+      {
+        "shift_type" : "3",
+        "end_hour" : "22:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2553",
+        "start_hour" : "18:00:00"
+      },
+      {
+        "shift_type" : "1",
+        "end_hour" : "11:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2552",
+        "start_hour" : "07:00:00"
+      }
+    ],
+    "date" : "12\/11\/2018"
+  },
+  {
+    "day_name" : "Wednesday",
+    "index" : 16,
+    "shifts" : [
+      {
+        "shift_type" : "3",
+        "end_hour" : "22:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2555",
+        "start_hour" : "18:00:00"
+      },
+      {
+        "shift_type" : "1",
+        "end_hour" : "11:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2554",
+        "start_hour" : "07:00:00"
+      }
+    ],
+    "date" : "12\/12\/2018"
+  },
+  {
+    "day_name" : "Thursday",
+    "index" : 18,
+    "shifts" : [
+      {
+        "shift_type" : "3",
+        "end_hour" : "22:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2557",
+        "start_hour" : "18:00:00"
+      },
+      {
+        "shift_type" : "1",
+        "end_hour" : "11:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2556",
+        "start_hour" : "07:00:00"
+      }
+    ],
+    "date" : "12\/13\/2018"
+  },
+  {
+    "day_name" : "Friday",
+    "index" : 20,
+    "shifts" : [
+      {
+        "shift_type" : "3",
+        "end_hour" : "22:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2559",
+        "start_hour" : "18:00:00"
+      },
+      {
+        "shift_type" : "1",
+        "end_hour" : "11:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2558",
+        "start_hour" : "07:00:00"
+      }
+    ],
+    "date" : "12\/14\/2018"
+  },
+  {
+    "day_name" : "Saturday",
+    "index" : 22,
+    "shifts" : [
+      {
+        "shift_type" : "3",
+        "end_hour" : "23:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2561",
+        "start_hour" : "16:00:00"
+      },
+      {
+        "shift_type" : "1",
+        "end_hour" : "13:00:00",
+        "is_edit_allowed" : true,
+        "shift_id" : "2560",
+        "start_hour" : "07:00:00"
+      }
+    ],
+    "date" : "12\/15\/2018"
+  }
+]

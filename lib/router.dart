@@ -2,6 +2,7 @@ import 'package:bynextcourier/bloc/shift_details_bloc.dart';
 import 'package:bynextcourier/bloc/sign_contract/sign_contract_bloc.dart';
 import 'package:bynextcourier/bloc/tasks_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
+import 'package:bynextcourier/model/assigned_shift.dart';
 import 'package:bynextcourier/repository/schedule_repository.dart';
 import 'package:bynextcourier/repository/sign_contract_repository.dart';
 import 'package:bynextcourier/repository/tasks_repository.dart';
@@ -13,12 +14,16 @@ import 'package:bynextcourier/screen/webview_screen.dart';
 import 'package:bynextcourier/view/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'bloc/forgot_password_bloc.dart';
 import 'bloc/http_client_bloc.dart';
 import 'bloc/issues_bloc.dart';
 import 'bloc/payment_bloc.dart';
 import 'bloc/schedule_bloc.dart';
+import 'constants.dart';
+import 'generated/l10n.dart';
+import 'helpers/utils.dart';
 import 'repository/issues_repository.dart';
 import 'repository/payment_repository.dart';
 import 'repository/token_repository.dart';
@@ -108,7 +113,104 @@ class Router {
                     ..tokenBloc = context.bloc<TokenBloc>()
                     ..httpClientBloc = context.bloc<HttpClientBloc>()
                     ..add(ScheduleLoad()),
-                  child: ShiftsScreen());
+                  child: BlocListener<ScheduleBloc, ScheduleState>(
+                    listener: (context, scheduleState) async {
+                      if (scheduleState is ScheduleReady && scheduleState.cancellationShift != null) {
+                        if (scheduleState.cancellationLockedToChanges) {
+                          showCustomDialog<bool>(context,
+                              title: S.of(context).alertTitleReminder,
+                              message: S.of(context).alertMessageCallReminder,
+                              buttons: [
+                                FlatButton(
+                                  child: Text(S.of(context).ok),
+                                  onPressed: () {},
+                                ),
+                                FlatButton(
+                                  child: Text(S.of(context).call),
+                                  onPressed: () async {
+                                    if (await canLaunch('tel:')) {
+                                      await launch('tel:${driverSupportNumber.replaceAll(RegExp(r'[^\+\d]'), '')}');
+                                    }
+                                  },
+                                ),
+                              ]);
+
+                        } else {
+                          bool cancellationConfirm = await showCustomDialog<bool>(context,
+                              title: S.of(context).alertTitleShiftCancellation,
+                              message:
+                                  'You will be canceled from ${scheduleState.cancellationSchedule.date}, ${scheduleState.cancellationSchedule.dayName}  ${scheduleState.cancellationShift.type.description} shift. \n \n Are you sure?',
+                              buttons: [
+                                FlatButton(
+                                  child: Text(S.of(context).no),
+                                  onPressed: () => Navigator.of(context).pop(false),
+                                ),
+                                FlatButton(
+                                  child: Text(S.of(context).yes),
+                                  onPressed: () => Navigator.of(context).pop(true),
+                                ),
+                              ]);
+                          final assigned = scheduleState.assigned[scheduleState.cancellationShift.id];
+                          if (cancellationConfirm == true) {
+                            if (assigned.lessThen24h) {
+                              cancellationConfirm = await showCustomDialog<bool>(context,
+                                  title: S.of(context).alertTitleShiftCancellation,
+                                  message: S.of(context).alertMessageLessThan24hCancellation,
+                                  buttons: [
+                                    FlatButton(
+                                      child: Text(S.of(context).no),
+                                      onPressed: () => Navigator.of(context).pop(false),
+                                    ),
+                                    FlatButton(
+                                      child: Text(S.of(context).yes),
+                                      onPressed: () => Navigator.of(context).pop(true),
+                                    ),
+                                  ]);
+                            }
+                          }
+
+                          TextEditingController reasonController = TextEditingController();
+                          if (cancellationConfirm == true && assigned.status != AssignedShiftStatus.pending) {
+                            cancellationConfirm = await showCustomDialog2(context,
+                                title: Text(S.of(context).alertTitleShiftCancellationReason),
+                                child: TextField(
+                                  controller: reasonController,
+                                  minLines: 4,
+                                ),
+                                buttons: [
+                                  IconButton(
+                                    icon: Image.asset('assets/images/checkbox-red-declined.png'),
+                                    onPressed: () => Navigator.of(context).pop(false),
+                                  ),
+                                  IconButton(
+                                    icon: ColorFiltered(
+                                      colorFilter: const ColorFilter.mode(const Color(0xFF403D9C), BlendMode.srcIn),
+                                      child: Image.asset('assets/images/checkbox-grey-checked.png'),
+                                    ),
+                                    onPressed: () => Navigator.of(context).pop(true),
+                                  ),
+                                ]);
+
+                            if (cancellationConfirm && reasonController.text.trim().length == 0) {
+                              showCustomDialog2(context,
+                                  title: Text('Error'),
+                                  child: Text('Please specify reason for cancellation'),
+                                  buttons: [
+                                    FlatButton(child: Text('OK'), onPressed: () => Navigator.of(context).pop())
+                                  ]);
+                              cancellationConfirm = false;
+                            }
+                          }
+                          if (cancellationConfirm == true) {
+                            context.bloc<ScheduleBloc>().add(ScheduleCancelShift(scheduleState.cancellationShift.id, reasonController.text));
+                          }
+                        }
+                        // to allow next selection of teh same item
+                        context.bloc<ScheduleBloc>().add(ScheduleBlankEvent());
+                      }
+                    },
+                    child: ShiftsScreen(),
+                  ));
               break;
             case mySalaryRoute:
               page = BlocProvider(

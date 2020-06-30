@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 enum ShiftMode { regular, business }
 
 ShiftMode parseShiftModeFromString(String str) {
@@ -34,7 +32,7 @@ RateSystem parseRateSystemFromInt(int val) {
     case 4:
       return RateSystem.DELIVERY_COURIER_PAYMENT_EMPLOYEE_HIDE_INFO;
     default:
-      null;
+      return null;
   }
 }
 

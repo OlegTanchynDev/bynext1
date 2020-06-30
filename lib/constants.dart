@@ -9,3 +9,5 @@ const policyUrl = "https://cleanly.com/concierge/ticket-reimbursement-attendance
 const generalInfoUrl = "https://cleanly.com/concierge/rating-overview/";
 
 const requestTimeout = Duration(seconds: 15);
+
+const driverSupportNumber = "1(855)8552221";

@@ -183,6 +183,7 @@ class MyApp extends StatelessWidget {
                       textTheme: ButtonTextTheme.primary,
                       height: 41,
                       buttonColor: const Color(0xFF403D9C),
+                      padding: EdgeInsets.symmetric(horizontal: 8.0)
                     ),
                     inputDecorationTheme: const InputDecorationTheme(
                       isDense: true,

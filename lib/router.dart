@@ -134,7 +134,6 @@ class Router {
                                   },
                                 ),
                               ]);
-
                         } else {
                           bool cancellationConfirm = await showCustomDialog<bool>(context,
                               title: S.of(context).alertTitleShiftCancellation,
@@ -202,7 +201,9 @@ class Router {
                             }
                           }
                           if (cancellationConfirm == true) {
-                            context.bloc<ScheduleBloc>().add(ScheduleCancelShift(scheduleState.cancellationShift.id, reasonController.text));
+                            context
+                                .bloc<ScheduleBloc>()
+                                .add(ScheduleCancelShift(scheduleState.cancellationShift.id, reasonController.text));
                           }
                         }
                         // to allow next selection of teh same item
@@ -239,9 +240,8 @@ class Router {
                     children: <Widget>[
                       SignContractScreen(),
                       BlocBuilder<SignContractBloc, SignContractState>(
-                        builder: (context, state) => state is SignContractProcessing
-                            ? CustomProgressIndicator()
-                            : Container(),
+                        builder: (context, state) =>
+                            state is SignContractProcessing ? CustomProgressIndicator() : Container(),
                       )
                     ],
                   ));

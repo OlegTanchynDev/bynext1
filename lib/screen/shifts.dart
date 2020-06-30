@@ -1,5 +1,6 @@
 import 'package:bynextcourier/bloc/schedule_bloc.dart';
 import 'package:bynextcourier/generated/l10n.dart';
+import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/assigned_shift.dart';
 import 'package:bynextcourier/model/schedule.dart';
 import 'package:bynextcourier/view/app_bar_logo.dart';
@@ -10,32 +11,58 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ShiftsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: AppBarLogo(),
-        centerTitle: true,
-        actions: <Widget>[
-          BlocBuilder<ScheduleBloc, ScheduleState>(
-            builder: (context, listState) {
-              return listState is ScheduleReady && listState.selectedShifts.isNotEmpty
-                  ? FlatButton(
-                      child: Text(S.of(context).save),
-                      onPressed: () => context.bloc<ScheduleBloc>().add(ScheduleSave()),
-                    )
-                  : const SizedBox(width: 50);
-            },
-          ),
-        ],
-      ),
-      body: BlocBuilder<ScheduleBloc, ScheduleState>(
-        builder: (context, listState) {
-          return Stack(
-            children: <Widget>[
-                  _buildList(listState.upcoming, listState.assigned, listState.selectedShifts),
-                ] +
-                (listState is ScheduleLoading ? [CustomProgressIndicator()] : []),
-          );
-        },
+    return WillPopScope(
+      onWillPop: () async {
+        if (context.bloc<ScheduleBloc>().state.selectedShifts.length > 0) {
+          final willSave = await showCustomDialog<bool>(context,
+                  title: 'Unsaved Changes',
+                  message: 'You didn\'t save the changes, would you like to save or cancel?',
+                  buttons: [
+                    FlatButton(
+                      child: Text('Don\'t save'),
+                      onPressed: () => Navigator.of(context).pop(false),
+                    ),
+                    FlatButton(
+                      child: Text('Save changes'),
+                      onPressed: () => Navigator.of(context).pop(true),
+                    ),
+                  ]) ??
+              false;
+          if (willSave) {
+            context.bloc<ScheduleBloc>().add(ScheduleSave());
+          }
+          return Future.value(true);
+        } else {
+          return Future.value(true);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: AppBarLogo(),
+          centerTitle: true,
+          actions: <Widget>[
+            BlocBuilder<ScheduleBloc, ScheduleState>(
+              builder: (context, listState) {
+                return listState is ScheduleReady && listState.selectedShifts.isNotEmpty
+                    ? FlatButton(
+                        child: Text(S.of(context).save),
+                        onPressed: () => context.bloc<ScheduleBloc>().add(ScheduleSave()),
+                      )
+                    : const SizedBox(width: 50);
+              },
+            ),
+          ],
+        ),
+        body: BlocBuilder<ScheduleBloc, ScheduleState>(
+          builder: (context, listState) {
+            return Stack(
+              children: <Widget>[
+                    _buildList(listState.upcoming, listState.assigned, listState.selectedShifts),
+                  ] +
+                  (listState is ScheduleLoading ? [CustomProgressIndicator()] : []),
+            );
+          },
+        ),
       ),
     );
   }

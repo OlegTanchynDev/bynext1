@@ -1,0 +1,27 @@
+{
+  "extras": 0,
+  "payment_periods": [
+    {
+      "id": 8,
+      "name": "2015-11-29 to 2015-12-12",
+      "rate_system": 3
+    },
+    {
+      "id": 7,
+      "name": "2015-10-05 to 2015-11-24",
+      "rate_system": 1
+    }
+  ],
+  "rate_system": 2,
+  "shifts_details": [
+  ],
+  "payment_details_json": null,
+  "extras_details": [
+  ],
+  "total_payment": 0,
+  "current_payment_period": {
+    "id": 11,
+    "name": "2018-01-27 to 2019-01-27"
+  },
+  "number_of_shifts": 0
+}

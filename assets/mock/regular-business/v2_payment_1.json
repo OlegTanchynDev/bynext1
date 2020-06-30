@@ -1,0 +1,73 @@
+{
+  "extras": 12,
+  "payment_periods": [
+  ],
+  "rate_system": 1,
+  "shifts_details": [
+    {
+      "rate_system": 1,
+      "shift_date": "2015-12-03",
+      "grade": 5.8200000000000003,
+      "number_of_runs": 0,
+      "shift_type": "Evening",
+      "is_met_performance": false,
+      "shift_total_payment": 50,
+      "is_training": false
+    },
+    {
+      "rate_system": 1,
+      "shift_date": "2015-12-10",
+      "grade": 5.8200000000000003,
+      "number_of_runs": 0,
+      "shift_type": "Morning",
+      "is_met_performance": false,
+      "shift_total_payment": 50,
+      "is_training": false
+    },
+    {
+      "rate_system": 1,
+      "shift_date": "2015-12-02",
+      "grade": 5.8300000000000001,
+      "number_of_runs": 0,
+      "shift_type": "Evening",
+      "is_met_performance": true,
+      "shift_total_payment": 60,
+      "is_training": false
+    },
+    {
+      "rate_system": 1,
+      "shift_date": "2015-12-02",
+      "grade": 0,
+      "number_of_runs": 0,
+      "shift_type": "Morning",
+      "is_met_performance": false,
+      "shift_total_payment": 50,
+      "is_training": false
+    },
+    {
+      "rate_system": 1,
+      "shift_date": "2015-12-03",
+      "grade": 5.8300000000000001,
+      "number_of_runs": 0,
+      "shift_type": "Morning",
+      "is_met_performance": true,
+      "shift_total_payment": 70,
+      "is_training": true
+    }
+  ],
+  "payment_details_json": null,
+  "extras_details": [
+    {
+      "id": 11,
+      "payment": 12,
+      "description": "test",
+      "date": "2015-12-02"
+    }
+  ],
+  "total_payment": 292,
+  "current_payment_period": {
+    "id": 8,
+    "name": "2015-11-29 to 2015-12-12"
+  },
+  "number_of_shifts": 5
+}

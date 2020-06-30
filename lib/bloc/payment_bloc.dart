@@ -36,17 +36,24 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   @override
-  get initialState => PaymentState(null);
+  get initialState => PaymentState();
 
   @override
   Stream<PaymentState> mapEventToState(PaymentEvent event) async* {
     if (event is GetPayment) {
       try {
-        final payment = await repository.fetchPayment(httpClientBloc.state.client, _tokenBloc.state.token, event.periodId);
-        yield PaymentState(payment);
+        final Payment payment = await repository.fetchPayment(httpClientBloc.state.client, _tokenBloc.state.token, event.periodId);
+        if(event.periodId == null){
+          var list = List.from(payment.paymentPeriods);
+          list.add(payment.currentPaymentPeriod);
+          list.sort((a, b) => b.name.compareTo(a.name));
+          yield PaymentState(payment, list);
+        }else{
+          yield PaymentState(payment, state.paymentPeriods);
+        }
       }
       catch (e){
-        yield PaymentState(null);
+        yield PaymentState();
       }
     }
   }
@@ -66,10 +73,12 @@ class GetPayment  extends PaymentEvent {
 
 // States
 class PaymentState extends Equatable {
-  PaymentState(this.payment);
+
+  PaymentState([this.payment, this.paymentPeriods]);
 
   @override
-  List<Object> get props => [payment];
+  List<Object> get props => [payment, paymentPeriods];
 
   final Payment payment;
+  final List paymentPeriods;
 }

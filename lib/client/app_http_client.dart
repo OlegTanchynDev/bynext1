@@ -1,3 +1,4 @@
+import 'package:bynextcourier/helpers/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +13,11 @@ class DemoHttpClient extends BaseClient {
     '$servicesUrl/delivery/v2/shift/getShiftDetails/': DemoResponse('assets/mock/regular-business/shift_getShiftDetails.json'),
     '$servicesUrl/delivery/v2/courier/getCourierProfile/':DemoResponse('assets/mock/regular-business/courier_getCourierProfile.json'),
 
+    '$servicesUrl/delivery/v2/payment/':DemoResponse('assets/mock/regular-business/v2_payment.json'),
+    '$servicesUrl/delivery/v2/payment/?payment_period_id=8':DemoResponse('assets/mock/regular-business/v2_payment_1.json'),
+    '$servicesUrl/delivery/v2/payment/?payment_period_id=7':DemoResponse('assets/mock/regular-business/v2_payment_2.json'),
+    '$servicesUrl/delivery/v2/payment/?payment_period_id=11':DemoResponse('assets/mock/regular-business/v2_payment.json'),
+
     // Shifts
     '$servicesUrl/delivery/v2/shift/getShiftTypes/': DemoResponse('assets/mock/regular-business/shift_getShiftTypes.json'),
     '$servicesUrl/delivery/v2/shift/getShifts/': DemoResponse('assets/mock/regular-business/shift_getShifts.json'),
@@ -24,6 +30,7 @@ class DemoHttpClient extends BaseClient {
 
   @override
   Future<Response> get(url, {Map<String, String> headers}) {
+    printLabel('url:$url', 'Client');
     final request = requestsMap[url];
     if (request != null) {
       return Future.delayed(Duration(seconds: 1), () async => http.Response(await DefaultAssetBundle.of(context).loadString(request.assetPath), 200));

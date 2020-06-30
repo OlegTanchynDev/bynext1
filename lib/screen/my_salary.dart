@@ -7,11 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MySalaryScreen extends StatelessWidget {
   showPicker(BuildContext context) {
-    final paymentBloc = BlocProvider.of<PaymentBloc>(context);
-    var items = List.from(paymentBloc.state.payment.paymentPeriods);
-    var currentItem = paymentBloc.state.payment.currentPaymentPeriod;
-    items.add(currentItem);
-    items.sort((a, b) => b.name.compareTo(a.name));
+    var paymentBloc = BlocProvider.of<PaymentBloc>(context);
 
     showModalBottomSheet(
       context: context,
@@ -23,7 +19,7 @@ class MySalaryScreen extends StatelessWidget {
             FlatButton(
               child: Text("Select"),
               onPressed: (){
-                paymentBloc.add(GetPayment(periodId: items[index].id));
+                paymentBloc.add(GetPayment(periodId: paymentBloc.state.paymentPeriods[index].id));
                 Navigator.of(ctx).pop();
               },
             ),
@@ -34,7 +30,7 @@ class MySalaryScreen extends StatelessWidget {
                   index = value;
                 },
                 itemExtent: 32.0,
-                children: items.map((el) => Text(el.name)).toList(),
+                children: paymentBloc.state.paymentPeriods.map((el) => Text(el.name)).toList(),
               ),
             ),
           ],

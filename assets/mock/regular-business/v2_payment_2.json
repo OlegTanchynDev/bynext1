@@ -1,0 +1,48 @@
+{
+  "extras": 0,
+  "payment_periods": [
+    {
+      "id": 7,
+      "name": "2015-11-29 to 2015-12-12",
+      "rate_system": 3
+    }
+  ],
+  "rate_system": 2,
+  "shifts_details": [
+    {
+      "mileage_reimbursement_payment": 5,
+      "pay_for_run": 0,
+      "working_date": "2015-11-17",
+      "id": 5,
+      "training_total_payment": 0,
+      "tipping": 0,
+      "total_payment": 35,
+      "number_of_runs": 21,
+      "hourly_total_payment": 30,
+      "shift_type_id": 1,
+      "working_hours": 3
+    },
+    {
+      "mileage_reimbursement_payment": 10,
+      "pay_for_run": 0,
+      "working_date": "2015-11-17",
+      "id": 10,
+      "training_total_payment": 0,
+      "tipping": 0,
+      "total_payment": 45,
+      "number_of_runs": 21,
+      "hourly_total_payment": 35,
+      "shift_type_id": 3,
+      "working_hours": 3.2000000000000002
+    }
+  ],
+  "payment_details_json": null,
+  "extras_details": [
+  ],
+  "total_payment": 200,
+  "current_payment_period": {
+    "id": 7,
+    "name": "2015-10-05 to 2015-11-24"
+  },
+  "number_of_shifts": 2
+}

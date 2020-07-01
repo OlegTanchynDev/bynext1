@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bynextcourier/bloc/shift_details_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
-import 'package:bynextcourier/model/task.dart';
-import 'package:bynextcourier/repository/tasks_repository.dart';
+import 'package:bynextcourier/model/queued_task.dart';
+import 'package:bynextcourier/repository/queued_tasks_repository.dart';
 import 'package:equatable/equatable.dart';
 
 import 'http_client_bloc.dart';
 
-class TasksListBloc extends Bloc<TasksListEvent, TasksListState> {
+class QueuedTasksListBloc extends Bloc<QueuedTasksListEvent, QueuedTasksListState> {
   TokenBloc tokenBloc;
   ShiftDetailsBloc _shiftDetailsBloc;
-  TasksRepository repository;
+  QueuedTasksRepository repository;
   HttpClientBloc httpClientBloc;
 
   StreamSubscription<ShiftDetailsState> _shiftDetailsSubscription;
@@ -23,7 +23,7 @@ class TasksListBloc extends Bloc<TasksListEvent, TasksListState> {
       _shiftDetailsSubscription?.cancel();
       _shiftDetailsSubscription = _shiftDetailsBloc.listen((shiftDetailsState) {
         if (shiftDetailsState is ShiftDetailsReady) {
-          add(TasksListLoad(shiftDetailsState.current.id));
+          add(QueuedTasksListLoad(shiftDetailsState.current.id));
         }
       });
     }
@@ -36,50 +36,50 @@ class TasksListBloc extends Bloc<TasksListEvent, TasksListState> {
   }
 
   @override
-  TasksListState get initialState => TasksListUninitialized();
+  QueuedTasksListState get initialState => QueuedTasksListUninitialized();
 
   @override
-  Stream<TasksListState> mapEventToState(TasksListEvent event) async* {
-    if (event is TasksListLoad) {
+  Stream<QueuedTasksListState> mapEventToState(QueuedTasksListEvent event) async* {
+    if (event is QueuedTasksListLoad) {
       yield* _mapLoadToState(event);
     }
   }
 
-  Stream<TasksListState> _mapLoadToState(TasksListLoad event) async* {
-    yield TasksListLoading();
+  Stream<QueuedTasksListState> _mapLoadToState(QueuedTasksListLoad event) async* {
+    yield QueuedTasksListLoading();
 
     final tasks = await repository.fetchTasks(httpClientBloc.state.client, tokenBloc.state?.token, event.shiftId);
 
-    yield TasksListReady(tasks);
+    yield QueuedTasksListReady(tasks);
   }
 }
 
 // Events
-abstract class TasksListEvent extends Equatable {}
+abstract class QueuedTasksListEvent extends Equatable {}
 
-class TasksListLoad extends TasksListEvent {
+class QueuedTasksListLoad extends QueuedTasksListEvent {
   final int shiftId;
 
-  TasksListLoad(this.shiftId);
+  QueuedTasksListLoad(this.shiftId);
 
   @override
   List<Object> get props => [shiftId];
 }
 
 // States
-abstract class TasksListState extends Equatable {
+abstract class QueuedTasksListState extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class TasksListUninitialized extends TasksListState {}
+class QueuedTasksListUninitialized extends QueuedTasksListState {}
 
-class TasksListLoading extends TasksListState {}
+class QueuedTasksListLoading extends QueuedTasksListState {}
 
-class TasksListReady extends TasksListState {
-  final List<Task> tasks;
+class QueuedTasksListReady extends QueuedTasksListState {
+  final List<QueuedTask> tasks;
 
-  TasksListReady(this.tasks);
+  QueuedTasksListReady(this.tasks);
 
   @override
   List<Object> get props => [...tasks];

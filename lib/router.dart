@@ -1,11 +1,11 @@
 import 'package:bynextcourier/bloc/shift_details_bloc.dart';
 import 'package:bynextcourier/bloc/sign_contract/sign_contract_bloc.dart';
-import 'package:bynextcourier/bloc/tasks_bloc.dart';
+import 'package:bynextcourier/bloc/queued_tasks_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/model/assigned_shift.dart';
 import 'package:bynextcourier/repository/schedule_repository.dart';
 import 'package:bynextcourier/repository/sign_contract_repository.dart';
-import 'package:bynextcourier/repository/tasks_repository.dart';
+import 'package:bynextcourier/repository/queued_tasks_repository.dart';
 import 'package:bynextcourier/screen/forgot_password.dart';
 import 'package:bynextcourier/screen/shifts.dart';
 import 'package:bynextcourier/screen/sign_contract_screen.dart';
@@ -96,8 +96,8 @@ class Router {
               break;
             case tasksRoute:
               page = BlocProvider(
-                  create: (context) => TasksListBloc()
-                    ..repository = context.repository<TasksRepository>()
+                  create: (context) => QueuedTasksListBloc()
+                    ..repository = context.repository<QueuedTasksRepository>()
                     ..tokenBloc = context.bloc<TokenBloc>()
                     ..httpClientBloc = context.bloc<HttpClientBloc>()
                     ..shiftDetailsBloc = context.bloc<ShiftDetailsBloc>(),

@@ -1,15 +1,14 @@
 import 'dart:convert';
 
 import 'package:bynextcourier/model/rest_error.dart';
-import 'package:bynextcourier/model/task.dart';
 import 'package:http/http.dart';
-
+import 'package:bynextcourier/model/queued_task.dart';
 import '../constants.dart';
 
-class TasksRepository {
-  Future<void> fetchNextTask(Client http, String token, int shiftId, bool business) async {
+class QueuedTasksRepository {
+  Future<List<QueuedTask>> fetchTasks(Client http, String token, int shiftId) async {
     final response = await http.get(
-      '$servicesUrl/delivery/v2/tasks/getTask/?&${ business ? 'route_id' : 'shift_id'}=$shiftId',
+      '$servicesUrl/delivery/v2/tasks/getTaskQueue/?shift_id=$shiftId',
       headers: {
         'content-type': 'application/json',
         'Authorization': "Token $token",
@@ -19,7 +18,7 @@ class TasksRepository {
     final parsed = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      return parsed.map<Task>((item) => Task.fromMap(item)).toList();
+      return parsed.map<QueuedTask>((item) => QueuedTask.fromMap(item)).toList();
     } else {
       throw RestError.fromMap(parsed);
     }

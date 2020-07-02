@@ -2,6 +2,7 @@ import 'package:bynextcourier/bloc/delegate/bloc_delegate.dart';
 import 'package:bynextcourier/bloc/login_form_bloc.dart';
 import 'package:bynextcourier/bloc/maps_bloc.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
+import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/repository/issues_repository.dart';
 import 'package:bynextcourier/repository/payment_repository.dart';
@@ -114,6 +115,12 @@ class MyApp extends StatelessWidget {
 //                  ..shiftDetailsBloc = context.bloc<ShiftDetailsBloc>()
 //                  ..repository = context.repository<TasksRepository>(),
 //              ),
+              BlocProvider(
+                create: (context) => StartJobBloc()
+                  ..tokenBloc = context.bloc<TokenBloc>()
+                  ..httpClientBloc = context.bloc<HttpClientBloc>()
+                  ..repository = context.repository<TasksRepository>(),
+              )
             ],
             child: Builder(
               builder: (context) => MaterialApp(

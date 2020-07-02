@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/rest_error.dart';
 import 'package:bynextcourier/model/task.dart';
 import 'package:http/http.dart';
@@ -17,7 +18,7 @@ class TasksRepository {
     ).timeout(requestTimeout);
 
     final parsed = json.decode(response.body);
-
+    printLabel('fetchNextTask:$parsed', 'TasksRepository');
     if (response.statusCode == 200) {
       return Task.fromMap(parsed);
     } else {

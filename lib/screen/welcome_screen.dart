@@ -1,13 +1,11 @@
 import 'dart:async';
 
-import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/shift_details_bloc.dart';
-import 'package:bynextcourier/bloc/token_bloc.dart';
+import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/model/shift.dart';
-import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/app_bar_logo.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +22,7 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   AudioPlayer _player;
   StreamSubscription<ShiftDetailsState> _shiftDetailsBlocSubscription;
+  StreamSubscription<StartJobState> _startJobBlocSubscription;
 
   @override
   void initState() {
@@ -48,12 +47,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         }
       }
     });
+    _startJobBlocSubscription = BlocProvider.of<StartJobBloc>(context).listen((state) {
+      if(state is ReadyToStartJobState){
+        printLabel('start job ${state.task}', 'TEST');
+        Navigator.of(context)
+            .pushNamed(webRoute, arguments: {'url': 'http://google.com', 'title': 'TEST'});
+      }
+    });
   }
 
   @override
   void dispose() {
     _player.dispose();
     _shiftDetailsBlocSubscription?.cancel();
+    _startJobBlocSubscription?.cancel();
     super.dispose();
   }
 
@@ -234,8 +241,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     <Widget>[
                                       RaisedButton(
                                         child: Text('Start Job'),
-                                        onPressed: shift != null && shift.canStart ? () {
-                                          RepositoryProvider.of<TasksRepository>(context).fetchNextTask(BlocProvider.of<HttpClientBloc>(context).state.client, BlocProvider.of<TokenBloc>(context).state.token, shift.id, shiftState is ShiftDetailsReady ? shiftState.current == shiftState.business : false);
+                                        onPressed: shift != null && shift.canStart ? () async {
+                                          BlocProvider.of<StartJobBloc>(context).add(GetNextTaskEvent(shift.id, shiftState is ShiftDetailsReady ? shiftState.current == shiftState.business : false));
+//                                          await RepositoryProvider.of<TasksRepository>(context).fetchNextTask(BlocProvider.of<HttpClientBloc>(context).state.client, BlocProvider.of<TokenBloc>(context).state.token, shift.id, shiftState is ShiftDetailsReady ? shiftState.current == shiftState.business : false);
                                         } : null,
                                       ),
                                     ],

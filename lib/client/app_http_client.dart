@@ -25,6 +25,7 @@ class DemoHttpClient extends BaseClient {
 
     //Tasks
     '$servicesUrl/delivery/v2/tasks/getTask/': DemoTaskResponse(),
+    '$servicesUrl/delivery/v2/tasks/getTask/?&shift_id=484': DemoTaskResponse(),
   };
 
   final BuildContext context;

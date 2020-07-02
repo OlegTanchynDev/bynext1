@@ -1,5 +1,5 @@
-import 'package:bynextcourier/bloc/tasks_bloc.dart';
-import 'package:bynextcourier/model/task.dart';
+import 'package:bynextcourier/bloc/queued_tasks_bloc.dart';
+import 'package:bynextcourier/model/queued_task.dart';
 import 'package:bynextcourier/view/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,11 +14,11 @@ class TasksScreen extends StatelessWidget {
         centerTitle: true,
         actions: <Widget>[const SizedBox(width: 50)],
       ),
-      body: BlocBuilder<TasksListBloc, TasksListState>(
+      body: BlocBuilder<QueuedTasksListBloc, QueuedTasksListState>(
         builder: (context, listState) {
-          if (listState is TasksListLoading) {
+          if (listState is QueuedTasksListLoading) {
             return CustomProgressIndicator();
-          } else if (listState is TasksListReady) {
+          } else if (listState is QueuedTasksListReady) {
             return _buildList(listState.tasks);
           } else {
             return Container();
@@ -28,7 +28,7 @@ class TasksScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildList(List<Task> tasks) {
+  Widget _buildList(List<QueuedTask> tasks) {
     return ListView.separated(
         itemBuilder: (context, pos) {
           final task = tasks[pos];

@@ -67,7 +67,7 @@ Future<dynamic> showCustomDialog<T>(BuildContext context, {String title, String 
       });
 }
 
-Future<dynamic> showCustomDialog2<T>(BuildContext context,
+Future<T> showCustomDialog2<T>(BuildContext context,
     {Widget title, Widget child, bool noPadding = false, List<Widget> buttons}) async {
   return await showDialog<T>(
       barrierDismissible: false,

@@ -22,9 +22,13 @@ class DemoHttpClient extends BaseClient {
     '$servicesUrl/delivery/v2/shift/getShiftTypes/': DemoResponse('assets/mock/regular-business/shift_getShiftTypes.json'),
     '$servicesUrl/delivery/v2/shift/getShifts/': DemoResponse('assets/mock/regular-business/shift_getShifts.json'),
     '$servicesUrl/delivery/v2/shift/getUpcomingShifts/': DemoResponse('assets/mock/regular-business/shift_getUpcomingShifts.json'),
+
+    //Tasks
+    '$servicesUrl/delivery/v2/tasks/getTask/': DemoTaskResponse(),
   };
 
   final BuildContext context;
+  DemoTasks currentTask;
 
   DemoHttpClient(this.context);
 
@@ -33,7 +37,7 @@ class DemoHttpClient extends BaseClient {
     printLabel('url:$url', 'Client');
     final request = requestsMap[url];
     if (request != null) {
-      return Future.delayed(Duration(seconds: 1), () async => http.Response(await DefaultAssetBundle.of(context).loadString(request.assetPath), 200));
+      return Future.delayed(Duration(seconds: 1), () async => http.Response(await DefaultAssetBundle.of(context).loadString(request.assetPath(currentTask)), 200));
     } else {
      return super.get(url, headers: headers);
     }
@@ -49,4 +53,16 @@ class DemoHttpClient extends BaseClient {
     }
   }
 
+}
+
+enum DemoTasks {
+  pickupFromClient,
+  pickupFromClientPu,
+  deliverToClient,
+  laundromatPickup,
+  laundromatPickupPu,
+  laundromatDropoff,
+  laundromatDropoffPu,
+  batched,
+  gotoLocation
 }

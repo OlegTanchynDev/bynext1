@@ -2,6 +2,7 @@ import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/bloc/shift_details_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
+import 'package:bynextcourier/client/app_http_client.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/generated/l10n.dart';
 import 'package:bynextcourier/helpers/utils.dart';
@@ -218,7 +219,82 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                           title: Text(S.of(context).drawerSwitchTask),
                                         ),
-                                        onPressed: () {},
+                                        onPressed: () async {
+                                          DemoTasks nextTask = await showCustomDialog2(
+                                            context,
+                                            title: Text("Switch Task"),
+                                            child: Column(
+                                              children: <Widget>[
+                                                Text("Possible task types"),
+                                                Divider(),
+                                                FlatButton(
+                                                  child: Text("Pick Up from Customer"),
+                                                  onPressed: (){
+                                                    Navigator.of(context).pop(DemoTasks.pickupFromClientPu);
+                                                  },
+                                                ),
+                                                Divider(),
+                                                FlatButton(
+                                                  child: Text("Pick Up from Customer\n(Without pickup bags)"),
+                                                  onPressed: (){
+                                                    Navigator.of(context).pop(DemoTasks.pickupFromClient);
+                                                  },
+                                                ),
+                                                Divider(),
+                                                FlatButton(
+                                                  child: Text("Drop Off to Customer"),
+                                                  onPressed: (){
+                                                    Navigator.of(context).pop(DemoTasks.deliverToClient);
+                                                  },
+                                                ),
+                                                Divider(),
+                                                FlatButton(
+                                                  child: Text("Pick Up from Warehouse\n(Without pickup bags)"),
+                                                  onPressed: (){
+                                                    Navigator.of(context).pop(DemoTasks.laundromatPickup);
+                                                  },
+                                                ),
+                                                Divider(),
+                                                FlatButton(
+                                                  child: Text("Pick Up from Warehouse"),
+                                                  onPressed: (){
+                                                    Navigator.of(context).pop(DemoTasks.laundromatPickupPu);
+                                                  },
+                                                ),
+                                                Divider(),
+                                                FlatButton(
+                                                  child: Text("Drop Off to Warehouse\n(Without pickup bags)"),
+                                                  onPressed: (){
+                                                    Navigator.of(context).pop(DemoTasks.laundromatDropoff);
+                                                  },
+                                                ),
+                                                Divider(),
+                                                FlatButton(
+                                                  child: Text("Drop Off to Warehouse"),
+                                                  onPressed: (){
+                                                    Navigator.of(context).pop(DemoTasks.laundromatDropoffPu);
+                                                  },
+                                                ),
+                                                Divider(),
+                                                FlatButton(
+                                                  child: Text("Go to Location"),
+                                                  onPressed: (){
+                                                    Navigator.of(context).pop(DemoTasks.gotoLocation);
+                                                  },
+                                                ),
+                                                Divider(),
+                                                FlatButton(
+                                                  child: Text("Batched"),
+                                                  onPressed: (){
+                                                    Navigator.of(context).pop(DemoTasks.batched);
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          );
+
+                                          BlocProvider.of<HttpClientBloc>(context).add(HttpClientSetDemoTask(nextTask));
+                                        },
                                       ),
                                     ]
                                   : []) +

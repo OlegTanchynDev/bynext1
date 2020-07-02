@@ -20,6 +20,8 @@ class HttpClientBloc extends Bloc<HttpClientEvent, HttpClientState> {
       yield* _mapClientToState(event);
     } else if (event is HttpClientInitialize) {
       yield* _mapInitializeToState();
+    } else if (event is HttpClientSetDemoTask) {
+      yield* _mapSetDemoTaskToState(event);
     }
   }
 
@@ -37,6 +39,12 @@ class HttpClientBloc extends Bloc<HttpClientEvent, HttpClientState> {
     final prefs = await SharedPreferences.getInstance();
     final demo = prefs.getBool('demo') ?? false;
     add(HttpClientDemo(demo));
+  }
+
+  Stream<HttpClientState> _mapSetDemoTaskToState(HttpClientSetDemoTask event) async* {
+    if (state.client is DemoHttpClient){
+      yield HttpClientState(DemoHttpClient(context)..currentTask = event.newTask, true);
+    }
   }
 }
 
@@ -57,6 +65,15 @@ class HttpClientDemo extends HttpClientEvent {
   List<Object> get props => [useDemo];
 }
 
+class HttpClientSetDemoTask extends HttpClientEvent {
+  final DemoTasks newTask;
+
+  HttpClientSetDemoTask(this.newTask);
+
+  @override
+  List<Object> get props => [newTask];
+}
+
 // States
 class HttpClientState extends Equatable {
   final Client client;
@@ -65,5 +82,5 @@ class HttpClientState extends Equatable {
   HttpClientState(this.client, this.demo);
 
   @override
-  List<Object> get props => [demo];
+  List<Object> get props => [demo, client is DemoHttpClient ? (client as DemoHttpClient).currentTask : null];
 }

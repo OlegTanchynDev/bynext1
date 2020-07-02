@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/shift_details_bloc.dart';
+import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/model/shift.dart';
+import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/app_bar_logo.dart';
 import 'package:flutter/material.dart';
@@ -231,7 +234,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     <Widget>[
                                       RaisedButton(
                                         child: Text('Start Job'),
-                                        onPressed: shift != null && shift.canStart ? () {} : null,
+                                        onPressed: shift != null && shift.canStart ? () {
+                                          RepositoryProvider.of<TasksRepository>(context).fetchNextTask(BlocProvider.of<HttpClientBloc>(context).state.client, BlocProvider.of<TokenBloc>(context).state.token, shift.id, shiftState is ShiftDetailsReady ? shiftState.current == shiftState.business : false);
+                                        } : null,
                                       ),
                                     ],
                               );

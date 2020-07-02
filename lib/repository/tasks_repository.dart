@@ -7,7 +7,7 @@ import 'package:http/http.dart';
 import '../constants.dart';
 
 class TasksRepository {
-  Future<void> fetchNextTask(Client http, String token, int shiftId, bool business) async {
+  Future<Task> fetchNextTask(Client http, String token, int shiftId, bool business) async {
     final response = await http.get(
       '$servicesUrl/delivery/v2/tasks/getTask/?&${ business ? 'route_id' : 'shift_id'}=$shiftId',
       headers: {
@@ -19,7 +19,7 @@ class TasksRepository {
     final parsed = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      return parsed.map<Task>((item) => Task.fromMap(item)).toList();
+      return Task.fromMap(parsed);
     } else {
       throw RestError.fromMap(parsed);
     }

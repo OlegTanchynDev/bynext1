@@ -9,6 +9,7 @@ import 'package:bynextcourier/repository/profile_repository.dart';
 import 'package:bynextcourier/repository/shift_details_repository.dart';
 import 'package:bynextcourier/repository/sign_contract_repository.dart';
 import 'package:bynextcourier/repository/queued_tasks_repository.dart';
+import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:bynextcourier/repository/token_repository.dart';
 import 'package:bynextcourier/screen/home_screen.dart';
 import 'package:bynextcourier/screen/splash.dart';
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
             RepositoryProvider(create: (context) => ShiftDetailsRepository()),
             RepositoryProvider(create: (_) => QueuedTasksRepository()),
             RepositoryProvider(create: (_) => ScheduleRepository()),
+            RepositoryProvider(create: (_) => TasksRepository()),
           ],
           child: MultiBlocProvider(
             providers: [

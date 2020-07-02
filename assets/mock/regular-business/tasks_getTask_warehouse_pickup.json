@@ -1,0 +1,32 @@
+{
+  "location": {
+    "city": "NYC",
+    "street_field1": "220 E 134TH ST",
+    "notes": null,
+    "zipcode": "10451",
+    "street_field2": "",
+    "meta": {
+    },
+    "lat": 40.809117899999997,
+    "lng": -73.930964399999993,
+    "state": "NY",
+    "name": "Bronx Dropshop"
+  },
+  "is_no_show_enabled": false,
+  "id": 224,
+  "notes": null,
+  "contact": {
+    "phone": "",
+    "name": "",
+    "email": null
+  },
+  "meta": {
+    "first_time_clients": 2,
+    "run_type": 0
+  },
+  "action_time": "2015-11-02 18:00:00",
+  "no_show_wait_seconds": 360,
+  "type": 4,
+  "linked_tasks": [
+  ]
+}

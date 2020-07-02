@@ -143,7 +143,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                                   iconSize: 30,
                                                   onPressed: shift != null
                                                       ? () {
-                                                          launchMaps(shift.startLocationLat, shift.startLocationLng);
+                                                          launchMaps(context, shift.startLocationLat, shift.startLocationLng);
                                                         }
                                                       : null,
                                                 ),

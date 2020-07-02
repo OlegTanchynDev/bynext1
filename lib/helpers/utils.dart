@@ -1,6 +1,10 @@
 import 'dart:math';
 
+import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
+import 'package:bynextcourier/bloc/maps_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<dynamic> showCustomDialog<T>(BuildContext context, {String title, String message, List<Widget> buttons}) async {
@@ -139,18 +143,49 @@ callPhone(BuildContext context, String phoneNumber, String name) async {
   }
 }
 
-launchMaps(double lat, double lon) async {
-  String googleUrl = 'comgooglemaps://?center=$lat,$lon';
-  String appleUrl = 'https://maps.apple.com/?sll=$lat,$lon';
-  if (await canLaunch("comgooglemaps://")) {
-    print('launching com googleUrl');
-    await launch(googleUrl);
-  } else if (await canLaunch(appleUrl)) {
-    print('launching apple url');
+launchMaps(BuildContext context, double lat, double lon) async {
+  MapsBloc mapsBloc = BlocProvider.of<MapsBloc>(context);
+  LocationTrackerBloc trackerBloc = BlocProvider.of<LocationTrackerBloc>(context);
+  var map = mapsBloc.state.enabled;
+  var myLocation = trackerBloc.state.location;
+
+  List<AvailableMap> available = await MapLauncher.installedMaps;
+  AvailableMap availableMap = available.firstWhere((element) => element.mapName == map);
+  if (availableMap.mapType == MapType.apple) {
+    String appleUrl = 'http://maps.apple.com/maps?daddr=$lat,$lon&dirflg=c';
+    if (myLocation != null) {
+      appleUrl += '&saddr=${myLocation.latitude},${myLocation.longitude}';
+    }
+    print('launching apple url:$appleUrl');
     await launch(appleUrl);
-  } else {
-    throw 'Could not launch url';
+  } else if (availableMap.mapType == MapType.google) {
+    String googleUrl = 'https://maps.google.com/?daddr=$lat,$lon&directionsmode=driving';
+    if (myLocation != null) {
+      googleUrl += '&saddr=${myLocation.latitude},${myLocation.longitude}';
+    }
+    print('launching com googleUrl:$googleUrl');
+    await launch(googleUrl);
+  } else if (availableMap.mapType == MapType.waze) {
+    print('launching waze url');
+    await MapLauncher.launchMap(
+      mapType: MapType.waze,
+      coords: Coords(lat, lon),
+      title: 'Destination',
+      description: 'Destination',
+    );
   }
+//  String googleUrl = 'comgooglemaps://?center=$lat,$lon';
+//  String appleUrl = 'https://maps.apple.com/?sll=$lat,$lon';
+//  if (await canLaunch("comgooglemaps://")) {
+//    print('launching com googleUrl');
+//    await launch(googleUrl);
+//  } else if (await canLaunch(appleUrl)) {
+//    print('launching apple url');
+//
+//    await launch(appleUrl);
+//  } else {
+//    throw 'Could not launch url';
+//  }
 }
 
 /*dp(locationDto.latitude, 4).toString()*/

@@ -1,5 +1,6 @@
 import 'package:bynextcourier/bloc/queued_tasks_bloc.dart';
 import 'package:bynextcourier/model/queued_task.dart';
+import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/view/custom_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,7 @@ class TasksScreen extends StatelessWidget {
   Widget _buildList(List<QueuedTask> tasks) {
     return ListView.separated(
         itemBuilder: (context, pos) {
-          final task = tasks[pos];
+          final task = tasks[pos].task;
           final address = task.location.street +
               ((task.location.streetLine2?.length ?? 0) > 0 ? ', ' + task.location.streetLine2 : '');
           final cleaningOptions = <String>[];
@@ -54,19 +55,19 @@ class TasksScreen extends StatelessWidget {
 
           String taskTypeImage;
           switch (task.type) {
-            case 0:
+            case CardType.COURIER_TASK_TYPE_GOTO_LOCATION:
               taskTypeImage = 'assets/images/header-supplies.png';
               break;
-            case 2:
+            case CardType.COURIER_TASK_TYPE_PICKUP_FROM_CLIENT:
               taskTypeImage = 'assets/images/pick-up-icon.png';
               break;
-            case 3:
+            case CardType.COURIER_TASK_TYPE_DELIVER_TO_CLIENT:
               taskTypeImage = 'assets/images/delivery-icon.png';
               break;
-            case 4:
+            case CardType.COURIER_TASK_TYPE_LAUNDROMAT_PICKUP:
               taskTypeImage = 'assets/images/header-laundromat.png';
               break;
-            case 5:
+            case CardType.COURIER_TASK_TYPE_LAUNDROMAT_DROPOFF:
               taskTypeImage = 'assets/images/header-laundromat.png';
               break;
           }

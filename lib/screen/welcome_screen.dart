@@ -49,7 +49,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     });
     _startJobBlocSubscription = BlocProvider.of<StartJobBloc>(context).listen((state) {
       if(state is ReadyToStartJobState){
-        printLabel('start job ${state.task.toString()}', 'TEST');
+        printLabel('start job ${state.task}', 'TEST');
         Navigator.of(context)
             .pushNamed(webRoute, arguments: {'url': 'http://google.com', 'title': 'TEST'});
       }

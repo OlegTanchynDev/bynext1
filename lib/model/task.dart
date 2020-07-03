@@ -78,6 +78,16 @@ class TaskMeta {
   final bool express;
   final String userImage;
 
+  //COURIER_TASK_TYPE_GOTO_LOCATION
+  final DateTime startTime;
+  final DateTime endTime;
+  final String instructions;
+  final bool isEarly;
+  final int runType;
+  final String jobTitle;
+  final String buildingImgUrl;
+
+
   TaskMeta({
     this.firstOrder = false,
     this.wf,
@@ -86,6 +96,13 @@ class TaskMeta {
     this.hd,
     this.express,
     this.userImage,
+    this.startTime,
+    this.endTime,
+    this.instructions,
+    this.isEarly = false,
+    this.runType,
+    this.jobTitle,
+    this.buildingImgUrl,
   });
 
   factory TaskMeta.fromMap(Map<String, dynamic> map) => TaskMeta(
@@ -96,6 +113,15 @@ class TaskMeta {
         hd: map['is_hd'] as bool,
         express: map['is_express'] as bool,
         userImage: map['user_image'] as String,
+
+         //COURIER_TASK_TYPE_GOTO_LOCATION
+        endTime: DateTime.parse(map['end_time'] as String),
+        startTime: DateTime.parse(map['start_time'] as String),
+        instructions: map['user_image'] as String,
+        isEarly: map['is_early'] as bool,
+        runType: map['run_type'] as int,
+        jobTitle: map['job_title'] as String,
+        buildingImgUrl: map['building_img_url'] as String,
       );
 }
 

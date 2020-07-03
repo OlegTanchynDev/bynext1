@@ -9,6 +9,7 @@ import 'package:bynextcourier/repository/queued_tasks_repository.dart';
 import 'package:bynextcourier/screen/forgot_password.dart';
 import 'package:bynextcourier/screen/shifts.dart';
 import 'package:bynextcourier/screen/sign_contract_screen.dart';
+import 'package:bynextcourier/screen/task_go_to_location.dart';
 import 'package:bynextcourier/screen/tasks.dart';
 import 'package:bynextcourier/screen/webview_screen.dart';
 import 'package:bynextcourier/view/custom_progress_indicator.dart';
@@ -32,13 +33,14 @@ import 'screen/my_salary.dart';
 import 'screen/navigation_settings.dart';
 
 const webRoute = 'web';
-const signContract = 'signContract';
+const signContractRoute = 'signContract';
 const forgotPasswordRoute = 'forgotPassword';
 const tasksRoute = 'tasks';
 const navigationSettingsRoute = 'navigationSettings';
 const shiftsRoute = 'shifts';
 const mySalaryRoute = 'mySalary';
 const issuesRoute = 'issues';
+const taskGoToLocationRoute = 'taskGoToLocation';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -229,7 +231,7 @@ class Router {
                     ..repository = context.repository<IssueRepository>(),
                   child: IssuesScreen());
               break;
-            case signContract:
+            case signContractRoute:
               page = BlocProvider(
                   create: (context) => SignContractBloc()
                     ..tokenBloc = context.bloc<TokenBloc>()
@@ -245,6 +247,9 @@ class Router {
                       )
                     ],
                   ));
+              break;
+            case taskGoToLocationRoute:
+              page = TaskGoToLocationScreen();
               break;
             default:
               page = Scaffold(

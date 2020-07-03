@@ -87,7 +87,6 @@ class TaskMeta {
   final String jobTitle;
   final String buildingImgUrl;
 
-
   TaskMeta({
     this.firstOrder = false,
     this.wf,
@@ -114,9 +113,9 @@ class TaskMeta {
         express: map['is_express'] as bool,
         userImage: map['user_image'] as String,
 
-         //COURIER_TASK_TYPE_GOTO_LOCATION
-        endTime: DateTime.parse(map['end_time'] as String),
-        startTime: DateTime.parse(map['start_time'] as String),
+        //COURIER_TASK_TYPE_GOTO_LOCATION
+        endTime: DateTime.tryParse(map['end_time'] as String ?? ''),
+        startTime: DateTime.tryParse(map['start_time'] as String ?? ''),
         instructions: map['user_image'] as String,
         isEarly: map['is_early'] as bool,
         runType: map['run_type'] as int,

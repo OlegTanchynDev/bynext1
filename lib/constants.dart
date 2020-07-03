@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-const googleApiKey = "";
+const googleApiKey = "AIzaSyD95U-6qaBKX5fQe4grCPuoDiPWSdKdW7E";
 
 const servicesUrl = kDebugMode ? "https://playground.cleanlyapp.com/services" : "https://cleanlyapp.com/services";
 const mediaUrl = "https://uploads-static.cleanlyapp.com/"

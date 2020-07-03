@@ -49,7 +49,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
     var acceptButton = FlatButton(
       child: Text('Accept'),
       onPressed: () {
-        Navigator.of(context).pushReplacementNamed(signContract);
+        Navigator.of(context).pushReplacementNamed(signContractRoute);
       },
     );
     return widget.shouldSignContract

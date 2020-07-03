@@ -6,6 +6,7 @@ import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/model/shift.dart';
+import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/app_bar_logo.dart';
 import 'package:flutter/material.dart';
@@ -50,8 +51,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     _startJobBlocSubscription = BlocProvider.of<StartJobBloc>(context).listen((state) {
       if(state is ReadyToStartJobState){
         printLabel('start job ${state.task}', 'TEST');
-        Navigator.of(context)
-            .pushNamed(webRoute, arguments: {'url': 'http://google.com', 'title': 'TEST'});
+        if(state.task.type == CardType.COURIER_TASK_TYPE_GOTO_LOCATION){
+          Navigator.of(context).pushNamed(taskGoToLocationRoute);
+        }else{
+          Navigator.of(context)
+              .pushNamed(webRoute, arguments: {'url': 'http://google.com', 'title': 'TEST'});
+        }
+
       }
     });
   }

@@ -8,31 +8,99 @@ class CustomerPickupStep1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<StartJobBloc, StartJobState>(
-      listener: (context, jobState) {
-        if (jobState is ReadyToStartJobState && jobState.task?.meta?.firstOrder == true) {
-          //showNotificationDialog();
+    return BlocConsumer<StartJobBloc, StartJobState>(
+      listener: (context, jobState) async {
+        if (jobState is ReadyToStartJobState &&
+          jobState.task?.meta?.firstOrder == true) {
+          await showCustomDialog2<void>(context, child: Container(
+            width: 60,
+            height: 60,
+            color: Colors.red,
+          ));
         }
       },
-      child: Scaffold(
-      appBar: AppBar(
+      builder: (context, jobState) {
+        return Scaffold(
+          appBar: AppBar(
 //        title: AppBarTitle(
 //        ),
-      ),
-      body: Column(
-        children: <Widget>[
-          CircleAvatar(
-            radius: 40,
           ),
-          Text('John Doe'),
-          Row(children: <Widget>[
-            Text('Business Account'),
-            Image.asset('assets/images/business.png'),
-          ],)
-        ],
-      ),
-      ),
+          body: Stack(
+            children: <Widget>[
+              jobState is ReadyToStartJobState &&
+                jobState.task?.meta?.firstOrder == true ? Align(
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  color: Colors.green,
+                ),
+              ) : Container(),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),
+                child: Column(
+                  children: <Widget>[
+                    CircleAvatar(
+                      radius: 40,
+                    ),
+                    Text('John Le'),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    RaisedButton(
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          Text(
+                            "Navigate to Location",
+                            textAlign: TextAlign.center,
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: IconButton(icon :Image.asset("assets/images/navigation-icon.png"))
+                          )
+                        ],
+                      ),
+                      onPressed: () {
+//                        launchMaps(context, shift.startLocationLat, shift.startLocationLng);
+                      }
+                    ),
+                    SizedBox(
+                      height: 7,
+                    ),
+                    RaisedButton(
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          Text(
+                            "View Building Photo",
+                            textAlign: TextAlign.center,
+                          ),
+
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: IconButton(icon :Image.asset("assets/images/navigation-icon.png"))
+                          ),
+                        ],
+                      ),
+                      onPressed: (){},
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+
+                    Row(
+                      children: <Widget>[
+                        Text('Business Account'),
+                        Image.asset('assets/images/business.png'),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
-
 }

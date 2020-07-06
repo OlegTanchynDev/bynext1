@@ -9,7 +9,7 @@ class LocationTrackerBaseState extends Equatable {
   LocationTrackerBaseState(this.isServiceRunning, this.location, this.userArrivedAtDestinationLocation);
 
   @override
-  List<Object> get props => [isServiceRunning, location];
+  List<Object> get props => [isServiceRunning, location, userArrivedAtDestinationLocation];
 }
 
 class InitialLocationTrackerState extends LocationTrackerBaseState {

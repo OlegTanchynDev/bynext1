@@ -28,7 +28,8 @@ class HomeScreen extends StatelessWidget {
           shiftDetailsState is ShiftDetailsReady ? shiftDetailsState.current == shiftDetailsState.business : false;
       return BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, profileState) {
-          final hideInfo = profileState.profile?.rateSystem == RateSystem.DELIVERY_COURIER_PAYMENT_EMPLOYEE_HIDE_INFO ?? false;
+          final hideInfo =
+              profileState.profile?.rateSystem == RateSystem.DELIVERY_COURIER_PAYMENT_EMPLOYEE_HIDE_INFO ?? false;
           return HiddenDrawer(
               drawerWidth: 250,
               //MediaQuery.of(context).size.width * .4,
@@ -224,76 +225,29 @@ class HomeScreen extends StatelessWidget {
                                             context,
                                             title: Text("Switch Task"),
                                             child: Column(
-                                              children: <Widget>[
-                                                Text("Possible task types"),
-                                                Divider(),
-                                                FlatButton(
-                                                  child: Text("Pick Up from Customer"),
-                                                  onPressed: (){
-                                                    Navigator.of(context).pop(DemoTasks.pickupFromClientPu);
-                                                  },
-                                                ),
-                                                Divider(),
-                                                FlatButton(
-                                                  child: Text("Pick Up from Customer\n(Without pickup bags)"),
-                                                  onPressed: (){
-                                                    Navigator.of(context).pop(DemoTasks.pickupFromClient);
-                                                  },
-                                                ),
-                                                Divider(),
-                                                FlatButton(
-                                                  child: Text("Drop Off to Customer"),
-                                                  onPressed: (){
-                                                    Navigator.of(context).pop(DemoTasks.deliverToClient);
-                                                  },
-                                                ),
-                                                Divider(),
-                                                FlatButton(
-                                                  child: Text("Pick Up from Warehouse\n(Without pickup bags)"),
-                                                  onPressed: (){
-                                                    Navigator.of(context).pop(DemoTasks.laundromatPickup);
-                                                  },
-                                                ),
-                                                Divider(),
-                                                FlatButton(
-                                                  child: Text("Pick Up from Warehouse"),
-                                                  onPressed: (){
-                                                    Navigator.of(context).pop(DemoTasks.laundromatPickupPu);
-                                                  },
-                                                ),
-                                                Divider(),
-                                                FlatButton(
-                                                  child: Text("Drop Off to Warehouse\n(Without pickup bags)"),
-                                                  onPressed: (){
-                                                    Navigator.of(context).pop(DemoTasks.laundromatDropoff);
-                                                  },
-                                                ),
-                                                Divider(),
-                                                FlatButton(
-                                                  child: Text("Drop Off to Warehouse"),
-                                                  onPressed: (){
-                                                    Navigator.of(context).pop(DemoTasks.laundromatDropoffPu);
-                                                  },
-                                                ),
-                                                Divider(),
-                                                FlatButton(
-                                                  child: Text("Go to Location"),
-                                                  onPressed: (){
-                                                    Navigator.of(context).pop(DemoTasks.gotoLocation);
-                                                  },
-                                                ),
-                                                Divider(),
-                                                FlatButton(
-                                                  child: Text("Batched"),
-                                                  onPressed: (){
-                                                    Navigator.of(context).pop(DemoTasks.batched);
-                                                  },
-                                                ),
-                                              ],
+                                              children: <Widget>[Text("Possible task types")] +
+                                                  DemoTasks.values
+                                                      .expand<Widget>((item) => [
+                                                            Divider(),
+                                                            FlatButton(
+                                                              child: Text(item.value),
+                                                              onPressed: () => Navigator.of(context).pop(item),
+                                                            )
+                                                          ])
+                                                      .toList(),
                                             ),
                                           );
 
                                           BlocProvider.of<HttpClientBloc>(context).add(HttpClientSetDemoTask(nextTask));
+
+                                          showCustomDialog2(context,
+                                              title: Text('Task changed to'),
+                                              child: Text(nextTask.value),
+                                              buttons: [
+                                                FlatButton(
+                                                    child: Text(S.of(context).ok),
+                                                    onPressed: () => Navigator.of(context).pop())
+                                              ]);
                                         },
                                       ),
                                     ]

@@ -64,6 +64,32 @@ enum DemoTasks {
   laundromatPickupPu,
   laundromatDropoff,
   laundromatDropoffPu,
-  batched,
-  gotoLocation
+  gotoLocation,
+  batched
+}
+
+extension DemoTasksExtension on DemoTasks {
+  static String _value(DemoTasks val) {
+    switch (val) {
+      case DemoTasks.pickupFromClient:
+        return 'Pick Up from Customer\n(Without pickup bags)';
+      case DemoTasks.pickupFromClientPu:
+        return 'Pick Up from Customer';
+      case DemoTasks.deliverToClient:
+        return 'Drop Off to Customer';
+      case DemoTasks.laundromatPickup:
+        return 'Pick Up from Warehouse\n(Without pickup bags)';
+      case DemoTasks.laundromatPickupPu:
+        return 'Pick Up from Warehouse';
+      case DemoTasks.laundromatDropoff:
+        return 'Drop Off to Warehouse\n(Without pickup bags)';
+      case DemoTasks.laundromatDropoffPu:
+        return 'Drop Off to Warehouse';
+      case DemoTasks.gotoLocation:
+        return 'Go to Location';
+      case DemoTasks.batched:
+        return 'Batched';
+    }
+  }
+  String get value => _value(this);
 }

@@ -129,14 +129,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   RaisedButton(
                     child: Text('DEMO MODE'),
-                    onPressed: _usernameController.text != '' && _passwordController.text != ''
-                        ? () {
+                    onPressed: () {
                             context.bloc<HttpClientBloc>().add(HttpClientDemo(true));
                             context
                                 .bloc<LoginFormBloc>()
-                                .submit(_usernameController.text.trim(), _passwordController.text);
+                                .submit('alex@cleanly.com', 'setup');
                           }
-                        : null,
                     //() => context.bloc<LoginFormBloc>().submit('demo', 'demo'),
                   ),
                 ],

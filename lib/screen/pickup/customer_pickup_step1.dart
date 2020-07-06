@@ -8,17 +8,17 @@ class CustomerPickupStep1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<StartJobBloc, StartJobState>(
-      listener: (context, jobState) async {
-        if (jobState is ReadyToStartJobState &&
-          jobState.task?.meta?.firstOrder == true) {
-          await showCustomDialog2<void>(context, child: Container(
-            width: 60,
-            height: 60,
-            color: Colors.red,
-          ));
-        }
-      },
+    return BlocBuilder<StartJobBloc, StartJobState>(
+//      listener: (context, jobState) async {
+//        if (jobState is ReadyToStartJobState &&
+//          jobState.task?.meta?.firstOrder == true) {
+//          await showCustomDialog2<void>(context, child: Container(
+//            width: 60,
+//            height: 60,
+//            color: Colors.red,
+//          ));
+//        }
+//      },
       builder: (context, jobState) {
         return Scaffold(
           appBar: AppBar(
@@ -60,9 +60,10 @@ class CustomerPickupStep1 extends StatelessWidget {
                           )
                         ],
                       ),
-                      onPressed: () {
-//                        launchMaps(context, shift.startLocationLat, shift.startLocationLng);
-                      }
+                      onPressed: jobState is ReadyToStartJobState && (jobState?.task?.location ?? null) != null ?() {
+//                        print("FFF");
+                        launchMaps(context, jobState.task.location.lat, jobState.task.location.lng);
+                      } : null
                     ),
                     SizedBox(
                       height: 7,

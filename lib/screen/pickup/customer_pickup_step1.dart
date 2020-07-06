@@ -26,100 +26,151 @@ class CustomerPickupStep1 extends StatelessWidget {
 //        title: AppBarTitle(
 //        ),
             ),
-            body: Stack(
-              children: <Widget>[
-                jobState is ReadyToStartJobState &&
-                  jobState.task?.meta?.firstOrder == true ? Align(
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    color: Colors.green,
-                  ),
-                ) : Container(),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20).copyWith(
-                    bottom: 14),
-                  child: Column(
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 40,
-                        child: Container(
-                          width: 79,
-                          height: 79,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                jobState.task.meta.userImage,
-                              ),
-                            )
-                          ),
+            body: SafeArea(
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20).copyWith(
+                      bottom: 14),
+                    child: Column(
+                      children: <Widget>[
+                        CircleAvatar(
+                          radius: 40,
+                          child: Container(
+                            width: 79,
+                            height: 79,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  jobState.task.meta.userImage,
+                                ),
+                              )
+                            ),
 //                          child: Image.network(
 //                            jobState.task.meta.userImage,
 //                          ),
+                          ),
                         ),
-                      ),
-                      Text(jobState?.task?.location?.name ?? ""),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      RaisedButton(
-                        child: Stack(
-                          alignment: Alignment.center,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(
-                              "Navigate to Location",
-                              textAlign: TextAlign.center,
-                            ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: IconButton(icon: Image.asset(
-                                "assets/images/navigation-icon.png"))
-                            )
+                            Text(jobState?.task?.location?.name ?? ""),
                           ],
                         ),
-                        onPressed: jobState is ReadyToStartJobState && (jobState
-                          ?.task?.location ?? null) != null ? () {
+                        SizedBox(
+                          height: 50,
+                        ),
+                        RaisedButton(
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: <Widget>[
+                              Text(
+                                "Navigate to Location",
+                                textAlign: TextAlign.center,
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: IconButton(icon: Image.asset(
+                                  "assets/images/navigation-icon.png"))
+                              )
+                            ],
+                          ),
+                          onPressed: jobState is ReadyToStartJobState && (jobState
+                            ?.task?.location ?? null) != null ? () {
 //                        print("FFF");
-                          launchMaps(context, jobState.task.location.lat,
-                            jobState.task.location.lng);
-                        } : null
-                      ),
-                      SizedBox(
-                        height: 7,
-                      ),
-                      RaisedButton(
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            Text(
-                              "View Building Photo",
-                              textAlign: TextAlign.center,
-                            ),
+                            launchMaps(context, jobState.task.location.lat,
+                              jobState.task.location.lng);
+                          } : null
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        RaisedButton(
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: <Widget>[
+                              Text(
+                                "View Building Photo",
+                                textAlign: TextAlign.center,
+                              ),
 
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: IconButton(icon: Image.asset(
-                                "assets/images/navigation-icon.png"))
-                            ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: IconButton(icon: Image.asset(
+                                  "assets/images/navigation-icon.png"))
+                              ),
+                            ],
+                          ),
+                          onPressed: () {},
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Container(
+                          decoration:
+                          BoxDecoration(border: Border.all(color: Theme.of(context).dividerTheme.color)),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Padding(padding: EdgeInsets.all(9.0), child: Text(jobState.task.location.street)),
+                              Divider(),
+                              Padding(
+                                padding: EdgeInsets.all(9.0),
+                                child: Text(
+//                                jobState.task.
+                                  "8:00 PM – 9:00 PM"
+                                )
+                              ),
+                              Divider(),
+                              Padding(
+                                padding: EdgeInsets.all(9.0),
+                                child: Text(
+                                  "Pickup from Customer"
+//                                startDate != null ? startDate : ''
+                                )
+                              ),
+                            ],
+                          )
+                        ),
+
+                        Row(
+                          children: <Widget>[
+                            Text('Business Account'),
+                            Image.asset('assets/images/business.png'),
                           ],
                         ),
-                        onPressed: () {},
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-
-                      Row(
-                        children: <Widget>[
-                          Text('Business Account'),
-                          Image.asset('assets/images/business.png'),
-                        ],
-                      )
-                    ],
+                        Expanded(
+                          child: Container(
+                            height: 1,
+                          ),
+                        ),
+                        RaisedButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Text(
+                                "Arrived at place >>",
+//                              textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                          onPressed: (){},
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  jobState is ReadyToStartJobState &&
+                    jobState.task?.meta?.firstOrder == true ? Align(
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      color: Colors.green,
+                    ),
+                  ) : Container(),
+                ],
+              ),
             ),
           );
         }

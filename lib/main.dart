@@ -4,6 +4,7 @@ import 'package:bynextcourier/bloc/maps_bloc.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
+import 'package:bynextcourier/repository/courier_repository.dart';
 import 'package:bynextcourier/repository/issues_repository.dart';
 import 'package:bynextcourier/repository/payment_repository.dart';
 import 'package:bynextcourier/repository/profile_repository.dart';
@@ -77,6 +78,7 @@ class MyApp extends StatelessWidget {
             RepositoryProvider(create: (_) => QueuedTasksRepository()),
             RepositoryProvider(create: (_) => ScheduleRepository()),
             RepositoryProvider(create: (_) => TasksRepository()),
+            RepositoryProvider(create: (_) => CourierRepository()),
           ],
           child: MultiBlocProvider(
             providers: [
@@ -119,7 +121,8 @@ class MyApp extends StatelessWidget {
                 create: (context) => StartJobBloc()
                   ..tokenBloc = context.bloc<TokenBloc>()
                   ..httpClientBloc = context.bloc<HttpClientBloc>()
-                  ..repository = context.repository<TasksRepository>(),
+                  ..repository = context.repository<TasksRepository>()
+                  ..courierRepository = context.repository<CourierRepository>(),
               )
             ],
             child: Builder(

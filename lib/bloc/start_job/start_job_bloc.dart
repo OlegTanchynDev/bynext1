@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/model/task.dart';
+import 'package:bynextcourier/repository/courier_repository.dart';
 import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -13,6 +14,7 @@ part 'start_job_state.dart';
 
 class StartJobBloc extends Bloc<StartJobEvent, StartJobState> {
   TasksRepository repository;
+  CourierRepository courierRepository;
   TokenBloc tokenBloc;
   HttpClientBloc httpClientBloc;
 
@@ -23,8 +25,12 @@ class StartJobBloc extends Bloc<StartJobEvent, StartJobState> {
   Stream<StartJobState> mapEventToState(StartJobEvent event) async* {
     if (event is GetNextTaskEvent) {
       yield WaitingStartJobState();
-      Task task = await repository.fetchNextTask(httpClientBloc.state.client, tokenBloc.state.token,event.shiftId, event.business);
-      yield ReadyToStartJobState(task);
+
+      final goOnlineResult = await courierRepository.goOnline(httpClientBloc.state.client, tokenBloc.state.token, tokenBloc.state.email);
+      if (goOnlineResult) {
+        Task task = await repository.fetchNextTask(httpClientBloc.state.client, tokenBloc.state.token,event.shiftId, event.business);
+        yield ReadyToStartJobState(task);
+      }
     }
   }
 }

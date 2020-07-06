@@ -58,6 +58,16 @@ class CustomerPickupStep1 extends StatelessWidget {
                             Text(jobState?.task?.location?.name ?? ""),
                           ],
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text('Business Account'),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Image.asset('assets/images/business.png'),
+                          ],
+                        ),
                         SizedBox(
                           height: 50,
                         ),
@@ -134,12 +144,6 @@ class CustomerPickupStep1 extends StatelessWidget {
                           )
                         ),
 
-                        Row(
-                          children: <Widget>[
-                            Text('Business Account'),
-                            Image.asset('assets/images/business.png'),
-                          ],
-                        ),
                         Expanded(
                           child: Container(
                             height: 1,

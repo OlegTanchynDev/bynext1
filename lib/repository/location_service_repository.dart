@@ -23,58 +23,63 @@ class LocationServiceRepository {
   static final num _keyDefaultTimeIntervalForMinimumLocationTracking = 10;
   static final num _keyDefaultTimeIntervalForLocationTransmit = 30;
   static final num _keyDefaultDistanceToleranceMeter = 10;
+  static final num _keyDefaultDistanceToUserDestinationLocation = 400.0;
 
   static const String isolateName = 'LocatorIsolate';
 
-  int _count = -1;
+//  int _count = -1;
   List<LocationDto> myLocationArray = [];
   LocationDto myLastLocation;
   LocationDto myLastSentToServerLocation;
   Timer locationUpdateTimer;
   Timer minimumUserLocationTimer;
+  bool userArrivedAtDestinationLocation = false;
 
   Future<void> init(Map<dynamic, dynamic> params) async {
-//    printLabel("Init callback handler", 'LocationServiceRepository');
-    if (params.containsKey('countInit')) {
-      dynamic tmpCount = params['countInit'];
-      if (tmpCount is double) {
-        _count = tmpCount.toInt();
-      } else if (tmpCount is String) {
-        _count = int.parse(tmpCount);
-      } else if (tmpCount is int) {
-        _count = tmpCount;
-      } else {
-        _count = -2;
-      }
-    } else {
-      _count = 0;
-    }
+    printLabel("Init callback handler", 'LocationServiceRepository');
+//    if (params.containsKey('countInit')) {
+//      dynamic tmpCount = params['countInit'];
+//      if (tmpCount is double) {
+//        _count = tmpCount.toInt();
+//      } else if (tmpCount is String) {
+//        _count = int.parse(tmpCount);
+//      } else if (tmpCount is int) {
+//        _count = tmpCount;
+//      } else {
+//        _count = -2;
+//      }
+//    } else {
+//      _count = 0;
+//    }
 
-    myLocationArray = [];
+//    myLocationArray = [];
 //    printLabel("$_count", 'LocationServiceRepository');
 //    printLabel("start", 'LocationServiceRepository');
     _startTracking();
-    final SendPort send = IsolateNameServer.lookupPortByName(isolateName);
-    send?.send(null);
+
+//    final SendPort send = IsolateNameServer.lookupPortByName(isolateName);
+//    send?.send(null);
   }
 
   void dispose() {
-//    printLabel("Dispose callback handler", 'LocationServiceRepository');
+    printLabel("Dispose callback handler", 'LocationServiceRepository');
 //    printLabel("$_count", 'LocationServiceRepository');
 //    printLabel("end", 'LocationServiceRepository');
-    final SendPort send = IsolateNameServer.lookupPortByName(isolateName);
-    send?.send(null);
     myLocationArray.clear();
+    userArrivedAtDestinationLocation = false;
     myLastSentToServerLocation = null;
+    myLastLocation = null;
     locationUpdateTimer?.cancel();
     minimumUserLocationTimer?.cancel();
+    final SendPort send = IsolateNameServer.lookupPortByName(isolateName);
+    send?.send({'location': null, 'userArrivedAtDestinationLocation': userArrivedAtDestinationLocation});
   }
 
   void callback(LocationDto locationDto) {
 //    printLabel('$_count location in dart: ${locationDto.toString()}', 'LocationServiceRepository');
     final SendPort send = IsolateNameServer.lookupPortByName(isolateName);
-    send?.send(locationDto);
-    _count++;
+    send?.send({'location': locationDto, 'userArrivedAtDestinationLocation': userArrivedAtDestinationLocation});
+//    _count++;
     myLastLocation = locationDto;
     myLocationArray.add(locationDto);
   }
@@ -82,8 +87,8 @@ class LocationServiceRepository {
   void _startTracking() async {
     final prefs = await SharedPreferences.getInstance();
     num timerInterval = prefs.getInt(Profile.keySendLocationIntervalSec) ?? _keyDefaultTimeIntervalForLocationTransmit;
-//    printLabel('_startTracking, start locationUpdateTimer and minimumUserLocationTimer, timerInterval: $timerInterval',
-//        'LocationServiceRepository');
+    printLabel('_startTracking, start locationUpdateTimer and minimumUserLocationTimer, timerInterval: $timerInterval',
+        'LocationServiceRepository');
     locationUpdateTimer = new Timer.periodic(Duration(seconds: timerInterval), _updateLocationToServer);
     _updateLocationToServer(locationUpdateTimer);
     minimumUserLocationTimer = new Timer.periodic(
@@ -150,14 +155,39 @@ class LocationServiceRepository {
     }
   }
 
-  void _checkIfUserArrivedAtDestinationLocation(Timer timer) {}
+  Future<void> _checkIfUserArrivedAtDestinationLocation(Timer timer) async {
+    final prefs = await SharedPreferences.getInstance();
+    var taskLat = prefs.getDouble('task_lat');
+    var taskLng = prefs.getDouble('task_lng');
+    final SendPort send = IsolateNameServer.lookupPortByName(isolateName);
+    if (myLastLocation == null) {
+//      printLabel('myLastLocation == null', '_checkIfUserArrivedAtDestinationLocation');
+      return;
+    }
+    if (taskLat == null || taskLng == null) {
+      userArrivedAtDestinationLocation = false;
+      printLabel('task location == null', '_checkIfUserArrivedAtDestinationLocation');
+      send?.send({'location': myLastLocation, 'userArrivedAtDestinationLocation': userArrivedAtDestinationLocation});
+      return;
+    }
+    num distanceToUserDestinationLocation =
+        prefs.getInt(Profile.keyMinimumGeoLocationDistance) ?? _keyDefaultDistanceToUserDestinationLocation;
+    final double distance =
+    await Geolocator().distanceBetween(myLastLocation.latitude, myLastLocation.longitude, taskLat, taskLng);
+    printLabel('calculate distance $distance', '_checkIfUserArrivedAtDestinationLocation');
+    printLabel('distanceToUserDestinationLocation $distanceToUserDestinationLocation', '_checkIfUserArrivedAtDestinationLocation');
+    userArrivedAtDestinationLocation = distance < distanceToUserDestinationLocation;
+    printLabel('userArrivedAtDestinationLocation $userArrivedAtDestinationLocation', '_checkIfUserArrivedAtDestinationLocation');
+    send?.send({'location': myLastLocation, 'userArrivedAtDestinationLocation': userArrivedAtDestinationLocation});
+  }
 
   Future<void> _sendLocationToServer(LocationDto myLocation, String token) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 //    printLabel('_sendLocationToServer token:$token, myLocation:$myLocation, packageInfo.version:${packageInfo.version}',
 //        'LocationServiceRepository');
     final response = await http.get(
-      '$servicesUrl/delivery/v2/location/setCourierLocation/?lat=${myLocation.latitude}&long=${myLocation.longitude}&speed=${myLocation.speed}&accuracy=${myLocation.accuracy}&source=${packageInfo.version}',
+      '$servicesUrl/delivery/v2/location/setCourierLocation/?lat=${myLocation.latitude}&long=${myLocation
+          .longitude}&speed=${myLocation.speed}&accuracy=${myLocation.accuracy}&source=${packageInfo.version}',
       headers: {
         'content-type': 'application/json',
         'Authorization': 'Token $token',

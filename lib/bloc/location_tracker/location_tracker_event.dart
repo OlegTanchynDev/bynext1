@@ -12,6 +12,7 @@ class StopLocationTrackingEvent extends LocationTrackerEvent {}
 
 class OnUpdateLocationEvent extends LocationTrackerEvent {
   final location;
+  final userArrivedAtDestinationLocation;
 
-  OnUpdateLocationEvent(this.location);
+  OnUpdateLocationEvent(this.location, this.userArrivedAtDestinationLocation);
 }

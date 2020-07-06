@@ -11,14 +11,12 @@ import 'package:bynextcourier/repository/location_service_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:location_permissions/location_permissions.dart';
 import 'package:meta/meta.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'location_tracker_event.dart';
 
 part 'location_tracker_state.dart';
 
 class LocationTrackerBloc extends Bloc<LocationTrackerEvent, LocationTrackerBaseState> {
-
   @override
   InitialLocationTrackerState get initialState => InitialLocationTrackerState();
 
@@ -26,19 +24,20 @@ class LocationTrackerBloc extends Bloc<LocationTrackerEvent, LocationTrackerBase
   ReceivePort port = ReceivePort();
   bool isServiceRunning = false;
   LocationDto lastLocation;
+  bool userArrivedAtDestinationLocation = false;
 
   void startLocationTracking() {
-    printLabel('startLocationTracking','LocationTrackerBloc');
+    printLabel('startLocationTracking', 'LocationTrackerBloc');
     add(StartLocationTrackingEvent());
   }
 
   void stopLocationTracking() {
-    printLabel('stopLocationTracking','LocationTrackerBloc');
+    printLabel('stopLocationTracking', 'LocationTrackerBloc');
     add(StopLocationTrackingEvent());
   }
 
   void initAndStartLocationTrackingIfNeeded() async {
-    printLabel('initAndStartLocationTracking','LocationTrackerBloc');
+    printLabel('initAndStartLocationTracking', 'LocationTrackerBloc');
     add(InitAndStartLocationTrackingEvent());
   }
 
@@ -66,28 +65,30 @@ class LocationTrackerBloc extends Bloc<LocationTrackerEvent, LocationTrackerBase
     }
   }
 
-  void _onUpdateLocation(location) {
-//    print('_onUpdateLocation ' + location.toString());
-    lastLocation = location;
-    add(OnUpdateLocationEvent(location));
+  void _onUpdateLocation(params) {
+    lastLocation = params['location'];
+    userArrivedAtDestinationLocation = params['userArrivedAtDestinationLocation'];
+    print(
+        '_onUpdateLocation\n userArrivedAtDestinationLocation:$userArrivedAtDestinationLocation\n location:' + lastLocation.toString());
+    add(OnUpdateLocationEvent(lastLocation, userArrivedAtDestinationLocation));
   }
 
   @override
   Stream<LocationTrackerState> mapEventToState(LocationTrackerEvent event) async* {
     if (event is InitAndStartLocationTrackingEvent) {
       yield* _initAndStartLocationTracking();
-    }else if (event is OnUpdateLocationEvent) {
-      yield LocationTrackerState(isServiceRunning, event.location);
-    }else if (event is StopLocationTrackingEvent) {
+    } else if (event is OnUpdateLocationEvent) {
+      yield LocationTrackerState(isServiceRunning, event.location, event.userArrivedAtDestinationLocation);
+    } else if (event is StopLocationTrackingEvent) {
       isServiceRunning = false;
       BackgroundLocator.unRegisterLocationUpdate();
-      yield LocationTrackerState(isServiceRunning, null);
+      yield LocationTrackerState(isServiceRunning, null, false);
     }
   }
 
   @override
   Future<void> close() {
-    printLabel('LocationTrackerBloc close','LocationTrackerBloc');
+    printLabel('LocationTrackerBloc close', 'LocationTrackerBloc');
     return super.close();
   }
 
@@ -100,13 +101,13 @@ class LocationTrackerBloc extends Bloc<LocationTrackerEvent, LocationTrackerBase
       _onUpdateLocation,
     );
 
-    printLabel('Initializing...','LocationTrackerBloc');
+    printLabel('Initializing...', 'LocationTrackerBloc');
     await BackgroundLocator.initialize();
-    printLabel('Initialization done','LocationTrackerBloc');
+    printLabel('Initialization done', 'LocationTrackerBloc');
     isServiceRunning = await BackgroundLocator.isRegisterLocationUpdate();
-    printLabel('Running $isServiceRunning','LocationTrackerBloc');
+    printLabel('Running $isServiceRunning', 'LocationTrackerBloc');
     if (isServiceRunning) {
-      yield LocationTrackerState(isServiceRunning, lastLocation);
+      yield LocationTrackerState(isServiceRunning, lastLocation, userArrivedAtDestinationLocation);
     } else {
       _startLocator();
     }
@@ -114,7 +115,7 @@ class LocationTrackerBloc extends Bloc<LocationTrackerEvent, LocationTrackerBase
 
   void _startLocator() async {
     if (await _checkLocationPermission()) {
-      printLabel('_startLocator','LocationTrackerBloc');
+      printLabel('_startLocator', 'LocationTrackerBloc');
       Map<String, dynamic> data = {'countInit': 1};
       BackgroundLocator.registerLocationUpdate(
         LocationCallbackHandler.callback,

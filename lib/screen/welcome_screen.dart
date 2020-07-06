@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hidden_drawer/flutter_hidden_drawer.dart';
 import 'package:intl/intl.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -48,9 +49,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         }
       }
     });
-    _startJobBlocSubscription = BlocProvider.of<StartJobBloc>(context).listen((state) {
+    _startJobBlocSubscription = BlocProvider.of<StartJobBloc>(context).listen((state) async {
       if(state is ReadyToStartJobState){
         printLabel('start job ${state.task}', 'TEST');
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setDouble('task_lat', state.task?.location?.lat);
+        await prefs.setDouble('task_lng', state.task?.location?.lng);
+
         if(state.task.type == CardType.COURIER_TASK_TYPE_GOTO_LOCATION) {
           Navigator.of(context).pushNamed(taskGoToLocationRoute);
         } else if (state.task.type == CardType.COURIER_TASK_TYPE_PICKUP_FROM_CLIENT) {

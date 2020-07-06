@@ -57,8 +57,8 @@ class DemoHttpClient extends BaseClient {
 }
 
 enum DemoTasks {
-  pickupFromClient,
   pickupFromClientPu,
+  pickupFromClient,
   deliverToClient,
   laundromatPickup,
   laundromatPickupPu,

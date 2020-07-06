@@ -59,11 +59,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         if(state.task.type == CardType.COURIER_TASK_TYPE_GOTO_LOCATION) {
           Navigator.of(context).pushNamed(taskGoToLocationRoute);
         } else if (state.task.type == CardType.COURIER_TASK_TYPE_PICKUP_FROM_CLIENT) {
-          Navigator.of(context).pushNamed(taskPickupFromClientRoute);
+          if (state.task.linkedTasks?.isEmpty ?? true) {
+            Navigator.of(context).pushNamed(taskPickupFromClientRoute);
+          } else {
+            // Batched Orders
+          }
         } else if (state.task.type == CardType.COURIER_TASK_TYPE_PICKUP_SUPPLIES) {
           Navigator.of(context).pushNamed(taskPickupSuppliesRoute);
         } else if (state.task.type == CardType.COURIER_TASK_TYPE_DELIVER_TO_CLIENT) {
-          Navigator.of(context).pushNamed(taskDeliverToClientRoute);
+          if (state.task.linkedTasks?.isEmpty ?? true) {
+            Navigator.of(context).pushNamed(taskDeliverToClientRoute);
+          } else {
+            // Batched Orders
+          }
         } else if (state.task.type == CardType.COURIER_TASK_TYPE_LAUNDROMAT_PICKUP) {
           Navigator.of(context).pushNamed(taskLaundromatPickupRoute);
         } else if (state.task.type == CardType.COURIER_TASK_TYPE_LAUNDROMAT_DROPOFF) {

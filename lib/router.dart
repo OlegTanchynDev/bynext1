@@ -32,6 +32,7 @@ import 'repository/token_repository.dart';
 import 'screen/issues.dart';
 import 'screen/my_salary.dart';
 import 'screen/navigation_settings.dart';
+import 'screen/pickup/customer_pickup_step1.dart';
 import 'screen/task_delivery_to_client.dart';
 import 'screen/task_laundromat_dropoff.dart';
 import 'screen/task_laundromat_pickup.dart';
@@ -267,7 +268,8 @@ class Router {
               page = TaskGoToLocationStep2Screen();
               break;
             case taskPickupFromClientRoute:
-              page = TaskPickupFromClientScreen();
+//              page = TaskPickupFromClientScreen();
+              page = CustomerPickupStep1();
               break;
             case taskPickupSuppliesRoute:
               page = TaskPickupSuppliesScreen();

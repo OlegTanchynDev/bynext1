@@ -39,6 +39,8 @@ class Task {
 
   final String notes;
 
+  final List<Task> linkedTasks;
+
   Task(
       {this.id,
       this.type,
@@ -48,7 +50,8 @@ class Task {
       this.contact,
       this.location,
       this.meta,
-      this.notes});
+      this.notes,
+      this.linkedTasks});
 
   factory Task.fromMap(Map<String, dynamic> map) {
     return Task(
@@ -60,7 +63,8 @@ class Task {
         contact: TaskContact.fromMap(map['contact']),
         location: TaskLocation.fromMap(map['location']),
         meta: TaskMeta.fromMap(map['meta']),
-        notes: map['notes'] as String);
+        notes: map['notes'] as String,
+        linkedTasks: []);
   }
 
   @override

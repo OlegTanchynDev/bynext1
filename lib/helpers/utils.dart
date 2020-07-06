@@ -152,19 +152,31 @@ launchMaps(BuildContext context, double lat, double lon) async {
   List<AvailableMap> available = await MapLauncher.installedMaps;
   AvailableMap availableMap = available.firstWhere((element) => element.mapName == map);
   if (availableMap.mapType == MapType.apple) {
-    String appleUrl = 'http://maps.apple.com/maps?daddr=$lat,$lon&dirflg=c';
-    if (myLocation != null) {
-      appleUrl += '&saddr=${myLocation.latitude},${myLocation.longitude}';
-    }
-    print('launching apple url:$appleUrl');
-    await launch(appleUrl);
+//    String appleUrl = 'http://maps.apple.com/maps?daddr=$lat,$lon&dirflg=c';
+//    if (myLocation != null) {
+//      appleUrl += '&saddr=${myLocation.latitude},${myLocation.longitude}';
+//    }
+//    print('launching apple url:$appleUrl');
+//    await launch(appleUrl);
+    await MapLauncher.launchMap(
+      mapType: MapType.apple,
+      coords: Coords(lat, lon),
+      title: 'Destination',
+      description: 'Destination',
+    );
   } else if (availableMap.mapType == MapType.google) {
-    String googleUrl = 'https://maps.google.com/?daddr=$lat,$lon&directionsmode=driving';
-    if (myLocation != null) {
-      googleUrl += '&saddr=${myLocation.latitude},${myLocation.longitude}';
-    }
-    print('launching com googleUrl:$googleUrl');
-    await launch(googleUrl);
+//    String googleUrl = 'https://maps.google.com/?daddr=$lat,$lon&directionsmode=driving';
+//    if (myLocation != null) {
+//      googleUrl += '&saddr=${myLocation.latitude},${myLocation.longitude}';
+//    }
+//    print('launching com googleUrl:$googleUrl');
+//    await launch(googleUrl);
+    MapLauncher.launchMap(
+      mapType: MapType.google,
+      coords: Coords(lat, lon),
+      title: 'Destination',
+      description: 'Destination',
+    );
   } else if (availableMap.mapType == MapType.waze) {
     print('launching waze url');
     await MapLauncher.launchMap(

@@ -51,9 +51,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     _startJobBlocSubscription = BlocProvider.of<StartJobBloc>(context).listen((state) {
       if(state is ReadyToStartJobState){
         printLabel('start job ${state.task}', 'TEST');
-        if(state.task.type == CardType.COURIER_TASK_TYPE_GOTO_LOCATION){
+        if(state.task.type == CardType.COURIER_TASK_TYPE_GOTO_LOCATION) {
           Navigator.of(context).pushNamed(taskGoToLocationRoute);
-        }else{
+        } else if (state.task.type == CardType.COURIER_TASK_TYPE_PICKUP_FROM_CLIENT) {
+          Navigator.of(context).pushNamed(taskPickupFromClientRoute);
+        } else if (state.task.type == CardType.COURIER_TASK_TYPE_PICKUP_SUPPLIES) {
+          Navigator.of(context).pushNamed(taskPickupSuppliesRoute);
+        } else if (state.task.type == CardType.COURIER_TASK_TYPE_DELIVER_TO_CLIENT) {
+          Navigator.of(context).pushNamed(taskDeliverToClientRoute);
+        } else if (state.task.type == CardType.COURIER_TASK_TYPE_LAUNDROMAT_PICKUP) {
+          Navigator.of(context).pushNamed(taskLaundromatPickupRoute);
+        } else if (state.task.type == CardType.COURIER_TASK_TYPE_LAUNDROMAT_DROPOFF) {
+          Navigator.of(context).pushNamed(taskLaundromatDropOffRoute);
+        } else{
           Navigator.of(context)
               .pushNamed(webRoute, arguments: {'url': 'http://google.com', 'title': 'TEST'});
         }

@@ -31,6 +31,11 @@ import 'repository/token_repository.dart';
 import 'screen/issues.dart';
 import 'screen/my_salary.dart';
 import 'screen/navigation_settings.dart';
+import 'screen/task_delivery_to_client.dart';
+import 'screen/task_laundromat_dropoff.dart';
+import 'screen/task_laundromat_pickup.dart';
+import 'screen/task_pickup_from_client.dart';
+import 'screen/task_pickup_supplies.dart';
 
 const webRoute = 'web';
 const signContractRoute = 'signContract';
@@ -41,6 +46,11 @@ const shiftsRoute = 'shifts';
 const mySalaryRoute = 'mySalary';
 const issuesRoute = 'issues';
 const taskGoToLocationRoute = 'taskGoToLocation';
+const taskPickupFromClientRoute = 'taskPickupFromClientRoute';
+const taskPickupSuppliesRoute = 'taskPickupSuppliesRoute';
+const taskDeliverToClientRoute = 'taskDeliverToClientRoute';
+const taskLaundromatPickupRoute = 'taskLaundromatPickupRoute';
+const taskLaundromatDropOffRoute = 'taskLaundromatDropOffRoute';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -250,6 +260,21 @@ class Router {
               break;
             case taskGoToLocationRoute:
               page = TaskGoToLocationScreen();
+              break;
+            case taskPickupFromClientRoute:
+              page = TaskPickupFromClientScreen();
+              break;
+            case taskPickupSuppliesRoute:
+              page = TaskPickupSuppliesScreen();
+              break;
+            case taskDeliverToClientRoute:
+              page = TaskDeliveryToClientScreen();
+              break;
+            case taskLaundromatPickupRoute:
+              page = TaskLaundromatPickupScreen();
+              break;
+            case taskLaundromatDropOffRoute:
+              page = TaskLaundromatDropOffScreen();
               break;
             default:
               page = Scaffold(

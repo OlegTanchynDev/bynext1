@@ -55,6 +55,9 @@ class CustomerPickupStep1 extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
+                            IconButton(
+                              icon: Image.asset("assets/images/heart-icon-fill.png"),
+                            ),
                             Text(jobState?.task?.location?.name ?? ""),
                           ],
                         ),

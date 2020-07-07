@@ -1,6 +1,5 @@
 import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
-import 'package:bynextcourier/view/app_bar_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,23 +12,10 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StartJobBloc, StartJobState>(
-//      listener: (context, jobState) async {
-//        if (jobState is ReadyToStartJobState &&
-//          jobState.task?.meta?.firstOrder == true) {
-//          await showCustomDialog2<void>(context, child: Container(
-//            width: 60,
-//            height: 60,
-//            color: Colors.red,
-//          ));
-//        }
-//      },
       builder: (context, jobState) {
         if (jobState is ReadyToStartJobState) {
           return Scaffold(
-            appBar: AppBar(
-//        title: AppBarTitle(
-//        ),
-                ),
+            appBar: AppBar(),
             body: SafeArea(
               child: Container(
                 padding:
@@ -47,10 +33,8 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                               image: NetworkImage(
                                 jobState.task.meta.userImage,
                               ),
-                            )),
-//                          child: Image.network(
-//                            jobState.task.meta.userImage,
-//                          ),
+                            )
+                        ),
                       ),
                     ),
                     Row(
@@ -75,7 +59,6 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                           IconButton(
                             icon: Image.asset(
                               'assets/images/business.png',
-//                                color: Colors.red,
                               color: Color(0xFF403D9C),
                             ),
                           ),
@@ -103,7 +86,6 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                         onPressed: jobState is ReadyToStartJobState &&
                                 (jobState?.task?.location ?? null) != null
                             ? () {
-//                        print("FFF");
                                 launchMaps(context, jobState.task.location.lat,
                                     jobState.task.location.lng);
                               }
@@ -143,13 +125,11 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                                 child: Text(jobState.task.location.street)),
                             Divider(),
                             Padding(padding: EdgeInsets.all(9.0), child: Text(
-//                                jobState.task.
                                 "8:00 PM – 9:00 PM")),
                             Divider(),
                             Padding(
                                 padding: EdgeInsets.all(9.0),
                                 child: Text("Pickup from Customer"
-//                                startDate != null ? startDate : ''
                                     )),
                           ],
                         )),
@@ -165,7 +145,6 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                         children: <Widget>[
                           Text(
                             "Arrived at place >>",
-//                              textAlign: TextAlign.center,
                           ),
                         ],
                       ),

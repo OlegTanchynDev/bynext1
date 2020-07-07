@@ -66,9 +66,15 @@ class CustomerPickupStep1 extends StatelessWidget {
                           children: <Widget>[
                             Text('Business Account'),
                             SizedBox(
-                              width: 10,
+                              width: 5,
                             ),
-                            Image.asset('assets/images/business.png'),
+                            IconButton(
+                              icon: Image.asset(
+                                'assets/images/business.png',
+//                                color: Colors.red,
+                                color: Color(0xFF403D9C),
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(
@@ -111,7 +117,7 @@ class CustomerPickupStep1 extends StatelessWidget {
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: IconButton(icon: Image.asset(
-                                  "assets/images/navigation-icon.png"))
+                                  "assets/images/bldg-image-yes.png"))
                               ),
                             ],
                           ),

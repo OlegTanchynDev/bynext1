@@ -29,6 +29,7 @@ import 'helpers/utils.dart';
 import 'repository/issues_repository.dart';
 import 'repository/payment_repository.dart';
 import 'repository/token_repository.dart';
+import 'screen/delivery/customer_delivery_step1.dart';
 import 'screen/issues.dart';
 import 'screen/my_salary.dart';
 import 'screen/navigation_settings.dart';
@@ -275,7 +276,8 @@ class Router {
               page = TaskPickupSuppliesScreen();
               break;
             case taskDeliverToClientRoute:
-              page = TaskDeliveryToClientScreen();
+//              page = TaskDeliveryToClientScreen();
+              page = CustomerDeliveryStep1();
               break;
             case taskLaundromatPickupRoute:
               page = TaskLaundromatPickupScreen();

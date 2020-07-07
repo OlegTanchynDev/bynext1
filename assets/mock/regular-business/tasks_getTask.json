@@ -1,0 +1,65 @@
+{
+    "location" : {
+        "city" : "New York",
+        "street_field1" : "100 W 84TH ST",
+        "notes" : "",
+        "zipcode" : "10024",
+        "street_field2" : "12C",
+        "meta" : {
+            "is_doorman" : true,
+            "floor" : 6,
+            "is_elevator" : true
+        },
+        "lat" : 40.785100999999997,
+        "lng" : -73.973866599999994,
+        "state" : "New York",
+        "name" : "Jon Jo"
+    },
+    "is_no_show_enabled" : true,
+    "id" : 289,
+    "notes" : null,
+    "contact" : {
+        "phone" : "(347) 921-7720",
+        "name" : "Jon Jo",
+        "email" : "atlaschen1@gmail.com"
+    },
+    "meta" : {
+        "is_express" : false,
+        "is_dc" : true,
+        "is_first_order" : false,
+        "status" : 1,
+        "user_image" : "https:\/\/uploads-static.cleanlyapp.com\/userprofile\/35c3425cde8711e7926a1254ee0e3d2a.png",
+        "deliver_to_doorman" : false,
+        "address_region" : "New York",
+        "delivery_datetime_end" : "2015-11-02 23:00:00",
+        "is_hd" : false,
+        "delivery_notes" : null,
+        "address_notes" : "",
+        "internal_status" : 13,
+        "delivery_datetime" : "2015-11-02 22:00:00",
+        "pickup_datetime_end" : "2018-02-27 11:00:00",
+        "order_id" : "49UEXJ",
+        "is_pickup_early" : false,
+        "building_img_url" : "notes\/c6c2c2f8ce4811e894dd1254ee0e3d2a.jpg",
+        "pickup_datetime" : "2018-02-27 10:00:00",
+        "id" : 2753,
+        "is_business_account" : false,
+        "is_wf" : true,
+        "address_courier_notes" : null,
+        "is_delivery_early" : false,
+        "is_wp" : false,
+        "pickup_notes" : null,
+        "pickup_from_doorman" : false,
+        "number_of_courier_notes" : 0,
+        "supplies" : [
+            
+        ],
+        "is_reserve" : true
+    },
+    "action_time" : "2019-03-22 01:54:10",
+    "no_show_wait_seconds" : 360,
+    "type" : 3,
+    "linked_tasks" : [
+        
+    ]
+}

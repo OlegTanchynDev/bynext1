@@ -33,9 +33,9 @@ class DemoTaskResponse extends DemoResponse {
       case DemoTasks.batched:
         jsonName = "tasks_getTask_batched";
         break;
-//      case DemoTasks.deliverToClient:
-//        jsonName = "missed";
-//        break;
+      case DemoTasks.deliverToClient:
+        jsonName = "tasks_getTask";
+        break;
     }
 
     return "assets/mock/regular-business/$jsonName.json";

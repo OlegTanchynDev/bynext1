@@ -80,6 +80,7 @@ class TaskMeta {
   final bool dc;
   final bool hd;
   final bool express;
+  final bool isBusinessAccount;
   final String userImage;
 
   //COURIER_TASK_TYPE_GOTO_LOCATION
@@ -106,6 +107,7 @@ class TaskMeta {
     this.runType,
     this.jobTitle,
     this.buildingImgUrl,
+    this.isBusinessAccount,
   });
 
   factory TaskMeta.fromMap(Map<String, dynamic> map) => TaskMeta(
@@ -115,6 +117,7 @@ class TaskMeta {
         dc: map['is_dc'] as bool,
         hd: map['is_hd'] as bool,
         express: map['is_express'] as bool,
+        isBusinessAccount: (map['is_business_account'] as bool) ?? false,
         userImage: map['user_image'] as String,
 
         //COURIER_TASK_TYPE_GOTO_LOCATION

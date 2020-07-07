@@ -30,6 +30,7 @@ class DemoHttpClient extends BaseClient {
     //task go to location
     '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=312&lat=40.688124&lng=-73.99238': DemoResponse('assets/mock/regular-business/location_arriveAtPlace.json'),
     '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=312': DemoResponse('assets/mock/regular-business/location_arriveAtPlace.json'),
+    '$servicesUrl/delivery/v2/tasks/getTask/?&route_id=484': DemoTaskResponse(),
   };
 
   final BuildContext context;

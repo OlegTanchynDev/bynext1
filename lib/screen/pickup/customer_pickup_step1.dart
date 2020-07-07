@@ -63,21 +63,24 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                         Text(jobState?.task?.location?.name ?? ""),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text('Business Account'),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        IconButton(
-                          icon: Image.asset(
-                            'assets/images/business.png',
-//                                color: Colors.red,
-                            color: Color(0xFF403D9C),
+                    Offstage(
+                      offstage: !jobState.task.meta.isBusinessAccount,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('Business Account'),
+                          SizedBox(
+                            width: 5,
                           ),
-                        ),
-                      ],
+                          IconButton(
+                            icon: Image.asset(
+                              'assets/images/business.png',
+//                                color: Colors.red,
+                              color: Color(0xFF403D9C),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 50,

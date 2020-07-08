@@ -1,3 +1,4 @@
+import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:flutter/material.dart';
@@ -138,17 +139,23 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                         height: 1,
                       ),
                     ),
-                    RaisedButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          Text(
-                            "Arrived at place >>",
+                    BlocBuilder<LocationTrackerBloc, LocationTrackerBaseState>(
+                      builder: (context, locationState) {
+                        return RaisedButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Text(
+                                "Arrived at place >>",
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      onPressed: () {},
+                          onPressed: locationState.userArrivedAtDestinationLocation ? () async {
+
+                          } : null,
+                        );
+                      }
                     )
                   ],
                 ),
@@ -166,11 +173,13 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(Duration(
-        seconds: 2,
-      ));
-      await showNoBarrierDialog(context,
+    final jobState = BlocProvider.of<StartJobBloc>(context).state;
+    if (jobState is ReadyToStartJobState && jobState.task.meta.firstOrder) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await Future.delayed(Duration(
+          milliseconds: 600,
+        ));
+        await showNoBarrierDialog(context,
           child: Column(
             children: <Widget>[
               IconButton(
@@ -182,9 +191,10 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
               Text("First time customer!"),
             ],
           )).timeout(Duration(seconds: 2), onTimeout: () {
-        Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        });
       });
-    });
+    }
     super.initState();
   }
 }

@@ -68,8 +68,8 @@ class LocationTrackerBloc extends Bloc<LocationTrackerEvent, LocationTrackerBase
   void _onUpdateLocation(params) {
     lastLocation = params['location'];
     userArrivedAtDestinationLocation = params['userArrivedAtDestinationLocation'];
-    print(
-        '_onUpdateLocation\n userArrivedAtDestinationLocation:$userArrivedAtDestinationLocation\n location:' + lastLocation.toString());
+    print('_onUpdateLocation\n userArrivedAtDestinationLocation:$userArrivedAtDestinationLocation\n location:' +
+        lastLocation.toString());
     add(OnUpdateLocationEvent(lastLocation, userArrivedAtDestinationLocation));
   }
 
@@ -105,12 +105,14 @@ class LocationTrackerBloc extends Bloc<LocationTrackerEvent, LocationTrackerBase
     await BackgroundLocator.initialize();
     printLabel('Initialization done', 'LocationTrackerBloc');
     isServiceRunning = await BackgroundLocator.isRegisterLocationUpdate();
-    printLabel('Running $isServiceRunning', 'LocationTrackerBloc');
+    printLabel(
+        'Running $isServiceRunning, lastLocation:$lastLocation,  userArrivedAtDestinationLocation:$userArrivedAtDestinationLocation',
+        'LocationTrackerBloc');
     if (isServiceRunning) {
+      await BackgroundLocator.unRegisterLocationUpdate();
       yield LocationTrackerState(isServiceRunning, lastLocation, userArrivedAtDestinationLocation);
-    } else {
-      _startLocator();
     }
+    _startLocator();
   }
 
   void _startLocator() async {

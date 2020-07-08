@@ -54,7 +54,7 @@ class LocationServiceRepository {
 
 //    myLocationArray = [];
 //    printLabel("$_count", 'LocationServiceRepository');
-//    printLabel("start", 'LocationServiceRepository');
+    printLabel("start", 'LocationServiceRepository');
     _startTracking();
 
 //    final SendPort send = IsolateNameServer.lookupPortByName(isolateName);
@@ -76,7 +76,7 @@ class LocationServiceRepository {
   }
 
   void callback(LocationDto locationDto) {
-//    printLabel('$_count location in dart: ${locationDto.toString()}', 'LocationServiceRepository');
+    printLabel('location in dart: ${locationDto.toString()}', 'LocationServiceRepository');
     final SendPort send = IsolateNameServer.lookupPortByName(isolateName);
     send?.send({'location': locationDto, 'userArrivedAtDestinationLocation': userArrivedAtDestinationLocation});
 //    _count++;
@@ -86,6 +86,7 @@ class LocationServiceRepository {
 
   void _startTracking() async {
     final prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
     num timerInterval = prefs.getInt(Profile.keySendLocationIntervalSec) ?? _keyDefaultTimeIntervalForLocationTransmit;
     printLabel('_startTracking, start locationUpdateTimer and minimumUserLocationTimer, timerInterval: $timerInterval',
         'LocationServiceRepository');
@@ -97,11 +98,11 @@ class LocationServiceRepository {
   }
 
   void _updateLocationToServer(Timer timer) async {
-//    printLabel('_updateLocationToServer', 'LocationServiceRepository');
+    printLabel('_updateLocationToServer', 'LocationServiceRepository');
     final prefs = await SharedPreferences.getInstance();
     await prefs.reload();
     final token = prefs.getString('token');
-//    printLabel('_updateLocationToServer token: $token', 'LocationServiceRepository');
+    printLabel('_updateLocationToServer token: $token', 'LocationServiceRepository');
     LocationDto myBestLocation;
     LocationDto myLocation;
     for (var i = 0; i < myLocationArray.length; i++) {
@@ -156,12 +157,14 @@ class LocationServiceRepository {
   }
 
   Future<void> _checkIfUserArrivedAtDestinationLocation(Timer timer) async {
+    printLabel('start checking', '_checkIfUserArrivedAtDestinationLocation');
     final prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
     var taskLat = prefs.getDouble('task_lat');
     var taskLng = prefs.getDouble('task_lng');
     final SendPort send = IsolateNameServer.lookupPortByName(isolateName);
     if (myLastLocation == null) {
-//      printLabel('myLastLocation == null', '_checkIfUserArrivedAtDestinationLocation');
+      printLabel('myLastLocation == null', '_checkIfUserArrivedAtDestinationLocation');
       return;
     }
     if (taskLat == null || taskLng == null) {

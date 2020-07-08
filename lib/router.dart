@@ -7,9 +7,10 @@ import 'package:bynextcourier/repository/schedule_repository.dart';
 import 'package:bynextcourier/repository/sign_contract_repository.dart';
 import 'package:bynextcourier/repository/queued_tasks_repository.dart';
 import 'package:bynextcourier/screen/forgot_password.dart';
+import 'package:bynextcourier/screen/goto_location/task_go_to_location_step_2.dart';
 import 'package:bynextcourier/screen/shifts.dart';
 import 'package:bynextcourier/screen/sign_contract_screen.dart';
-import 'package:bynextcourier/screen/task_go_to_location.dart';
+import 'package:bynextcourier/screen/goto_location/task_go_to_location.dart';
 import 'package:bynextcourier/screen/tasks.dart';
 import 'package:bynextcourier/screen/webview_screen.dart';
 import 'package:bynextcourier/view/custom_progress_indicator.dart';
@@ -46,6 +47,7 @@ const shiftsRoute = 'shifts';
 const mySalaryRoute = 'mySalary';
 const issuesRoute = 'issues';
 const taskGoToLocationRoute = 'taskGoToLocation';
+const taskGoToLocationStep2Route = 'taskGoToLocationStep2';
 const taskPickupFromClientRoute = 'taskPickupFromClientRoute';
 const taskPickupSuppliesRoute = 'taskPickupSuppliesRoute';
 const taskDeliverToClientRoute = 'taskDeliverToClientRoute';
@@ -260,6 +262,9 @@ class Router {
               break;
             case taskGoToLocationRoute:
               page = TaskGoToLocationScreen();
+              break;
+            case taskGoToLocationStep2Route:
+              page = TaskGoToLocationStep2Screen();
               break;
             case taskPickupFromClientRoute:
               page = TaskPickupFromClientScreen();

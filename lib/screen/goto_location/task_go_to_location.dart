@@ -1,9 +1,13 @@
 import 'dart:ui';
 
+import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
+import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/task.dart';
+import 'package:bynextcourier/repository/tasks_repository.dart';
+import 'package:bynextcourier/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,12 +45,12 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
                   alignment: Alignment.bottomLeft,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 25),
+                      padding: const EdgeInsets.only(bottom: 30),
                       child: Container(
                         height: 150,
                         child: GoogleMap(
                           initialCameraPosition:
-                          CameraPosition(target: LatLng(task.location.lat, task.location.lng), zoom: 14.0),
+                              CameraPosition(target: LatLng(task.location.lat, task.location.lng), zoom: 14.0),
                           mapType: MapType.normal,
                           myLocationButtonEnabled: false,
                           onMapCreated: (GoogleMapController controller) {
@@ -58,43 +62,12 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
                         ),
                       ),
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          padding: EdgeInsets.all(1),
-                          child: CircleAvatar(
-                            backgroundImage: AssetImage('assets/images/header-supplies.png'),
-                            radius: 36,
-                          ),
-                        ),
-                        Expanded(child: Text('${task.location.street}, ${task.location.streetLine2}')),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 30, right: 5),
-                          child: SizedBox(
-                            height: 30,
-                            child: IconButton(
-                              enableFeedback: false,
-                              padding: EdgeInsets.all(0),
-                              icon: Image.asset('assets/images/navigation-icon.png'),
-                              iconSize: 30,
-                              onPressed: () {
-                                launchMaps(context, task.location.lat, task.location.lng);
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    buildRow(task, context),
                   ],
                 ),
                 buildTable(task, context),
                 Expanded(child: SizedBox()),
-                buildButton(context),
+                buildButton(context, task),
               ],
             );
           },
@@ -103,16 +76,68 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
     );
   }
 
-  Widget buildButton(BuildContext context) {
+  Row buildRow(Task task, BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+            padding: EdgeInsets.all(1),
+            child: CircleAvatar(
+              backgroundImage: AssetImage('assets/images/header-supplies.png'),
+              radius: 36,
+            ),
+          ),
+        ),
+        Expanded(child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Text('${task.location.street}, ${task.location.streetLine2}'),
+        )),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 30, right: 18),
+          child: SizedBox(
+            height: 32,
+            width: 32,
+            child: IconButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              padding: EdgeInsets.all(0),
+              icon: Image.asset('assets/images/navigation-icon.png'),
+              iconSize: 32,
+              onPressed: () {
+                launchMaps(context, task.location.lat, task.location.lng);
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildButton(BuildContext context, Task task) {
     return BlocBuilder<LocationTrackerBloc, LocationTrackerBaseState>(
       builder: (BuildContext context, LocationTrackerBaseState state) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 14.0),
           child: RaisedButton(
             child: Text('Arrived at place >>'),
-            onPressed: state.userArrivedAtDestinationLocation ? () async {
-
-            } : null,
+            onPressed: state.userArrivedAtDestinationLocation
+                ? () async {
+                    final repository = RepositoryProvider.of<TasksRepository>(context);
+                    final client = BlocProvider.of<HttpClientBloc>(context).state.client;
+                    final token = BlocProvider.of<TokenBloc>(context).state.token;
+                    final location = state.location;
+                    final result = await repository.performArriveAtPlaceWithTaskID(
+                        client, token, task.id, location.latitude, location.longitude);
+                    printLabel('performArriveAtPlaceWithTaskID: $result', 'TEST');
+                    Navigator.of(context).pushNamed(taskGoToLocationStep2Route);
+                  }
+                : null,
           ),
         );
       },
@@ -120,14 +145,11 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
   }
 
   Padding buildTable(Task task, BuildContext context) {
-    final borderSide = BorderSide(color: Theme
-        .of(context)
-        .dividerTheme
-        .color);
+    final borderSide = BorderSide(color: Theme.of(context).dividerTheme.color);
     final notes = task
         .notes; // ?? 'Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: Column(
         children: <Widget>[
           SizedBox(
@@ -148,10 +170,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
               Expanded(
                 child: Container(
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(border: Border.all(color: Theme
-                      .of(context)
-                      .dividerTheme
-                      .color)),
+                  decoration: BoxDecoration(border: Border.all(color: Theme.of(context).dividerTheme.color)),
                   child: Padding(padding: EdgeInsets.all(9.0), child: Text(task.location.street)),
                 ),
               ),
@@ -159,7 +178,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(border: Border(right: borderSide, bottom: borderSide, top: borderSide)),
                 child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 9.0, horizontal: 30.0),
+                    padding: EdgeInsets.symmetric(vertical: 9.0, horizontal: 35.0),
                     child: Text(task.location.streetLine2)),
               ),
             ],
@@ -177,18 +196,22 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
           ),
           notes != null
               ? Row(
-            children: <Widget>[
-              Expanded(
-                child: Container(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
 //                            alignment: Alignment.center,
-                  decoration:
-                  BoxDecoration(border: Border(left: borderSide, bottom: borderSide, right: borderSide)),
-                  child: Padding(
-                      padding: EdgeInsets.all(9.0), child: Text('Notes: $notes', textAlign: TextAlign.justify,)),
-                ),
-              ),
-            ],
-          )
+                        decoration:
+                            BoxDecoration(border: Border(left: borderSide, bottom: borderSide, right: borderSide)),
+                        child: Padding(
+                            padding: EdgeInsets.all(9.0),
+                            child: Text(
+                              'Notes: $notes',
+                              textAlign: TextAlign.justify,
+                            )),
+                      ),
+                    ),
+                  ],
+                )
               : Container()
         ],
       ),

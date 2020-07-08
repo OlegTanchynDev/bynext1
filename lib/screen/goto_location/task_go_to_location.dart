@@ -8,6 +8,7 @@ import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:bynextcourier/router.dart';
+import 'package:bynextcourier/view/app_bar_logo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
 //    _createMarkerImageFromAsset(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Go to location'),
+        title: AppBarLogo(),
         centerTitle: true,
         actions: <Widget>[const SizedBox(width: 50)],
       ),

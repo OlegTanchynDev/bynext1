@@ -4,10 +4,12 @@ import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
+import 'package:bynextcourier/generated/l10n.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:bynextcourier/router.dart';
+import 'package:bynextcourier/view/app_bar_logo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,15 +22,24 @@ class TaskGoToLocationStep2Screen extends StatefulWidget {
 }
 
 class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
-  GoogleMapController _controller;
 
-//  BitmapDescriptor _markerIcon;
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      var blocState = (BlocProvider.of<StartJobBloc>(context).state as ReadyToStartJobState);
+      if (blocState.task.meta.isEarly) {
+        showNotesPopup(context);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Go to location'),
+        title: AppBarLogo(),
         centerTitle: true,
         actions: <Widget>[const SizedBox(width: 50)],
       ),
@@ -71,6 +82,22 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
         ),
       ),
     );
+  }
+
+  Future<void> showNotesPopup(BuildContext context) async {
+    return showCustomDialog<void>(context,
+        title: 'Please Note',
+        message:
+            'You have arrived early to this task. Proceed to the next step only if the dispatcher approved. \n Proceeding without approval may result in grade reduction.',
+        buttons: [
+          IconButton(
+            icon: ColorFiltered(
+              colorFilter: const ColorFilter.mode(const Color(0xFF403D9C), BlendMode.srcIn),
+              child: Image.asset('assets/images/checkbox-grey-checked.png'),
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ]);
   }
 
   Row buildRow(Task task, BuildContext context) {
@@ -158,7 +185,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
   Padding buildTable(Task task, BuildContext context) {
     final borderSide = BorderSide(color: Theme.of(context).dividerTheme.color);
     final notes = task
-        .notes; // ?? 'Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+        .notes;// ?? 'Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: Column(
@@ -213,32 +240,14 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
             children: <Widget>[
               Expanded(
                 child: Container(
-//                            alignment: Alignment.center,
+                            alignment: Alignment.center,
                   decoration: BoxDecoration(border: Border(left: borderSide, bottom: borderSide, right: borderSide)),
-                  child: Padding(padding: EdgeInsets.all(9.0), child: Text('Notes')),
+                  child: Padding(padding: EdgeInsets.all(9.0), child: Text(notes ?? 'No notes', textAlign: TextAlign.justify,)),
                 ),
               ),
             ],
           ),
-          notes != null
-              ? Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-//                            alignment: Alignment.center,
-                        decoration:
-                            BoxDecoration(border: Border(left: borderSide, bottom: borderSide, right: borderSide)),
-                        child: Padding(
-                            padding: EdgeInsets.all(9.0),
-                            child: Text(
-                              'Notes: $notes',
-                              textAlign: TextAlign.justify,
-                            )),
-                      ),
-                    ),
-                  ],
-                )
-              : Container()
+
         ],
       ),
     );

@@ -1,21 +1,16 @@
+import 'dart:async';
 import 'dart:ui';
 
-import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
-import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/constants.dart';
-import 'package:bynextcourier/generated/l10n.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/task.dart';
-import 'package:bynextcourier/repository/tasks_repository.dart';
-import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/app_bar_logo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TaskGoToLocationStep2Screen extends StatefulWidget {
   @override
@@ -23,6 +18,14 @@ class TaskGoToLocationStep2Screen extends StatefulWidget {
 }
 
 class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
+  Timer _timer;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer?.cancel();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -77,29 +80,31 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
     double screenWidth = MediaQuery.of(context).size.width;
     var buildingImgUrl = task.meta.buildingImgUrl != null ? '$mediaUrl${task.meta.buildingImgUrl}' : 'http://blank';
     return GestureDetector(
-      onTap: task.meta.buildingImgUrl != null?() {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (BuildContext context) {
-              return Scaffold(
-                appBar: AppBar(
-                  title: AppBarLogo(),
-                  centerTitle: true,
+      onTap: task.meta.buildingImgUrl != null
+          ? () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return Scaffold(
+                      appBar: AppBar(
+                        title: AppBarLogo(),
+                        centerTitle: true,
+                      ),
+                      body: Center(
+                          child: Container(
+                              width: screenWidth,
+                              height: screenWidth,
+                              color: Colors.grey[300],
+                              child: Image.network(
+                                buildingImgUrl,
+                                fit: BoxFit.cover,
+                              ))),
+                    );
+                  },
                 ),
-                body: Center(
-                    child: Container(
-                        width: screenWidth,
-                        height: screenWidth,
-                        color: Colors.grey[300],
-                        child: Image.network(
-                          buildingImgUrl,
-                          fit: BoxFit.cover,
-                        ))),
               );
-            },
-          ),
-        );
-      }:null,
+            }
+          : null,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -187,8 +192,60 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
                     color: Theme.of(context).colorScheme.secondaryVariant,
                   ),
                   iconSize: 28,
-                  onPressed: () {
+                  onPressed: () async {
                     //launchMaps(context, task.location.lat, task.location.lng);
+                    var result = await showCustomDialog2(context,
+                        noPadding: true,
+                        barrierDismissible: true,
+                        title: Text(
+                          'CONTACT CUSTOMER',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            buildDialogButton(
+                                Icon(
+                                  Icons.sms,
+                                  color: Theme.of(context).colorScheme.secondaryVariant,
+                                ),
+                                'MESSAGE', () {
+                              Navigator.of(context).pop();
+                              _timer = new Timer(const Duration(milliseconds: 200), () async {
+                                var phoneNumber = task.contact.phone?.replaceAll(RegExp(r'[^\+\d]'), '');
+                                printLabel('press MESSAGE - tel:$phoneNumber ', 'TaskGoToLocationStep2Screen');
+                                if (await canLaunch('sms:')) {
+                                  await launch('sms:$phoneNumber');
+                                }
+                              });
+                            }),
+                            buildDialogButton(
+                                Icon(
+                                  Icons.call,
+                                  color: Theme.of(context).colorScheme.secondaryVariant,
+                                ),
+                                'CALL', () async {
+                              Navigator.of(context).pop();
+                              _timer = new Timer(const Duration(milliseconds: 200), () async {
+                                var phoneNumber = task.contact.phone?.replaceAll(RegExp(r'[^\+\d]'), '');
+                                printLabel('press CALL - tel:$phoneNumber ', 'TaskGoToLocationStep2Screen');
+                                if (await canLaunch('tel:')) {
+                                  await launch('tel:$phoneNumber');
+                                }
+                              });
+                            }),
+                            buildDialogButton(
+                                Icon(
+                                  Icons.chat,
+                                  color: Theme.of(context).colorScheme.secondaryVariant,
+                                ),
+                                'CHAT', () {
+                              Navigator.of(context).pop();
+                              printLabel('press CHAT', 'TaskGoToLocationStep2Screen');
+                            }),
+                          ],
+                        ),
+                        buttons: []);
                   },
                 ),
               ),
@@ -196,6 +253,24 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
           ],
         ),
       ],
+    );
+  }
+
+  InkWell buildDialogButton(Widget icon, String name, onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+        child: Row(
+          children: <Widget>[
+            icon,
+            SizedBox(
+              width: 10.0,
+            ),
+            Expanded(child: Text(name)),
+          ],
+        ),
+      ),
     );
   }
 

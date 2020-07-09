@@ -4,6 +4,7 @@ import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
+import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/generated/l10n.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/task.dart';
@@ -22,7 +23,6 @@ class TaskGoToLocationStep2Screen extends StatefulWidget {
 }
 
 class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
-
   @override
   void initState() {
     super.initState();
@@ -47,7 +47,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
         child: BlocBuilder<StartJobBloc, StartJobState>(
           builder: (BuildContext context, state) {
             var task = (state as ReadyToStartJobState).task;
-            double screenWidth = MediaQuery.of(context).size.width;
+
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -57,18 +57,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(bottom: 40),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.rectangle,
-                        ),
-                        height: 150,
-                        width: screenWidth,
-                        child: Image.network(
-                          task.meta.buildingImgUrl ?? 'http://blank',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      child: buildImgContainer(task, context),
                     ),
                     buildRow(task, context),
                   ],
@@ -79,6 +68,48 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget buildImgContainer(Task task, BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    var buildingImgUrl = task.meta.buildingImgUrl != null ? '$mediaUrl${task.meta.buildingImgUrl}' : 'http://blank';
+    return GestureDetector(
+      onTap: task.meta.buildingImgUrl != null?() {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: AppBarLogo(),
+                  centerTitle: true,
+                ),
+                body: Center(
+                    child: Container(
+                        width: screenWidth,
+                        height: screenWidth,
+                        color: Colors.grey[300],
+                        child: Image.network(
+                          buildingImgUrl,
+                          fit: BoxFit.cover,
+                        ))),
+              );
+            },
+          ),
+        );
+      }:null,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.rectangle,
+        ),
+        height: 150,
+        width: screenWidth,
+        child: Image.network(
+          buildingImgUrl,
+          fit: BoxFit.cover,
         ),
       ),
     );
@@ -185,7 +216,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
   Padding buildTable(Task task, BuildContext context) {
     final borderSide = BorderSide(color: Theme.of(context).dividerTheme.color);
     final notes = task
-        .notes;// ?? 'Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+        .notes; // ?? 'Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: Column(
@@ -240,14 +271,18 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
             children: <Widget>[
               Expanded(
                 child: Container(
-                            alignment: Alignment.center,
+                  alignment: Alignment.center,
                   decoration: BoxDecoration(border: Border(left: borderSide, bottom: borderSide, right: borderSide)),
-                  child: Padding(padding: EdgeInsets.all(9.0), child: Text(notes ?? 'No notes', textAlign: TextAlign.justify,)),
+                  child: Padding(
+                      padding: EdgeInsets.all(9.0),
+                      child: Text(
+                        notes ?? 'No notes',
+                        textAlign: TextAlign.justify,
+                      )),
                 ),
               ),
             ],
           ),
-
         ],
       ),
     );

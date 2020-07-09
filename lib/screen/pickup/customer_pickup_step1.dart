@@ -141,19 +141,52 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                     ),
                     BlocBuilder<LocationTrackerBloc, LocationTrackerBaseState>(
                       builder: (context, locationState) {
-                        return RaisedButton(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
+                        return Container(
+                          height: 42,
+                          child: Stack(
                             children: <Widget>[
-                              Text(
-                                "Arrived at place >>",
+                              IgnorePointer(
+                                child: RaisedButton(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: <Widget>[
+
+                                      Text(
+                                        "Arrived at place >>",
+                                      ),
+                                    ],
+                                  ),
+                                  onPressed: locationState.userArrivedAtDestinationLocation ? (){
+                                    print("Button pressed");
+                                  } : null
+//                                    onPressed: (){},
+                                ),
+                              ),
+                              Container(
+                                height: 42,
+                                child: GestureDetector(
+                                  onHorizontalDragUpdate: locationState.userArrivedAtDestinationLocation ? (details){
+                                    if (details.primaryDelta > 40) {
+                                      print("Drag right");
+                                    }
+                                  } : null,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Container(
+                                          height: 42,
+                                          color: Colors.transparent,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
                             ],
                           ),
-                          onPressed: locationState.userArrivedAtDestinationLocation ? () async {
-
-                          } : null,
                         );
                       }
                     )

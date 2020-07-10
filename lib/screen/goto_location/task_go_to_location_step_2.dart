@@ -213,10 +213,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
                             child: Column(
                               children: <Widget>[
                                 buildDialogButton(
-                                    Icon(
-                                      Icons.sms,
-                                      color: Theme.of(context).colorScheme.secondaryVariant,
-                                    ),
+                                    Image.asset('assets/images/speech-bubble.png', color: Colors.black,),
                                     'MESSAGE', () {
                                   Navigator.of(context).pop();
                                   _timer = new Timer(const Duration(milliseconds: 200), () async {
@@ -228,10 +225,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
                                   });
                                 }),
                                 buildDialogButton(
-                                    Icon(
-                                      Icons.call,
-                                      color: Theme.of(context).colorScheme.secondaryVariant,
-                                    ),
+                                    Image.asset('assets/images/phone-call.png', color: Colors.black,),
                                     'CALL', () async {
                                   Navigator.of(context).pop();
                                   _timer = new Timer(const Duration(milliseconds: 200), () async {
@@ -243,10 +237,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
                                   });
                                 }),
                                 buildDialogButton(
-                                    Icon(
-                                      Icons.chat,
-                                      color: Theme.of(context).colorScheme.secondaryVariant,
-                                    ),
+                                    Image.asset('assets/images/phone-chat.png', color: Colors.black,),
                                     'CHAT', () {
                                   Navigator.of(context).pop();
                                   printLabel('press CHAT', 'TaskGoToLocationStep2Screen');

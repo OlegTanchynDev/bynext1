@@ -17,8 +17,9 @@ class _AnimatedButtonState extends State<AnimatedButton> with SingleTickerProvid
   AnimationController controller;
 
   List<Color> _colors = List<Color>.generate(
-    4, (index) => index.isOdd ? Colors.transparent
-    :raisedButtonColor);
+    4, (index) => index != 1 ? raisedButtonColor.withOpacity(0.01)
+    :raisedButtonColor.withOpacity(0.8));
+//    :Colors.white.withOpacity(0.4));
   List<double> _stops = List<double>.generate(4,
       (index) => index * 0.2 - 0.8);
 

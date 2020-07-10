@@ -180,6 +180,8 @@ class TaskLocation {
       this.doorCodeBuilding});
 
   factory TaskLocation.fromMap(Map<String, dynamic> map) {
+    final meta = map['meta'] as Map;
+
     return TaskLocation(
       name: map['name'] as String,
       lat: map['lat'] as num,
@@ -190,6 +192,9 @@ class TaskLocation {
       city: map['city'] as String,
       state: map['state'] as String,
       zipcode: map['zipcode'] as String,
+
+      floor: meta['floor'] as int,
+
     );
   }
 }

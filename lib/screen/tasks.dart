@@ -1,4 +1,5 @@
 import 'package:bynextcourier/bloc/queued_tasks_bloc.dart';
+import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/queued_task.dart';
 import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/view/custom_progress_indicator.dart';
@@ -35,23 +36,25 @@ class TasksScreen extends StatelessWidget {
           final task = tasks[pos].task;
           final address = task.location.street +
               ((task.location.streetLine2?.length ?? 0) > 0 ? ', ' + task.location.streetLine2 : '');
-          final cleaningOptions = <String>[];
-          if ((task.meta?.wf ?? false) && (task.meta?.hd ?? false)) {
-            cleaningOptions.add('WF (+HD)');
-          } else {
-            if (task.meta?.wf ?? false) {
-              cleaningOptions.add('WF');
-            }
-            if (task.meta?.hd ?? false) {
-              cleaningOptions.add('HD');
-            }
-          }
-          if (task.meta?.dc ?? false) {
-            cleaningOptions.add('DC');
-          }
-          if (task.meta?.wp ?? false) {
-            cleaningOptions.add('LS');
-          }
+//          final cleaningOptions = <String>[];
+//          if ((task.meta?.wf ?? false) && (task.meta?.hd ?? false)) {
+//            cleaningOptions.add('WF (+HD)');
+//          } else {
+//            if (task.meta?.wf ?? false) {
+//              cleaningOptions.add('WF');
+//            }
+//            if (task.meta?.hd ?? false) {
+//              cleaningOptions.add('HD');
+//            }
+//          }
+//          if (task.meta?.dc ?? false) {
+//            cleaningOptions.add('DC');
+//          }
+//          if (task.meta?.wp ?? false) {
+//            cleaningOptions.add('LS');
+//          }
+
+          final cleaningOptions = getTaskCleaningOptions(task);
 
           String taskTypeImage;
           switch (task.type) {

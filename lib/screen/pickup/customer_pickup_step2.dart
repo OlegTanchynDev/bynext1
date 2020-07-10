@@ -1,5 +1,6 @@
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
+import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/view/animated_button.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,12 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                           padding: EdgeInsets.zero,
                           child: Container(
                             height: 200,
-                            color: Colors.red,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage("$mediaUrl${jobState.task.meta.buildingImgUrl}"),
+                                fit: BoxFit.cover
+                              )
+                            ),
 
                           ),
                           onPressed: (){
@@ -88,72 +94,27 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                       ],
                     ),
 
-                    Offstage(
-                      offstage: !jobState.task.meta.isBusinessAccount,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text('Business Account'),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          IconButton(
-                            icon: Image.asset(
-                              'assets/images/business.png',
-                              color: Color(0xFF403D9C),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+//                    Offstage(
+//                      offstage: !jobState.task.meta.isBusinessAccount,
+//                      child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.center,
+//                        children: <Widget>[
+//                          Text('Business Account'),
+//                          SizedBox(
+//                            width: 5,
+//                          ),
+//                          IconButton(
+//                            icon: Image.asset(
+//                              'assets/images/business.png',
+//                              color: Color(0xFF403D9C),
+//                            ),
+//                          ),
+//                        ],
+//                      ),
+//                    ),
                     SizedBox(
                       height: 50,
                     ),
-//                    RaisedButton(
-//                        child: Stack(
-//                          alignment: Alignment.center,
-//                          children: <Widget>[
-//                            Text(
-//                              "Navigate to Location",
-//                              textAlign: TextAlign.center,
-//                            ),
-//                            Align(
-//                                alignment: Alignment.centerRight,
-//                                child: IconButton(
-//                                    icon: Image.asset(
-//                                        "assets/images/navigation-icon.png")))
-//                          ],
-//                        ),
-//                        onPressed: jobState is ReadyToStartJobState &&
-//                                (jobState?.task?.location ?? null) != null
-//                            ? () {
-//                                launchMaps(context, jobState.task.location.lat,
-//                                    jobState.task.location.lng);
-//                              }
-//                            : null),
-//                    SizedBox(
-//                      height: 7,
-//                    ),
-//                    RaisedButton(
-//                      child: Stack(
-//                        alignment: Alignment.center,
-//                        children: <Widget>[
-//                          Text(
-//                            "View Building Photo",
-//                            textAlign: TextAlign.center,
-//                          ),
-//                          Align(
-//                              alignment: Alignment.centerRight,
-//                              child: IconButton(
-//                                  icon: Image.asset(
-//                                      "assets/images/bldg-image-yes.png"))),
-//                        ],
-//                      ),
-//                      onPressed: () {},
-//                    ),
-//                    SizedBox(
-//                      height: 40,
-//                    ),
                     Container(
                         decoration: BoxDecoration(
                             border: Border.all(
@@ -162,18 +123,63 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Padding(
-                                padding: EdgeInsets.all(9.0),
-                                child: Text(jobState.task.location.street)),
-                            Divider(),
-                            Padding(padding: EdgeInsets.all(9.0), child: Text(
-                                "8:00 PM – 9:00 PM")),
+                              padding: EdgeInsets.symmetric(
+                                vertical: 9.0,
+                                horizontal: 15
+                              ),
+                              child: Text(jobState.task.location.street + " - " + jobState.task.location.streetLine2)),
                             Divider(),
                             Padding(
-                                padding: EdgeInsets.all(9.0),
-                                child: Text("Pickup from Customer"
-                                    )),
+                              padding: EdgeInsets.symmetric(
+                                vertical: 9.0,
+                                horizontal: 15
+                              ),
+                              child: Text(
+                                "Doorman Building - ${jobState.task.location.doorman ?? "Unknown"}, " + "${jobState.task.location.floor ?? "Unknown"} Floor, " + "${jobState.task.location.elevator ?? "Unknown"} Elevator.",
+                              textAlign: TextAlign.center,
+                              )
+                            ),
+                            Divider(),
+                            Padding(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 9.0,
+                                  horizontal: 15
+                                ),
+                                child: Text(getTaskCleaningOptions(jobState.task).join(", "))
+                            ),
                           ],
-                        )),
+                        )
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Theme.of(context).dividerTheme.color)),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 9.0,
+                              horizontal: 15
+                            ),
+                            child: Text((jobState.task.location.notes ?? "").length > 0 ? jobState.task.location.notes : "No Address Notes")),
+                          Divider(),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 9.0,
+                              horizontal: 15
+                            ),
+                            child: Text(
+                              (jobState.task.notes ?? "").length > 0 ? jobState.task.notes : "No Pickup Notes",
+                              textAlign: TextAlign.center,
+                            )
+                          ),
+                        ],
+                      )
+                    ),
                     Expanded(
                       child: Container(
                         height: 1,

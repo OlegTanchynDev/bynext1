@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/maps_bloc.dart';
+import 'package:bynextcourier/model/task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_is_emulator/flutter_is_emulator.dart';
@@ -286,4 +287,26 @@ void printLabel(String label, dynamic tag) {
 Future<bool> isIosSimulator() async {
   bool isAnEmulator = await FlutterIsEmulator.isDeviceAnEmulatorOrASimulator;
   return isAnEmulator && Platform.isIOS;
+}
+
+List<String> getTaskCleaningOptions(Task task){
+  final cleaningOptions = <String>[];
+  if ((task.meta?.wf ?? false) && (task.meta?.hd ?? false)) {
+    cleaningOptions.add('WF (+HD)');
+  } else {
+    if (task.meta?.wf ?? false) {
+      cleaningOptions.add('WF');
+    }
+    if (task.meta?.hd ?? false) {
+      cleaningOptions.add('HD');
+    }
+  }
+  if (task.meta?.dc ?? false) {
+    cleaningOptions.add('DC');
+  }
+  if (task.meta?.wp ?? false) {
+    cleaningOptions.add('LS');
+  }
+
+  return cleaningOptions;
 }

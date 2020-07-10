@@ -1,6 +1,7 @@
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
+import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/animated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,8 +22,7 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
             appBar: AppBar(),
             body: SafeArea(
               child: Container(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),
+                padding: EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),
                 child: Column(
                   children: <Widget>[
                     CircleAvatar(
@@ -40,15 +40,20 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                         ),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                          icon:
-                              Image.asset("assets/images/heart-icon-fill.png"),
-                        ),
-                        Text(jobState?.task?.location?.name ?? ""),
-                      ],
+                    Container(
+                      margin: EdgeInsets.only(
+                        bottom: 5,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          IconButton(
+                            icon:
+                                Image.asset("assets/images/heart-icon-fill.png"),
+                          ),
+                          Text(jobState?.task?.location?.name ?? ""),
+                        ],
+                      ),
                     ),
                     Offstage(
                       offstage: !jobState.task.meta.isBusinessAccount,
@@ -148,6 +153,7 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                           onHorizontalDragUpdate: (details) {
                             if (details.primaryDelta > 40) {
                               print("Drag right");
+                              Navigator.of(context).pushNamed(taskPickupFromClientStep2Route);
                             }
                           },
                           condition: locationState.userArrivedAtDestinationLocation,

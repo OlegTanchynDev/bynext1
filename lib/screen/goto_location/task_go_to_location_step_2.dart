@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter_is_emulator/flutter_is_emulator.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
 import 'package:bynextcourier/constants.dart';
@@ -19,6 +21,8 @@ class TaskGoToLocationStep2Screen extends StatefulWidget {
 
 class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
   Timer _timer;
+  File _image;
+  final picker = ImagePicker();
 
   @override
   void dispose() {
@@ -95,10 +99,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
                               width: screenWidth,
                               height: screenWidth,
                               color: Colors.grey[300],
-                              child: Image.network(
-                                buildingImgUrl,
-                                fit: BoxFit.cover,
-                              ))),
+                              child: buildImage(buildingImgUrl))),
                     );
                   },
                 ),
@@ -112,12 +113,22 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
         ),
         height: 150,
         width: screenWidth,
-        child: Image.network(
-          buildingImgUrl,
-          fit: BoxFit.cover,
-        ),
+        child: buildImage(buildingImgUrl),
       ),
     );
+  }
+
+  Image buildImage(String buildingImgUrl) {
+    printLabel('buildImage _image: ${_image.toString()}', 'TaskGoToLocationStep2Screen');
+    return _image != null
+        ? Image.file(
+            _image,
+            fit: BoxFit.cover,
+          )
+        : Image.network(
+            buildingImgUrl,
+            fit: BoxFit.cover,
+          );
   }
 
   Future<void> showNotesPopup(BuildContext context) async {
@@ -163,90 +174,89 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(bottom: 15, right: 12),
-              child: SizedBox(
-                height: 35,
-                width: 35,
-                child: IconButton(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  padding: EdgeInsets.all(0),
-                  icon: Image.asset('assets/images/camera-btn.png'),
-                  iconSize: 35,
-                  onPressed: () {
-                    //launchMaps(context, task.location.lat, task.location.lng);
-                  },
+              child: InkWell(
+                onTap: getImage,
+                borderRadius: BorderRadius.circular(35),
+                child: SizedBox(
+                  height: 35,
+                  width: 35,
+                  child: Image.asset('assets/images/camera-btn.png'),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(right: 25),
-              child: SizedBox(
-                height: 28,
-                width: 28,
-                child: IconButton(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  padding: EdgeInsets.all(0),
-                  icon: Image.asset(
-                    'assets/images/call-icon.png',
-                    color: Theme.of(context).colorScheme.secondaryVariant,
-                  ),
-                  iconSize: 28,
-                  onPressed: () async {
-                    //launchMaps(context, task.location.lat, task.location.lng);
-                    var result = await showCustomDialog2(context,
-                        noPadding: true,
-                        barrierDismissible: true,
-                        title: Text(
-                          'CONTACT CUSTOMER',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            buildDialogButton(
-                                Icon(
-                                  Icons.sms,
-                                  color: Theme.of(context).colorScheme.secondaryVariant,
-                                ),
-                                'MESSAGE', () {
-                              Navigator.of(context).pop();
-                              _timer = new Timer(const Duration(milliseconds: 200), () async {
-                                var phoneNumber = task.contact.phone?.replaceAll(RegExp(r'[^\+\d]'), '');
-                                printLabel('press MESSAGE - tel:$phoneNumber ', 'TaskGoToLocationStep2Screen');
-                                if (await canLaunch('sms:')) {
-                                  await launch('sms:$phoneNumber');
-                                }
-                              });
-                            }),
-                            buildDialogButton(
-                                Icon(
-                                  Icons.call,
-                                  color: Theme.of(context).colorScheme.secondaryVariant,
-                                ),
-                                'CALL', () async {
-                              Navigator.of(context).pop();
-                              _timer = new Timer(const Duration(milliseconds: 200), () async {
-                                var phoneNumber = task.contact.phone?.replaceAll(RegExp(r'[^\+\d]'), '');
-                                printLabel('press CALL - tel:$phoneNumber ', 'TaskGoToLocationStep2Screen');
-                                if (await canLaunch('tel:')) {
-                                  await launch('tel:$phoneNumber');
-                                }
-                              });
-                            }),
-                            buildDialogButton(
-                                Icon(
-                                  Icons.chat,
-                                  color: Theme.of(context).colorScheme.secondaryVariant,
-                                ),
-                                'CHAT', () {
-                              Navigator.of(context).pop();
-                              printLabel('press CHAT', 'TaskGoToLocationStep2Screen');
-                            }),
-                          ],
-                        ),
-                        buttons: []);
-                  },
+              child: InkWell(
+                borderRadius: BorderRadius.circular(28),
+                child: SizedBox(
+                  height: 28,
+                  width: 28,
+                  child: InkWell(
+                      borderRadius: BorderRadius.circular(28),
+//                  splashColor: Colors.transparent,
+//                  highlightColor: Colors.transparent,
+//                  padding: EdgeInsets.all(0),
+                      child: Image.asset(
+                        'assets/images/call-icon.png',
+                        color: Theme.of(context).colorScheme.secondaryVariant,
+                      ),
+                      onTap: () async {
+                        //launchMaps(context, task.location.lat, task.location.lng);
+                        var result = await showCustomDialog2(context,
+                            noPadding: true,
+                            barrierDismissible: true,
+                            title: Text(
+                              'CONTACT CUSTOMER',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                buildDialogButton(
+                                    Icon(
+                                      Icons.sms,
+                                      color: Theme.of(context).colorScheme.secondaryVariant,
+                                    ),
+                                    'MESSAGE', () {
+                                  Navigator.of(context).pop();
+                                  _timer = new Timer(const Duration(milliseconds: 200), () async {
+                                    var phoneNumber = task.contact.phone?.replaceAll(RegExp(r'[^\+\d]'), '');
+                                    printLabel('press MESSAGE - tel:$phoneNumber ', 'TaskGoToLocationStep2Screen');
+                                    if (await canLaunch('sms:')) {
+                                      await launch('sms:$phoneNumber');
+                                    }
+                                  });
+                                }),
+                                buildDialogButton(
+                                    Icon(
+                                      Icons.call,
+                                      color: Theme.of(context).colorScheme.secondaryVariant,
+                                    ),
+                                    'CALL', () async {
+                                  Navigator.of(context).pop();
+                                  _timer = new Timer(const Duration(milliseconds: 200), () async {
+                                    var phoneNumber = task.contact.phone?.replaceAll(RegExp(r'[^\+\d]'), '');
+                                    printLabel('press CALL - tel:$phoneNumber ', 'TaskGoToLocationStep2Screen');
+                                    if (await canLaunch('tel:')) {
+                                      await launch('tel:$phoneNumber');
+                                    }
+                                  });
+                                }),
+                                buildDialogButton(
+                                    Icon(
+                                      Icons.chat,
+                                      color: Theme.of(context).colorScheme.secondaryVariant,
+                                    ),
+                                    'CHAT', () {
+                                  Navigator.of(context).pop();
+                                  printLabel('press CHAT', 'TaskGoToLocationStep2Screen');
+                                }),
+                              ],
+                            ),
+                            buttons: []);
+                      }
+//                  iconSize: 28,
+                      ),
                 ),
               ),
             ),
@@ -274,6 +284,15 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
     );
   }
 
+  Future getImage() async {
+    bool isIosEmulator = await isIosSimulator();
+    final pickedFile = await picker.getImage(source: isIosEmulator ? ImageSource.gallery : ImageSource.camera);
+    printLabel('getImage pickedFile.path: ${pickedFile?.path}', 'TaskGoToLocationStep2Screen');
+    setState(() {
+      _image = pickedFile?.path != null ? File(pickedFile?.path) : null;
+    });
+  }
+
   Widget buildButton(BuildContext context, Task task) {
     return BlocBuilder<LocationTrackerBloc, LocationTrackerBaseState>(
       builder: (BuildContext context, LocationTrackerBaseState state) {
@@ -281,7 +300,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
           padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 14.0),
           child: RaisedButton(
             child: Text('PLEASE TAKE A PICTURE'),
-            onPressed: () async {},
+            onPressed: getImage,
           ),
         );
       },

@@ -51,7 +51,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
                         height: 150,
                         child: GoogleMap(
                           initialCameraPosition:
-                              CameraPosition(target: LatLng(task.location.lat, task.location.lng), zoom: 14.0),
+                          CameraPosition(target: LatLng(task.location.lat, task.location.lng), zoom: 14.0),
                           mapType: MapType.normal,
                           myLocationButtonEnabled: false,
                           onMapCreated: (GoogleMapController controller) {
@@ -129,15 +129,27 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
             child: Text('Arrived at place >>'),
             onPressed: state.userArrivedAtDestinationLocation
                 ? () async {
-                    final repository = RepositoryProvider.of<TasksRepository>(context);
-                    final client = BlocProvider.of<HttpClientBloc>(context).state.client;
-                    final token = BlocProvider.of<TokenBloc>(context).state.token;
-                    final location = state.location;
-                    final result = await repository.performArriveAtPlaceWithTaskID(
-                        client, token, task.id, location.latitude, location.longitude);
-                    printLabel('performArriveAtPlaceWithTaskID: $result', 'TEST');
-                    Navigator.of(context).pushNamed(taskGoToLocationStep2Route);
-                  }
+              final repository = RepositoryProvider.of<TasksRepository>(context);
+              var httpClientState = BlocProvider
+                  .of<HttpClientBloc>(context)
+                  .state;
+              final client = httpClientState.client;
+              final token = BlocProvider
+                  .of<TokenBloc>(context)
+                  .state
+                  .token;
+              final location = state.location;
+              var result;
+              if (httpClientState.demo) {
+                result = await repository.performArriveAtPlaceWithTaskID(
+                    client, token, task.id);
+              } else {
+                result = await repository.performArriveAtPlaceWithTaskID(
+                    client, token, task.id, location.latitude, location.longitude);
+              }
+
+              Navigator.of(context).pushNamed(taskGoToLocationStep2Route);
+            }
                 : null,
           ),
         );
@@ -146,7 +158,10 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
   }
 
   Padding buildTable(Task task, BuildContext context) {
-    final borderSide = BorderSide(color: Theme.of(context).dividerTheme.color);
+    final borderSide = BorderSide(color: Theme
+        .of(context)
+        .dividerTheme
+        .color);
     final notes = task
         .notes; // ?? 'Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
     return Padding(
@@ -171,7 +186,10 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
               Expanded(
                 child: Container(
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(border: Border.all(color: Theme.of(context).dividerTheme.color)),
+                  decoration: BoxDecoration(border: Border.all(color: Theme
+                      .of(context)
+                      .dividerTheme
+                      .color)),
                   child: Padding(padding: EdgeInsets.all(9.0), child: Text(task.location.street)),
                 ),
               ),
@@ -197,22 +215,22 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
           ),
           notes != null
               ? Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
+            children: <Widget>[
+              Expanded(
+                child: Container(
 //                            alignment: Alignment.center,
-                        decoration:
-                            BoxDecoration(border: Border(left: borderSide, bottom: borderSide, right: borderSide)),
-                        child: Padding(
-                            padding: EdgeInsets.all(9.0),
-                            child: Text(
-                              'Notes: $notes',
-                              textAlign: TextAlign.justify,
-                            )),
-                      ),
-                    ),
-                  ],
-                )
+                  decoration:
+                  BoxDecoration(border: Border(left: borderSide, bottom: borderSide, right: borderSide)),
+                  child: Padding(
+                      padding: EdgeInsets.all(9.0),
+                      child: Text(
+                        'Notes: $notes',
+                        textAlign: TextAlign.justify,
+                      )),
+                ),
+              ),
+            ],
+          )
               : Container()
         ],
       ),

@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/maps_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_is_emulator/flutter_is_emulator.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -218,4 +220,9 @@ void printLabel(String label, dynamic tag) {
     tag = '[$tag]';
   }
   print('$tag[${formatDateLog(date)}] $label');
+}
+
+Future<bool> isIosSimulator() async {
+  bool isAnEmulator = await FlutterIsEmulator.isDeviceAnEmulatorOrASimulator;
+  return isAnEmulator && Platform.isIOS;
 }

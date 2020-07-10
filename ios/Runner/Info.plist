@@ -30,6 +30,10 @@
 	<string>ByNext needs access to location when in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>ByNext needs access to location when open.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>ByNext needs access to PhotoLibrary.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>ByNext needs access to Camera.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

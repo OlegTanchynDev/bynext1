@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <application
+        android:requestLegacyExternalStorage="true"
         android:name=".ByNextApp"
         android:label="ByNext"
         android:icon="@mipmap/ic_launcher">

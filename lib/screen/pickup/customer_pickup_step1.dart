@@ -1,6 +1,7 @@
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
+import 'package:bynextcourier/view/animated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,6 +11,9 @@ class CustomerPickupStep1 extends StatefulWidget {
 }
 
 class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
+  Animation<double> animation;
+  AnimationController controller;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StartJobBloc, StartJobState>(
@@ -141,52 +145,65 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                     ),
                     BlocBuilder<LocationTrackerBloc, LocationTrackerBaseState>(
                       builder: (context, locationState) {
-                        return Container(
-                          height: 42,
-                          child: Stack(
-                            children: <Widget>[
-                              IgnorePointer(
-                                child: RaisedButton(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: <Widget>[
-
-                                      Text(
-                                        "Arrived at place >>",
-                                      ),
-                                    ],
-                                  ),
-                                  onPressed: locationState.userArrivedAtDestinationLocation ? (){
-                                    print("Button pressed");
-                                  } : null
-//                                    onPressed: (){},
-                                ),
-                              ),
-                              Container(
-                                height: 42,
-                                child: GestureDetector(
-                                  onHorizontalDragUpdate: locationState.userArrivedAtDestinationLocation ? (details){
-                                    if (details.primaryDelta > 40) {
-                                      print("Drag right");
-                                    }
-                                  } : null,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Container(
-                                          height: 42,
-                                          color: Colors.transparent,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+//                        return Container(
+//                          height: 42,
+//                          child: Stack(
+//                            children: <Widget>[
+//                              IgnorePointer(
+//                                child: RaisedButton(
+//                                  child: Row(
+//                                    mainAxisAlignment: MainAxisAlignment.center,
+//                                    mainAxisSize: MainAxisSize.max,
+//                                    children: <Widget>[
+//
+//                                      Text(
+//                                        "Arrived at place >>",
+//                                      ),
+//                                    ],
+//                                  ),
+//                                  onPressed: locationState.userArrivedAtDestinationLocation ? (){
+//                                    print("Button pressed");
+//                                  } : null
+////                                    onPressed: (){},
+//                                ),
+//                              ),
+//                              Container(
+//                                height: 42,
+//                                child: GestureDetector(
+//                                  onHorizontalDragUpdate: locationState.userArrivedAtDestinationLocation ? (details){
+//                                    if (details.primaryDelta > 40) {
+//                                      print("Drag right");
+//                                    }
+//                                  } : null,
+//                                  child: Row(
+//                                    mainAxisAlignment: MainAxisAlignment.center,
+//                                    mainAxisSize: MainAxisSize.max,
+//                                    children: <Widget>[
+//                                      Expanded(
+//                                        child: Container(
+//                                          height: 42,
+//                                          color: Colors.transparent,
+//                                        ),
+//                                      )
+//                                    ],
+//                                  ),
+//                                ),
+//                              ),
+//                            ],
+//                          ),
+//                        );
+                        return AnimatedButton(
+                          child: Text("Arrived at place >>"),
+                          onHorizontalDragUpdate: locationState
+                            .userArrivedAtDestinationLocation ? (details) {
+                            if (details.primaryDelta > 40) {
+                              print("Drag right");
+                            }
+                          } : null,
+                          onPressed: locationState
+                            .userArrivedAtDestinationLocation ? () {
+                            print("Button pressed");
+                          } : null,
                         );
                       }
                     )
@@ -228,6 +245,25 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
         });
       });
     }
+
+//    controller =
+//      AnimationController(vsync: this,
+//        duration: Duration(milliseconds: 1000));
+//
+//    animation = Tween<double>(begin: .0, end: .4).animate(controller)
+//      ..addListener(() {
+//        setState(() {});
+//      })
+//      ..addStatusListener((status) {
+//        if (status == AnimationStatus.completed) {
+//          controller.reset();
+//          controller.forward();
+//        } else if (status == AnimationStatus.dismissed) {
+//          controller.forward();
+//        }
+//      });
+//    controller.forward();
+
     super.initState();
   }
 }

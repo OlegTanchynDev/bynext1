@@ -11,8 +11,6 @@ class CustomerPickupStep1 extends StatefulWidget {
 }
 
 class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
-  Animation<double> animation;
-  AnimationController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -145,65 +143,14 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                     ),
                     BlocBuilder<LocationTrackerBloc, LocationTrackerBaseState>(
                       builder: (context, locationState) {
-//                        return Container(
-//                          height: 42,
-//                          child: Stack(
-//                            children: <Widget>[
-//                              IgnorePointer(
-//                                child: RaisedButton(
-//                                  child: Row(
-//                                    mainAxisAlignment: MainAxisAlignment.center,
-//                                    mainAxisSize: MainAxisSize.max,
-//                                    children: <Widget>[
-//
-//                                      Text(
-//                                        "Arrived at place >>",
-//                                      ),
-//                                    ],
-//                                  ),
-//                                  onPressed: locationState.userArrivedAtDestinationLocation ? (){
-//                                    print("Button pressed");
-//                                  } : null
-////                                    onPressed: (){},
-//                                ),
-//                              ),
-//                              Container(
-//                                height: 42,
-//                                child: GestureDetector(
-//                                  onHorizontalDragUpdate: locationState.userArrivedAtDestinationLocation ? (details){
-//                                    if (details.primaryDelta > 40) {
-//                                      print("Drag right");
-//                                    }
-//                                  } : null,
-//                                  child: Row(
-//                                    mainAxisAlignment: MainAxisAlignment.center,
-//                                    mainAxisSize: MainAxisSize.max,
-//                                    children: <Widget>[
-//                                      Expanded(
-//                                        child: Container(
-//                                          height: 42,
-//                                          color: Colors.transparent,
-//                                        ),
-//                                      )
-//                                    ],
-//                                  ),
-//                                ),
-//                              ),
-//                            ],
-//                          ),
-//                        );
                         return AnimatedButton(
                           child: Text("Arrived at place >>"),
-                          onHorizontalDragUpdate: locationState
-                            .userArrivedAtDestinationLocation ? (details) {
+                          onHorizontalDragUpdate: (details) {
                             if (details.primaryDelta > 40) {
                               print("Drag right");
                             }
-                          } : null,
-                          onPressed: locationState
-                            .userArrivedAtDestinationLocation ? () {
-                            print("Button pressed");
-                          } : null,
+                          },
+                          condition: locationState.userArrivedAtDestinationLocation,
                         );
                       }
                     )
@@ -245,24 +192,6 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
         });
       });
     }
-
-//    controller =
-//      AnimationController(vsync: this,
-//        duration: Duration(milliseconds: 1000));
-//
-//    animation = Tween<double>(begin: .0, end: .4).animate(controller)
-//      ..addListener(() {
-//        setState(() {});
-//      })
-//      ..addStatusListener((status) {
-//        if (status == AnimationStatus.completed) {
-//          controller.reset();
-//          controller.forward();
-//        } else if (status == AnimationStatus.dismissed) {
-//          controller.forward();
-//        }
-//      });
-//    controller.forward();
 
     super.initState();
   }

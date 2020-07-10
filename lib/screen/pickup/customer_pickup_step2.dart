@@ -19,7 +19,14 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
       builder: (context, jobState) {
         if (jobState is ReadyToStartJobState) {
           return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("No Show"),
+                  onPressed: (){},
+                )
+              ],
+            ),
             body: SafeArea(
               child: Container(
                 padding:
@@ -49,6 +56,7 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                             left: 10,
                             top: 150,
                           ),
+                          height: 80,
                           alignment: Alignment.bottomCenter,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -87,6 +95,38 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                                   ],
                                 ),
                               ),
+                              Expanded(
+                                child: Container(),
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Container(
+                                    height: 39,
+                                    child: FlatButton(
+                                      shape: CircleBorder(),
+                                      padding: EdgeInsets.zero,
+                                      child: Image.asset("assets/images/camera-btn.png"),
+                                      onPressed: (){},
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 13,
+                                  ),
+                                  Container(
+                                    height: 28,
+                                    child: FlatButton(
+                                      shape: CircleBorder(),
+                                      padding: EdgeInsets.zero,
+                                      child: Image.asset(
+                                        "assets/images/call-icon.png",
+                                        color: Colors.black,
+                                      ),
+                                      onPressed: (){},
+                                    ),
+                                  ),
+                                ],
+                              )
 
                             ],
                           ),
@@ -211,32 +251,4 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
       },
     );
   }
-
-//  @override
-//  void initState() {
-//    final jobState = BlocProvider.of<StartJobBloc>(context).state;
-//    if (jobState is ReadyToStartJobState && jobState.task.meta.firstOrder) {
-//      WidgetsBinding.instance.addPostFrameCallback((_) async {
-//        await Future.delayed(Duration(
-//          milliseconds: 600,
-//        ));
-//        await showNoBarrierDialog(context,
-//          child: Column(
-//            children: <Widget>[
-//              IconButton(
-//                icon: Image.asset(
-//                  "assets/images/heart-icon.png",
-//                  color: Colors.black,
-//                ),
-//              ),
-//              Text("First time customer!"),
-//            ],
-//          )).timeout(Duration(seconds: 2), onTimeout: () {
-//          Navigator.of(context).pop();
-//        });
-//      });
-//    }
-//
-//    super.initState();
-//  }
 }

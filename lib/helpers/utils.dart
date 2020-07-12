@@ -208,7 +208,9 @@ callPhone(BuildContext context, String phoneNumber, String name) async {
 }
 
 launchMaps(BuildContext context, double lat, double lon) async {
+  // ignore: close_sinks
   MapsBloc mapsBloc = BlocProvider.of<MapsBloc>(context);
+  // ignore: close_sinks
   LocationTrackerBloc trackerBloc = BlocProvider.of<LocationTrackerBloc>(context);
   var map = mapsBloc.state.enabled;
   var myLocation = trackerBloc.state.location;

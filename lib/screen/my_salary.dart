@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MySalaryScreen extends StatelessWidget {
   showPicker(BuildContext context) {
+    // ignore: close_sinks
     var paymentBloc = BlocProvider.of<PaymentBloc>(context);
 
     showModalBottomSheet(

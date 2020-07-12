@@ -9,8 +9,10 @@ import 'http_client_bloc.dart';
 import 'token_bloc.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
+  // ignore: close_sinks
   TokenBloc tokenBloc;
   ScheduleRepository repository;
+  // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
   @override

@@ -11,6 +11,7 @@ import 'http_client_bloc.dart';
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   PaymentRepository repository;
   TokenBloc _tokenBloc;
+  // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
   StreamSubscription<TokenState> _tokenSubscription;

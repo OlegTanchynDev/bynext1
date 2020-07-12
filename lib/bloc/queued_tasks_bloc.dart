@@ -10,9 +10,11 @@ import 'package:equatable/equatable.dart';
 import 'http_client_bloc.dart';
 
 class QueuedTasksListBloc extends Bloc<QueuedTasksListEvent, QueuedTasksListState> {
+  // ignore: close_sinks
   TokenBloc tokenBloc;
   ShiftDetailsBloc _shiftDetailsBloc;
   QueuedTasksRepository repository;
+  // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
   StreamSubscription<ShiftDetailsState> _shiftDetailsSubscription;

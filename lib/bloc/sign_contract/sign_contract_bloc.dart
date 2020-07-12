@@ -19,8 +19,11 @@ part 'sign_contract_state.dart';
 
 class SignContractBloc extends Bloc<SignContractEvent, SignContractState> {
   SignContractRepository repository;
+  // ignore: close_sinks
   TokenBloc tokenBloc;
+  // ignore: close_sinks
   ShiftDetailsBloc shiftDetailsBloc;
+  // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
   @override

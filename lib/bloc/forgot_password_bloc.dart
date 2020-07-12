@@ -10,6 +10,7 @@ import 'http_client_bloc.dart';
 class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
 //  Timer _timer;
   TokenRepository tokenRepository;
+  // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
   @override

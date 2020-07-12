@@ -11,6 +11,7 @@ import 'http_client_bloc.dart';
 class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
   IssueRepository repository;
   TokenBloc _tokenBloc;
+  // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
   StreamSubscription<TokenState> _tokenSubscription;

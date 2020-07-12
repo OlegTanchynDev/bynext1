@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenBloc extends Bloc<TokenEvent, TokenState> {
   TokenRepository repository;
+  // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
   @override

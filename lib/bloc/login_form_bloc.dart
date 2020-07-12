@@ -12,6 +12,7 @@ import 'http_client_bloc.dart';
 class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
   Timer _timer;
   TokenRepository tokenRepository;
+  // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
   TokenBloc tokenBloc;

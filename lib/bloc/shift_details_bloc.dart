@@ -12,6 +12,7 @@ import 'http_client_bloc.dart';
 class ShiftDetailsBloc extends Bloc<ShiftDetailsEvent, ShiftDetailsState> {
   ShiftDetailsRepository repository;
   TokenBloc _tokenBloc;
+  // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
   StreamSubscription<TokenState> _tokenBlocSubscription;

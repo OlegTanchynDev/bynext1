@@ -22,15 +22,20 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
             appBar: AppBar(
               actions: <Widget>[
                 FlatButton(
-                  child: Text("No Show"),
-                  onPressed: (){},
+                  child: Text(
+                    "No Show",
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                  onPressed: () {},
                 )
               ],
             ),
             body: SafeArea(
               child: Container(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),
+//                padding:
+//                    EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),
                 child: Column(
                   children: <Widget>[
                     Stack(
@@ -41,19 +46,22 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                             height: 200,
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: NetworkImage("$mediaUrl${jobState.task.meta.buildingImgUrl}"),
+                                image: NetworkImage(
+                                  "$mediaUrl${jobState.task.meta
+                                    .buildingImgUrl}"),
                                 fit: BoxFit.cover
                               )
                             ),
 
                           ),
-                          onPressed: (){
+                          onPressed: () {
 
                           },
                         ),
                         Container(
                           margin: EdgeInsets.only(
                             left: 10,
+                            right: 15,
                             top: 150,
                           ),
                           height: 80,
@@ -99,15 +107,16 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                                 child: Container(),
                               ),
                               Column(
-                                mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Container(
                                     height: 39,
+                                    width: 39,
                                     child: FlatButton(
                                       shape: CircleBorder(),
                                       padding: EdgeInsets.zero,
-                                      child: Image.asset("assets/images/camera-btn.png"),
-                                      onPressed: (){},
+                                      child: Image.asset("assets/images/camera-btn.png",
+                                      ),
+                                      onPressed: () {},
                                     ),
                                   ),
                                   SizedBox(
@@ -115,6 +124,7 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                                   ),
                                   Container(
                                     height: 28,
+                                    width: 28,
                                     child: FlatButton(
                                       shape: CircleBorder(),
                                       padding: EdgeInsets.zero,
@@ -122,17 +132,23 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                                         "assets/images/call-icon.png",
                                         color: Colors.black,
                                       ),
-                                      onPressed: (){},
+                                      onPressed: () {},
                                     ),
                                   ),
                                 ],
-                              )
-
+                              ),
                             ],
                           ),
                         ),
                       ],
                     ),
+
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20).copyWith(
+                          bottom: 14),
+                        child: Column(
+                          children: <Widget>[
 
 //                    Offstage(
 //                      offstage: !jobState.task.meta.isBusinessAccount,
@@ -152,92 +168,119 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
 //                        ],
 //                      ),
 //                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).dividerTheme.color)),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 9.0,
-                                horizontal: 15
-                              ),
-                              child: Text(jobState.task.location.street + " - " + jobState.task.location.streetLine2)),
-                            Divider(),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 9.0,
-                                horizontal: 15
-                              ),
-                              child: Text(
-                                "Doorman Building - ${jobState.task.location.doorman ?? "Unknown"}, " + "${jobState.task.location.floor ?? "Unknown"} Floor, " + "${jobState.task.location.elevator ?? "Unknown"} Elevator.",
-                              textAlign: TextAlign.center,
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Theme
+                                    .of(context)
+                                    .dividerTheme
+                                    .color)),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 9.0,
+                                      horizontal: 15
+                                    ),
+                                    child: Text(
+                                      jobState.task.location.street + " - " +
+                                        jobState.task.location.streetLine2)),
+                                  Divider(),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 9.0,
+                                      horizontal: 15
+                                    ),
+                                    child: Text(
+                                      "Doorman Building - ${jobState.task
+                                        .location.doorman ?? "Unknown"}, " +
+                                        "${jobState.task.location.floor ??
+                                          "Unknown"} Floor, " +
+                                        "${jobState.task.location.elevator ??
+                                          "Unknown"} Elevator.",
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ),
+                                  Divider(),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 9.0,
+                                      horizontal: 15
+                                    ),
+                                    child: Text(
+                                      getTaskCleaningOptions(jobState.task)
+                                        .join(", "))
+                                  ),
+                                ],
                               )
                             ),
-                            Divider(),
-                            Padding(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 9.0,
-                                  horizontal: 15
-                                ),
-                                child: Text(getTaskCleaningOptions(jobState.task).join(", "))
+                            SizedBox(
+                              height: 10,
                             ),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Theme
+                                    .of(context)
+                                    .dividerTheme
+                                    .color)),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 9.0,
+                                      horizontal: 15
+                                    ),
+                                    child: Text(
+                                      (jobState.task.location.notes ?? "")
+                                        .length > 0 ? jobState.task.location
+                                        .notes : "No Address Notes")),
+                                  Divider(),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 9.0,
+                                      horizontal: 15
+                                    ),
+                                    child: Text(
+                                      (jobState.task.notes ?? "").length > 0
+                                        ? jobState.task.notes
+                                        : "No Pickup Notes",
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ),
+                                ],
+                              )
+                            ),
+                            Expanded(
+                              child: Container(
+                                height: 1,
+                              ),
+                            ),
+                            BlocBuilder<
+                              LocationTrackerBloc,
+                              LocationTrackerBaseState>(
+                              builder: (context, locationState) {
+                                return AnimatedButton(
+                                  child: Text("Picked Up From Customer >>"),
+                                  onHorizontalDragUpdate: (details) {
+                                    if (details.primaryDelta > 40) {
+                                      print("Drag right");
+                                    }
+                                  },
+                                  condition: locationState
+                                    .userArrivedAtDestinationLocation,
+                                );
+                              }
+                            )
                           ],
                         )
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).dividerTheme.color)),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 9.0,
-                              horizontal: 15
-                            ),
-                            child: Text((jobState.task.location.notes ?? "").length > 0 ? jobState.task.location.notes : "No Address Notes")),
-                          Divider(),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 9.0,
-                              horizontal: 15
-                            ),
-                            child: Text(
-                              (jobState.task.notes ?? "").length > 0 ? jobState.task.notes : "No Pickup Notes",
-                              textAlign: TextAlign.center,
-                            )
-                          ),
-                        ],
-                      )
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 1,
                       ),
                     ),
-                    BlocBuilder<LocationTrackerBloc, LocationTrackerBaseState>(
-                      builder: (context, locationState) {
-                        return AnimatedButton(
-                          child: Text("Picked Up From Customer >>"),
-                          onHorizontalDragUpdate: (details) {
-                            if (details.primaryDelta > 40) {
-                              print("Drag right");
-                            }
-                          },
-                          condition: locationState.userArrivedAtDestinationLocation,
-                        );
-                      }
-                    )
                   ],
                 ),
               ),

@@ -1,5 +1,5 @@
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
-import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
+import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/router.dart';
@@ -16,7 +16,7 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StartJobBloc, StartJobState>(
+    return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, jobState) {
         if (jobState is ReadyToStartJobState) {
           return Scaffold(

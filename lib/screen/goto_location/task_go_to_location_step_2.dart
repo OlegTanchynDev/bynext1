@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_is_emulator/flutter_is_emulator.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
-import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
+import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/task.dart';
@@ -35,7 +35,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      var blocState = (BlocProvider.of<StartJobBloc>(context).state as ReadyToStartJobState);
+      var blocState = (BlocProvider.of<TaskBloc>(context).state as ReadyToStartJobState);
       if (blocState.task.meta.isEarly) {
         showNotesPopup(context);
       }
@@ -51,7 +51,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
         actions: <Widget>[const SizedBox(width: 50)],
       ),
       body: SafeArea(
-        child: BlocBuilder<StartJobBloc, StartJobState>(
+        child: BlocBuilder<TaskBloc, TaskState>(
           builder: (BuildContext context, state) {
             var task = (state as ReadyToStartJobState).task;
 

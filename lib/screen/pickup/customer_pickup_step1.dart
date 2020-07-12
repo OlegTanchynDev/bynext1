@@ -1,5 +1,5 @@
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
-import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
+import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/animated_button.dart';
@@ -15,7 +15,7 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StartJobBloc, StartJobState>(
+    return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, jobState) {
         if (jobState is ReadyToStartJobState) {
           return Scaffold(
@@ -176,7 +176,7 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
 
   @override
   void initState() {
-    final jobState = BlocProvider.of<StartJobBloc>(context).state;
+    final jobState = BlocProvider.of<TaskBloc>(context).state;
     if (jobState is ReadyToStartJobState && jobState.task.meta.firstOrder) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await Future.delayed(Duration(

@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
-import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
+import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/task.dart';
@@ -35,7 +35,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
         actions: <Widget>[const SizedBox(width: 50)],
       ),
       body: SafeArea(
-        child: BlocBuilder<StartJobBloc, StartJobState>(
+        child: BlocBuilder<TaskBloc, TaskState>(
           builder: (BuildContext context, state) {
             var task = (state as ReadyToStartJobState).task;
             return Column(

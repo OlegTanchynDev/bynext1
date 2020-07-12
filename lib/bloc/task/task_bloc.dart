@@ -8,21 +8,23 @@ import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-part 'start_job_event.dart';
+part 'task_event.dart';
 
-part 'start_job_state.dart';
+part 'task_state.dart';
 
-class StartJobBloc extends Bloc<StartJobEvent, StartJobState> {
+class TaskBloc extends Bloc<TaskEvent, TaskState> {
   TasksRepository repository;
   CourierRepository courierRepository;
+  // ignore: close_sinks
   TokenBloc tokenBloc;
+  // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
   @override
-  StartJobState get initialState => WaitingStartJobState();
+  TaskState get initialState => WaitingStartJobState();
 
   @override
-  Stream<StartJobState> mapEventToState(StartJobEvent event) async* {
+  Stream<TaskState> mapEventToState(TaskEvent event) async* {
     if (event is GetNextTaskEvent) {
       yield WaitingStartJobState();
 

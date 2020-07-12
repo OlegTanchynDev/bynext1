@@ -2,7 +2,7 @@ import 'package:bynextcourier/bloc/delegate/bloc_delegate.dart';
 import 'package:bynextcourier/bloc/login_form_bloc.dart';
 import 'package:bynextcourier/bloc/maps_bloc.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
-import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
+import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/repository/courier_repository.dart';
 import 'package:bynextcourier/repository/issues_repository.dart';
@@ -118,7 +118,7 @@ class MyApp extends StatelessWidget {
 //                  ..repository = context.repository<TasksRepository>(),
 //              ),
               BlocProvider(
-                create: (context) => StartJobBloc()
+                create: (context) => TaskBloc()
                   ..tokenBloc = context.bloc<TokenBloc>()
                   ..httpClientBloc = context.bloc<HttpClientBloc>()
                   ..repository = context.repository<TasksRepository>()

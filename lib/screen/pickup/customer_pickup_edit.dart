@@ -2,17 +2,16 @@ import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/start_job/start_job_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/helpers/utils.dart';
-import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/animated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CustomerPickupStep2 extends StatefulWidget {
+class CustomerPickupEdit extends StatefulWidget {
   @override
-  _CustomerPickupStep2State createState() => _CustomerPickupStep2State();
+  _CustomerPickupEditState createState() => _CustomerPickupEditState();
 }
 
-class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
+class _CustomerPickupEditState extends State<CustomerPickupEdit> {
 
   @override
   Widget build(BuildContext context) {
@@ -191,26 +190,20 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                                       jobState.task.location.street + " - " +
                                         jobState.task.location.streetLine2)),
                                   Divider(),
-                                  FlatButton(
-                                    padding: EdgeInsets.zero,
-                                    onPressed: (){
-                                      Navigator.of(context).pushNamed(taskPickupFromClientEditRoute);
-                                    },
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 9.0,
-                                        horizontal: 15
-                                      ),
-                                      child: Text(
-                                        "Doorman Building - ${jobState.task
-                                          .location.doorman ?? "Unknown"}, " +
-                                          "${jobState.task.location.floor ??
-                                            "Unknown"} Floor, " +
-                                          "${jobState.task.location.elevator ??
-                                            "Unknown"} Elevator.",
-                                        textAlign: TextAlign.center,
-                                      )
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 9.0,
+                                      horizontal: 15
                                     ),
+                                    child: Text(
+                                      "Doorman Building - ${jobState.task
+                                        .location.doorman ?? "Unknown"}, " +
+                                        "${jobState.task.location.floor ??
+                                          "Unknown"} Floor, " +
+                                        "${jobState.task.location.elevator ??
+                                          "Unknown"} Elevator.",
+                                      textAlign: TextAlign.center,
+                                    )
                                   ),
                                   Divider(),
                                   Padding(

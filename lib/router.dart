@@ -8,6 +8,7 @@ import 'package:bynextcourier/repository/sign_contract_repository.dart';
 import 'package:bynextcourier/repository/queued_tasks_repository.dart';
 import 'package:bynextcourier/screen/forgot_password.dart';
 import 'package:bynextcourier/screen/goto_location/task_go_to_location_step_2.dart';
+import 'package:bynextcourier/screen/pickup/customer_pickup_edit.dart';
 import 'package:bynextcourier/screen/pickup/customer_pickup_step2.dart';
 import 'package:bynextcourier/screen/shifts.dart';
 import 'package:bynextcourier/screen/sign_contract_screen.dart';
@@ -53,6 +54,7 @@ const taskGoToLocationRoute = 'taskGoToLocation';
 const taskGoToLocationStep2Route = 'taskGoToLocationStep2';
 const taskPickupFromClientRoute = 'taskPickupFromClientRoute';
 const taskPickupFromClientStep2Route = 'taskPickupFromClientStep2Route';
+const taskPickupFromClientEditRoute = 'taskPickupFromClientEditRoute';
 const taskPickupSuppliesRoute = 'taskPickupSuppliesRoute';
 const taskDeliverToClientRoute = 'taskDeliverToClientRoute';
 const taskLaundromatPickupRoute = 'taskLaundromatPickupRoute';
@@ -276,6 +278,9 @@ class Router {
               break;
             case taskPickupFromClientStep2Route:
               page = CustomerPickupStep2();
+              break;
+            case taskPickupFromClientEditRoute:
+              page = CustomerPickupEdit();
               break;
             case taskPickupSuppliesRoute:
               page = TaskPickupSuppliesScreen();

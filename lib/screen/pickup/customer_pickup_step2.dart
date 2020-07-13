@@ -170,7 +170,7 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
 //                      ),
 //                    ),
                             SizedBox(
-                              height: 50,
+                              height: 20,
                             ),
                             Container(
                               decoration: BoxDecoration(

@@ -19,23 +19,9 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
       builder: (context, jobState) {
         if (jobState is ReadyTaskState) {
           return Scaffold(
-            appBar: AppBar(
-              actions: <Widget>[
-                FlatButton(
-                  child: Text(
-                    "No Show",
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
-                  ),
-                  onPressed: () {},
-                )
-              ],
-            ),
+            appBar: AppBar(),
             body: SafeArea(
               child: Container(
-//                padding:
-//                    EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),
                 child: Column(
                   children: <Widget>[
                     Stack(
@@ -43,7 +29,7 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                         FlatButton(
                           padding: EdgeInsets.zero,
                           child: Container(
-                            height: 200,
+                            height: 400,
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: NetworkImage(
@@ -62,18 +48,17 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                           margin: EdgeInsets.only(
                             left: 10,
                             right: 15,
-                            top: 150,
+                            top: 340,
                           ),
-                          height: 80,
+                          height: 60,
                           alignment: Alignment.bottomCenter,
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
                               CircleAvatar(
-                                radius: 40,
+                                radius: 30,
                                 child: Container(
-                                  width: 79,
-                                  height: 79,
+                                  width: 59,
+                                  height: 59,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
@@ -84,58 +69,19 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                padding: EdgeInsets.only(
-                                  bottom: 4
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    IconButton(
-                                      icon: Image.asset(
-                                        "assets/images/heart-icon-fill.png",
-                                        height: 25,
-                                      ),
-                                      padding: EdgeInsets.zero,
-                                      alignment: Alignment.bottomCenter,
-                                    ),
-                                    Text(jobState?.task?.location?.name ?? ""),
-                                  ],
-                                ),
-                              ),
                               Expanded(
                                 child: Container(),
                               ),
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    height: 39,
-                                    width: 39,
-                                    child: FlatButton(
-                                      shape: CircleBorder(),
-                                      padding: EdgeInsets.zero,
-                                      child: Image.asset("assets/images/camera-btn.png",
-                                      ),
-                                      onPressed: () {},
-                                    ),
+                              Container(
+                                height: 39,
+                                width: 39,
+                                child: FlatButton(
+                                  shape: CircleBorder(),
+                                  padding: EdgeInsets.zero,
+                                  child: Image.asset("assets/images/camera-btn.png",
                                   ),
-                                  SizedBox(
-                                    height: 13,
-                                  ),
-                                  Container(
-                                    height: 28,
-                                    width: 28,
-                                    child: FlatButton(
-                                      shape: CircleBorder(),
-                                      padding: EdgeInsets.zero,
-                                      child: Image.asset(
-                                        "assets/images/call-icon.png",
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ],
+                                  onPressed: () {},
+                                ),
                               ),
                             ],
                           ),
@@ -168,58 +114,12 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
 //                        ],
 //                      ),
 //                    ),
-                            SizedBox(
-                              height: 50,
-                            ),
+
                             Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Theme
-                                    .of(context)
-                                    .dividerTheme
-                                    .color)),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 9.0,
-                                      horizontal: 15
-                                    ),
-                                    child: Text(
-                                      jobState.task.location.street + " - " +
-                                        jobState.task.location.streetLine2)),
-                                  Divider(),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 9.0,
-                                      horizontal: 15
-                                    ),
-                                    child: Text(
-                                      "Doorman Building - ${jobState.task
-                                        .location.doorman ?? "Unknown"}, " +
-                                        "${jobState.task.location.floor ??
-                                          "Unknown"} Floor, " +
-                                        "${jobState.task.location.elevator ??
-                                          "Unknown"} Elevator.",
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ),
-                                  Divider(),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 9.0,
-                                      horizontal: 15
-                                    ),
-                                    child: Text(
-                                      getTaskCleaningOptions(jobState.task)
-                                        .join(", "))
-                                  ),
-                                ],
-                              )
-                            ),
-                            SizedBox(
-                              height: 10,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 20,
+                              ),
+                              child: Text("Click to add / remove information")
                             ),
                             Container(
                               decoration: BoxDecoration(
@@ -253,6 +153,32 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                                       textAlign: TextAlign.center,
                                     )
                                   ),
+                                  Divider(),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 9.0,
+                                      horizontal: 15
+                                    ),
+                                    child: Text(
+                                      (jobState.task.notes ?? "").length > 0
+                                        ? jobState.task.notes
+                                        : "No Pickup Notes",
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ),
+                                  Divider(),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 9.0,
+                                      horizontal: 15
+                                    ),
+                                    child: Text(
+                                      (jobState.task.notes ?? "").length > 0
+                                        ? jobState.task.notes
+                                        : "No Pickup Notes",
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ),
                                 ],
                               )
                             ),
@@ -266,7 +192,7 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                               LocationTrackerBaseState>(
                               builder: (context, locationState) {
                                 return AnimatedButton(
-                                  child: Text("Picked Up From Customer >>"),
+                                  child: Text("Save Building Info >>"),
                                   onHorizontalDragUpdate: (details) {
                                     if (details.primaryDelta > 40) {
                                       print("Drag right");

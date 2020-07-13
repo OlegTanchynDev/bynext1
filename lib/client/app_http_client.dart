@@ -34,7 +34,7 @@ class DemoHttpClient extends BaseClient {
   };
 
   final BuildContext context;
-  DemoTasks currentTask;
+  DemoTasks currentTask = DemoTasks.pickupFromClient;
 
   DemoHttpClient(this.context);
 

@@ -8,6 +8,7 @@ import 'package:bynextcourier/repository/sign_contract_repository.dart';
 import 'package:bynextcourier/repository/queued_tasks_repository.dart';
 import 'package:bynextcourier/screen/forgot_password.dart';
 import 'package:bynextcourier/screen/goto_location/task_go_to_location_step_2.dart';
+import 'package:bynextcourier/screen/image_screen.dart';
 import 'package:bynextcourier/screen/pickup/customer_pickup_edit.dart';
 import 'package:bynextcourier/screen/pickup/customer_pickup_step2.dart';
 import 'package:bynextcourier/screen/shifts.dart';
@@ -59,6 +60,7 @@ const taskPickupSuppliesRoute = 'taskPickupSuppliesRoute';
 const taskDeliverToClientRoute = 'taskDeliverToClientRoute';
 const taskLaundromatPickupRoute = 'taskLaundromatPickupRoute';
 const taskLaundromatDropOffRoute = 'taskLaundromatDropOffRoute';
+const imageRoute = 'imageRoute';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -296,6 +298,11 @@ class Router {
               break;
             case taskLaundromatDropOffRoute:
               page = TaskLaundromatDropOffScreen();
+              break;
+            case imageRoute:
+              page = ImageScreen(
+                url: settings.arguments,
+              );
               break;
             default:
               page = Scaffold(

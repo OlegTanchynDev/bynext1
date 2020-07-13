@@ -3,6 +3,7 @@ import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/task.dart';
+import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/animated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,10 +49,9 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                           fit: BoxFit.cover
                         )
                       ),
-
                     ),
                     onPressed: () {
-
+                      Navigator.of(context).pushNamed(imageRoute, arguments: "$mediaUrl${_task.meta.buildingImgUrl}");
                     },
                   ),
                   Container(

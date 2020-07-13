@@ -64,10 +64,9 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                                 fit: BoxFit.cover
                               )
                             ),
-
                           ),
                           onPressed: () {
-
+                            Navigator.of(context).pushNamed(imageRoute, arguments: "$mediaUrl${jobState.task.meta.buildingImgUrl}");
                           },
                         ),
                         Container(

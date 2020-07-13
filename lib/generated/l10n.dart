@@ -302,6 +302,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Start Job`
+  String get startJobButton {
+    return Intl.message(
+      'Start Job',
+      name: 'startJobButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue Job`
+  String get continueJobButton {
+    return Intl.message(
+      'Continue Job',
+      name: 'continueJobButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Task Changed`
+  String get taskChangedTitle {
+    return Intl.message(
+      'Task Changed',
+      name: 'taskChangedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have been assigned a new task by dispatch.`
+  String get taskChangedMessage {
+    return Intl.message(
+      'You have been assigned a new task by dispatch.',
+      name: 'taskChangedMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

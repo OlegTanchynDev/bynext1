@@ -27,6 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "alertTitleShiftCancellation" : MessageLookupByLibrary.simpleMessage("Shift Cancellation"),
     "alertTitleShiftCancellationReason" : MessageLookupByLibrary.simpleMessage("Reason for canceling"),
     "call" : MessageLookupByLibrary.simpleMessage("CALL"),
+    "continueJobButton" : MessageLookupByLibrary.simpleMessage("Continue Job"),
     "drawerCallDispatcher" : MessageLookupByLibrary.simpleMessage("Call Dispatcher"),
     "drawerGeneralInfo" : MessageLookupByLibrary.simpleMessage("General Info"),
     "drawerIssues" : MessageLookupByLibrary.simpleMessage("Issues"),
@@ -47,6 +48,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no" : MessageLookupByLibrary.simpleMessage("No"),
     "ok" : MessageLookupByLibrary.simpleMessage("OK"),
     "save" : MessageLookupByLibrary.simpleMessage("Save"),
+    "startJobButton" : MessageLookupByLibrary.simpleMessage("Start Job"),
+    "taskChangedMessage" : MessageLookupByLibrary.simpleMessage("You have been assigned a new task by dispatch."),
+    "taskChangedTitle" : MessageLookupByLibrary.simpleMessage("Task Changed"),
     "yes" : MessageLookupByLibrary.simpleMessage("Yes")
   };
 }

@@ -25,5 +25,9 @@
   "ok": "OK",
   "call": "CALL",
   "alertTitleShiftCancellationReason": "Reason for canceling",
-  "save": "Save"
+  "save": "Save",
+  "startJobButton": "Start Job",
+  "continueJobButton": "Continue Job",
+  "taskChangedTitle": "Task Changed",
+  "taskChangedMessage": "You have been assigned a new task by dispatch."
 }

@@ -128,6 +128,7 @@ class ShiftDetailsReady extends ShiftDetailsState {
 
   bool get useShiftModeSwitch => this.regular != null && this.business != null && this.regular != this.business;
   bool get isRegular => this.current != null && this.regular != null && this.current == this.regular;
+  bool get isBusiness =>  this.current != null && this.business != null && this.current == this.business;
 
   @override
   List<Object> get props => [regular, business, current];

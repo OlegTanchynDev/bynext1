@@ -6,17 +6,21 @@ import 'package:background_locator/location_dto.dart';
 import 'package:background_locator/location_settings.dart';
 import 'package:bloc/bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_callback_handler.dart';
+import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/repository/location_service_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:location_permissions/location_permissions.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'location_tracker_event.dart';
 
 part 'location_tracker_state.dart';
 
 class LocationTrackerBloc extends Bloc<LocationTrackerEvent, LocationTrackerBaseState> {
+  TaskBloc _taskBloc;
+  StreamSubscription<TaskState> _taskBlocSubscription;
 
   LocationTrackerBloc() : super(InitialLocationTrackerState());
 
@@ -25,6 +29,22 @@ class LocationTrackerBloc extends Bloc<LocationTrackerEvent, LocationTrackerBase
   bool isServiceRunning = false;
   LocationDto lastLocation;
   bool userArrivedAtDestinationLocation = false;
+
+  set taskBloc(TaskBloc value) {
+    if (_taskBloc != value) {
+      _taskBloc = value;
+      _taskBlocSubscription = _taskBloc.listen((taskState) async {
+        final prefs = await SharedPreferences.getInstance();
+        if (taskState is WaitingTaskState) {
+          await prefs.remove('task_lat');
+          await prefs.remove('task_lng');
+        } else if (taskState is ReadyTaskState) {
+          await prefs.setDouble('task_lat', taskState.task?.location?.lat);
+          await prefs.setDouble('task_lng', taskState.task?.location?.lng);
+        }
+      });
+    }
+  }
 
   void startLocationTracking() {
     printLabel('startLocationTracking', 'LocationTrackerBloc');
@@ -89,6 +109,7 @@ class LocationTrackerBloc extends Bloc<LocationTrackerEvent, LocationTrackerBase
   @override
   Future<void> close() {
     printLabel('LocationTrackerBloc close', 'LocationTrackerBloc');
+    _taskBlocSubscription?.cancel();
     return super.close();
   }
 

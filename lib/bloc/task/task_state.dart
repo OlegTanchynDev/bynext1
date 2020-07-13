@@ -10,9 +10,10 @@ class WaitingTaskState extends TaskState {}
 
 class ReadyTaskState extends TaskState {
   final Task task;
+  final bool switchToNewTask;
 
-  ReadyTaskState(this.task);
+  ReadyTaskState(this.task, {this.switchToNewTask = false});
 
   @override
-  List<Object> get props => [task];
+  List<Object> get props => [task, switchToNewTask];
 }

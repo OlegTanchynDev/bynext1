@@ -26,6 +26,8 @@ import 'bloc/location_tracker/location_tracker_bloc.dart';
 import 'bloc/shift_details_bloc.dart';
 import 'generated/l10n.dart';
 import 'helpers/reload_shift_details_navigator_observer.dart';
+import 'helpers/shift_utils.dart';
+import 'helpers/task_router.dart';
 import 'repository/schedule_repository.dart';
 import 'router.dart';
 import 'screen/login.dart';
@@ -99,10 +101,6 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider(
                 lazy: false,
-                create: (_) => LocationTrackerBloc()..initAndStartLocationTrackingIfNeeded(),
-              ),
-              BlocProvider(
-                lazy: false,
                 create: (_) => MapsBloc()..add(CheckInstalled()),
               ),
               BlocProvider(
@@ -121,9 +119,16 @@ class MyApp extends StatelessWidget {
                 create: (context) => TaskBloc()
                   ..tokenBloc = context.bloc<TokenBloc>()
                   ..httpClientBloc = context.bloc<HttpClientBloc>()
+                  ..shiftDetailsBloc = context.bloc<ShiftDetailsBloc>()
                   ..repository = context.repository<TasksRepository>()
                   ..courierRepository = context.repository<CourierRepository>(),
-              )
+              ),
+              BlocProvider(
+                lazy: false,
+                create: (context) => LocationTrackerBloc()
+                  ..taskBloc = context.bloc<TaskBloc>()
+                  ..initAndStartLocationTrackingIfNeeded(),
+              ),
             ],
             child: Builder(
               builder: (context) => MaterialApp(
@@ -192,11 +197,10 @@ class MyApp extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                         )),
                     buttonTheme: const ButtonThemeData(
-                      textTheme: ButtonTextTheme.primary,
-                      height: 41,
-                      buttonColor: const Color(0xFF403D9C),
-                      padding: EdgeInsets.symmetric(horizontal: 8.0)
-                    ),
+                        textTheme: ButtonTextTheme.primary,
+                        height: 41,
+                        buttonColor: const Color(0xFF403D9C),
+                        padding: EdgeInsets.symmetric(horizontal: 8.0)),
                     inputDecorationTheme: const InputDecorationTheme(
                       isDense: true,
                       border: const OutlineInputBorder(borderRadius: const BorderRadius.all(Radius.circular(0.0))),
@@ -228,10 +232,13 @@ class MyApp extends StatelessWidget {
                             return SplashScreen();
                             break;
                           case TokenValid:
-                            return BlocBuilder<ShiftDetailsBloc, ShiftDetailsState>(
+                            return BlocConsumer<ShiftDetailsBloc, ShiftDetailsState>(
+                                listener: ShiftUtils.shouldSignContractListener,
                                 builder: (context, shiftDetailsState) => Stack(
                                       children: <Widget>[
-                                        HomeScreen(),
+                                        BlocListener<TaskBloc, TaskState>(
+                                            listener: TaskRouter.listener,
+                                            child: HomeScreen()),
                                         shiftDetailsState is ShiftDetailsLoading
                                             ? CustomProgressIndicator()
                                             : Container()

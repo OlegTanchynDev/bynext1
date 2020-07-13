@@ -1,20 +1,16 @@
-import 'dart:async';
-
 import 'package:bynextcourier/bloc/shift_details_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
+import 'package:bynextcourier/generated/l10n.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/model/shift.dart';
-import 'package:bynextcourier/model/task.dart';
-import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/app_bar_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hidden_drawer/flutter_hidden_drawer.dart';
 import 'package:intl/intl.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -23,8 +19,6 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   AudioPlayer _player;
-  StreamSubscription<ShiftDetailsState> _shiftDetailsBlocSubscription;
-  StreamSubscription<TaskState> _startJobBlocSubscription;
 
   @override
   void initState() {
@@ -35,61 +29,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       // catch audio error ex: 404 url, wrong url ...
       print(error);
     });
-    _shiftDetailsBlocSubscription = BlocProvider.of<ShiftDetailsBloc>(context)
-        .listen((shiftDetailsState) {
-      if(shiftDetailsState is ShiftDetailsReady){
-        final shift = shiftDetailsState.current;
-        printLabel('shift:$shift', 'WelcomeScreen');
-        if(shift.contractSignedOnDate == null){
-          printLabel('contractSignedOnDate is NULL', 'WelcomeScreen');
-          Navigator.of(context)
-              .pushNamed(webRoute, arguments: {'url': shift.contractUrl, 'title': 'Terms of Service', 'shouldSignContract':true});
-        }else{
-          printLabel('contractSignedOnDate is $shift.contractSignedOnDate', 'WelcomeScreen');
-        }
-      }
-    });
-    _startJobBlocSubscription = BlocProvider.of<TaskBloc>(context).listen((state) async {
-      if(state is ReadyTaskState){
-        printLabel('start job ${state.task}', 'TEST');
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setDouble('task_lat', state.task?.location?.lat);
-        await prefs.setDouble('task_lng', state.task?.location?.lng);
-
-        if(state.task.type == CardType.COURIER_TASK_TYPE_GOTO_LOCATION) {
-          Navigator.of(context).pushNamed(taskGoToLocationRoute);
-        } else if (state.task.type == CardType.COURIER_TASK_TYPE_PICKUP_FROM_CLIENT) {
-          if (state.task.linkedTasks?.isEmpty ?? true) {
-            Navigator.of(context).pushNamed(taskPickupFromClientRoute);
-          } else {
-            // Batched Orders
-          }
-        } else if (state.task.type == CardType.COURIER_TASK_TYPE_PICKUP_SUPPLIES) {
-          Navigator.of(context).pushNamed(taskPickupSuppliesRoute);
-        } else if (state.task.type == CardType.COURIER_TASK_TYPE_DELIVER_TO_CLIENT) {
-          if (state.task.linkedTasks?.isEmpty ?? true) {
-            Navigator.of(context).pushNamed(taskDeliverToClientRoute);
-          } else {
-            // Batched Orders
-          }
-        } else if (state.task.type == CardType.COURIER_TASK_TYPE_LAUNDROMAT_PICKUP) {
-          Navigator.of(context).pushNamed(taskLaundromatPickupRoute);
-        } else if (state.task.type == CardType.COURIER_TASK_TYPE_LAUNDROMAT_DROPOFF) {
-          Navigator.of(context).pushNamed(taskLaundromatDropOffRoute);
-        } else{
-          Navigator.of(context)
-              .pushNamed(webRoute, arguments: {'url': 'http://google.com', 'title': 'TEST'});
-        }
-
-      }
-    });
   }
 
   @override
   void dispose() {
     _player.dispose();
-    _shiftDetailsBlocSubscription?.cancel();
-    _startJobBlocSubscription?.cancel();
     super.dispose();
   }
 
@@ -182,7 +126,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                                   iconSize: 30,
                                                   onPressed: shift != null
                                                       ? () {
-                                                          launchMaps(context, shift.startLocationLat, shift.startLocationLng);
+                                                          launchMaps(
+                                                              context, shift.startLocationLat, shift.startLocationLng);
                                                         }
                                                       : null,
                                                 ),
@@ -269,11 +214,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           ]) +
                                     <Widget>[
                                       RaisedButton(
-                                        child: Text('Start Job'),
-                                        onPressed: shift != null && shift.canStart ? () async {
-                                          BlocProvider.of<TaskBloc>(context).add(GetNextTaskEvent(shift.id, shiftState is ShiftDetailsReady ? shiftState.current == shiftState.business : false));
+                                        child: BlocBuilder<TaskBloc, TaskState>(
+                                            builder: (context, taskState) => Text(taskState is ReadyTaskState
+                                                ? S.of(context).continueJobButton
+                                                : S.of(context).startJobButton)),
+                                        onPressed: shift != null && shift.canStart
+                                            ? () async {
+                                                BlocProvider.of<TaskBloc>(context).add(GetNextTaskEvent());
 //                                          await RepositoryProvider.of<TasksRepository>(context).fetchNextTask(BlocProvider.of<HttpClientBloc>(context).state.client, BlocProvider.of<TokenBloc>(context).state.token, shift.id, shiftState is ShiftDetailsReady ? shiftState.current == shiftState.business : false);
-                                        } : null,
+                                              }
+                                            : null,
                                       ),
                                     ],
                               );

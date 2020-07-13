@@ -1,6 +1,7 @@
 import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/bloc/shift_details_bloc.dart';
+import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/client/app_http_client.dart';
 import 'package:bynextcourier/constants.dart';
@@ -238,6 +239,7 @@ class HomeScreen extends StatelessWidget {
                                             ),
                                           );
 
+                                          BlocProvider.of<TaskBloc>(context).add(ClearTaskEvent());
                                           BlocProvider.of<HttpClientBloc>(context).add(HttpClientSetDemoTask(nextTask));
 
                                           showCustomDialog2(context,

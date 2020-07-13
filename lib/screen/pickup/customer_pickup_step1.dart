@@ -3,6 +3,7 @@ import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/animated_button.dart';
+import 'package:bynextcourier/view/app_bar_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +20,9 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
       builder: (context, jobState) {
         if (jobState is ReadyTaskState) {
           return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              title: AppBarTitle(title: Text('Pickup Job'), subtitle: Text('8:00 PM - 9:00 PM'))
+            ),
             body: SafeArea(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),

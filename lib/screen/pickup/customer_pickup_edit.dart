@@ -149,7 +149,12 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                               ),
                               child: Row(
                                 children: <Widget>[
-                                  Icon(Icons.account_box),
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/doorman-icon.png",
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                   SizedBox(
                                     width: 20,
                                   ),
@@ -158,9 +163,10 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                                     child: Container(),
                                   ),
                                   IconButton(
-                                    icon: Icon(
+                                    icon: Image.asset(
                                       _task.location.doorman ?? false ?
-                                      Icons.check_circle_outline : Icons.remove_circle_outline
+                                      "assets/images/checkbox-grey-checked.png" : "assets/images/checkbox-grey-unchecked.png",
+                                      color: Colors.black,
                                     ),
                                     padding: EdgeInsets.zero,
                                     onPressed: () {},
@@ -187,7 +193,12 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                               ),
                               child: Row(
                                 children: <Widget>[
-                                  Icon(Icons.settings_cell),
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/elevator-icon.png",
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                   SizedBox(
                                     width: 20,
                                   ),
@@ -196,9 +207,10 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                                     child: Container(),
                                   ),
                                   IconButton(
-                                    icon: Icon(
+                                    icon: Image.asset(
                                       _task.location.elevator ?? false ?
-                                      Icons.check_circle_outline : Icons.remove_circle_outline
+                                      "assets/images/checkbox-grey-checked.png" : "assets/images/checkbox-grey-unchecked.png",
+                                      color: Colors.black,
                                     ),
                                     padding: EdgeInsets.zero,
                                     onPressed: () {},
@@ -214,7 +226,12 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                               ),
                               child: Row(
                                 children: <Widget>[
-                                  Icon(Icons.keyboard_arrow_up),
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/bldg-floor-yes.png",
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                   SizedBox(
                                     width: 20,
                                   ),
@@ -223,8 +240,19 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                                     child: Container(),
                                   ),
                                   IconButton(
-                                    icon: Icon(
-                                      Icons.check_circle_outline),
+                                    icon: Stack(
+                                      children: <Widget>[
+                                        Align(
+                                          child: Image.asset(
+                                            "assets/images/checkbox-grey-unchecked.png",
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Align(
+                                          child: Text((_task.location.floor ?? 0).toString())
+                                        )
+                                      ],
+                                    ),
                                     padding: EdgeInsets.zero,
                                     onPressed: () {},
                                   ),
@@ -239,7 +267,12 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                               ),
                               child: Row(
                                 children: <Widget>[
-                                  Icon(Icons.note_add),
+                                  Container(
+                                    child: Image.asset(
+                                      "assets/images/address-notes-icon.png",
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                   SizedBox(
                                     width: 20,
                                   ),
@@ -248,24 +281,15 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                                     child: Container(),
                                   ),
                                   IconButton(
-                                    icon: Icon(
-                                      Icons.add_circle_outline),
+                                    icon: Image.asset(
+                                      "assets/images/button-add-white.png",
+                                      color: Colors.black,
+                                    ),
                                     padding: EdgeInsets.zero,
                                     onPressed: () {},
                                   ),
                                 ],
                               ),
-
-//                                    child: ListTile(
-//                                      contentPadding: EdgeInsets.zero,
-//                                      leading: Icon(Icons.account_box),
-//                                      title: Text("Doorman"),
-//                                      trailing: IconButton(
-//                                        icon: Icon(Icons.check_circle_outline),
-//                                        padding: EdgeInsets.zero,
-//                                        onPressed: (){},
-//                                      ),
-//                                    )
                             ),
                           ],
                         )

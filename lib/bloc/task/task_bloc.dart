@@ -66,7 +66,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   }
 
   Stream<TaskState> _mapGetNextTaskToState(GetNextTaskEvent event) async* {
-    yield WaitingTaskState();
+    yield WaitingTaskState(task: state.task);
 
     final shiftDetailsState = _shiftDetailsBloc.state;
     final goOnlineResult =

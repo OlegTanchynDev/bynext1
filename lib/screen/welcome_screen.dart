@@ -215,7 +215,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     <Widget>[
                                       RaisedButton(
                                         child: BlocBuilder<TaskBloc, TaskState>(
-                                            builder: (context, taskState) => Text(taskState is ReadyTaskState
+                                            builder: (context, taskState) => Text(taskState.task != null
                                                 ? S.of(context).continueJobButton
                                                 : S.of(context).startJobButton)),
                                         onPressed: shift != null && shift.canStart

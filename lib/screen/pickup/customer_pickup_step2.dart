@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/constants.dart';
@@ -13,6 +15,13 @@ class CustomerPickupStep2 extends StatefulWidget {
 }
 
 class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
+  Timer _timer;
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +142,9 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                                         "assets/images/call-icon.png",
                                         color: Colors.black,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        var result = await showContactsDialog(context, jobState.task, _timer);
+                                      },
                                     ),
                                   ),
                                 ],

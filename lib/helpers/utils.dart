@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
@@ -187,6 +188,71 @@ Future<T> showNoBarrierDialog<T>(BuildContext context,
               : [])),
       );
     });
+}
+
+Future<T> showContactsDialog<T>(BuildContext context, Task task, Timer timer) async {
+  return await showCustomDialog2(context,
+    noPadding: true,
+    barrierDismissible: true,
+    title: Text(
+      'CONTACT CUSTOMER',
+      textAlign: TextAlign.center,
+      style: TextStyle(fontWeight: FontWeight.bold),
+    ),
+    child: Column(
+      children: <Widget>[
+        buildDialogButton(
+          Image.asset('assets/images/speech-bubble.png', color: Colors.black,),
+          'MESSAGE', () {
+          Navigator.of(context).pop();
+          timer = new Timer(const Duration(milliseconds: 200), () async {
+            var phoneNumber = task.contact.phone?.replaceAll(RegExp(r'[^\+\d]'), '');
+            printLabel('press MESSAGE - tel:$phoneNumber ', 'TaskGoToLocationStep2Screen');
+            if (await canLaunch('sms:')) {
+              await launch('sms:$phoneNumber');
+            }
+          });
+        }),
+        buildDialogButton(
+          Image.asset('assets/images/phone-call.png', color: Colors.black,),
+          'CALL', () async {
+          Navigator.of(context).pop();
+          timer = new Timer(const Duration(milliseconds: 200), () async {
+            var phoneNumber = task.contact.phone?.replaceAll(RegExp(r'[^\+\d]'), '');
+            printLabel('press CALL - tel:$phoneNumber ', 'TaskGoToLocationStep2Screen');
+            if (await canLaunch('tel:')) {
+              await launch('tel:$phoneNumber');
+            }
+          });
+        }),
+        buildDialogButton(
+          Image.asset('assets/images/phone-chat.png', color: Colors.black,),
+          'CHAT', () {
+          Navigator.of(context).pop();
+          printLabel('press CHAT', 'TaskGoToLocationStep2Screen');
+        }),
+      ],
+    ),
+    buttons: []
+  );
+}
+
+InkWell buildDialogButton(Widget icon, String name, onTap) {
+  return InkWell(
+    onTap: onTap,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
+      child: Row(
+        children: <Widget>[
+          icon,
+          SizedBox(
+            width: 10.0,
+          ),
+          Expanded(child: Text(name)),
+        ],
+      ),
+    ),
+  );
 }
 
 callPhone(BuildContext context, String phoneNumber, String name) async {

@@ -12,8 +12,7 @@ class TokenBloc extends Bloc<TokenEvent, TokenState> {
   // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
-  @override
-  get initialState => TokenInitial();
+  TokenBloc() : super(TokenInitial());
 
   @override
   Stream<TokenState> mapEventToState(TokenEvent event) async* {

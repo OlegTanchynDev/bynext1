@@ -37,7 +37,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
       body: SafeArea(
         child: BlocBuilder<TaskBloc, TaskState>(
           builder: (BuildContext context, state) {
-            var task = (state as ReadyToStartJobState).task;
+            var task = (state as ReadyTaskState).task;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[

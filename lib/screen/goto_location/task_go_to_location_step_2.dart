@@ -35,7 +35,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      var blocState = (BlocProvider.of<TaskBloc>(context).state as ReadyToStartJobState);
+      var blocState = (BlocProvider.of<TaskBloc>(context).state as ReadyTaskState);
       if (blocState.task.meta.isEarly) {
         showNotesPopup(context);
       }
@@ -53,7 +53,7 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
       body: SafeArea(
         child: BlocBuilder<TaskBloc, TaskState>(
           builder: (BuildContext context, state) {
-            var task = (state as ReadyToStartJobState).task;
+            var task = (state as ReadyTaskState).task;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

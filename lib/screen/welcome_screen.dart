@@ -50,7 +50,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       }
     });
     _startJobBlocSubscription = BlocProvider.of<TaskBloc>(context).listen((state) async {
-      if(state is ReadyToStartJobState){
+      if(state is ReadyTaskState){
         printLabel('start job ${state.task}', 'TEST');
         final prefs = await SharedPreferences.getInstance();
         await prefs.setDouble('task_lat', state.task?.location?.lat);

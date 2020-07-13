@@ -1,12 +1,12 @@
 part of 'task_bloc.dart';
 
 @immutable
-abstract class TaskEvent  extends Equatable {
+abstract class TaskEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class GetNextTaskEvent extends TaskEvent{
+class GetNextTaskEvent extends TaskEvent {
   final int shiftId;
   final bool business;
 
@@ -15,3 +15,11 @@ class GetNextTaskEvent extends TaskEvent{
   @override
   List<Object> get props => [shiftId, business];
 }
+
+class RefreshTaskEvent extends TaskEvent {}
+
+class TaskUnchangedEvent extends TaskEvent {}
+
+class TaskChangedEvent extends TaskEvent {}
+
+class CompleteTaskEvent extends TaskEvent {}

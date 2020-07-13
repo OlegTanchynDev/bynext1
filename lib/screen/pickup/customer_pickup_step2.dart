@@ -18,7 +18,7 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
   Widget build(BuildContext context) {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, jobState) {
-        if (jobState is ReadyToStartJobState) {
+        if (jobState is ReadyTaskState) {
           return Scaffold(
             appBar: AppBar(
               actions: <Widget>[

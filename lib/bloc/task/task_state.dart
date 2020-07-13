@@ -6,12 +6,12 @@ abstract class TaskState extends Equatable {
   List<Object> get props => [];
 }
 
-class WaitingStartJobState extends TaskState {}
+class WaitingTaskState extends TaskState {}
 
-class ReadyToStartJobState extends TaskState {
+class ReadyTaskState extends TaskState {
   final Task task;
 
-  ReadyToStartJobState(this.task);
+  ReadyTaskState(this.task);
 
   @override
   List<Object> get props => [task];

@@ -20,18 +20,17 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
-  @override
-  TaskState get initialState => WaitingStartJobState();
+  TaskBloc() : super(WaitingTaskState());
 
   @override
   Stream<TaskState> mapEventToState(TaskEvent event) async* {
     if (event is GetNextTaskEvent) {
-      yield WaitingStartJobState();
+      yield WaitingTaskState();
 
       final goOnlineResult = await courierRepository.goOnline(httpClientBloc.state.client, tokenBloc.state.token, tokenBloc.state.email);
       if (goOnlineResult) {
         Task task = await repository.fetchNextTask(httpClientBloc.state.client, tokenBloc.state.token,event.shiftId, event.business);
-        yield ReadyToStartJobState(task);
+        yield ReadyTaskState(task);
       }
     }
   }

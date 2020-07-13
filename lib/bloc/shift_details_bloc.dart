@@ -17,6 +17,8 @@ class ShiftDetailsBloc extends Bloc<ShiftDetailsEvent, ShiftDetailsState> {
 
   StreamSubscription<TokenState> _tokenBlocSubscription;
 
+  ShiftDetailsBloc() : super(ShiftDetailsUninitialized());
+
   set tokenBloc(TokenBloc value) {
     if (_tokenBloc != value) {
       _tokenBloc = value;
@@ -33,9 +35,6 @@ class ShiftDetailsBloc extends Bloc<ShiftDetailsEvent, ShiftDetailsState> {
     _tokenBlocSubscription?.cancel();
     return super.close();
   }
-
-  @override
-  ShiftDetailsState get initialState => ShiftDetailsUninitialized();
 
   @override
   Stream<ShiftDetailsState> mapEventToState(ShiftDetailsEvent event) async* {

@@ -9,10 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HttpClientBloc extends Bloc<HttpClientEvent, HttpClientState> {
   final BuildContext context;
 
-  HttpClientBloc(this.context);
-
-  @override
-  HttpClientState get initialState => HttpClientState(http.Client(), false);
+  HttpClientBloc(this.context) : super(HttpClientState(http.Client(), false));
 
   @override
   Stream<HttpClientState> mapEventToState(HttpClientEvent event) async* {

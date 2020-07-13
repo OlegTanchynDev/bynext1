@@ -1,4 +1,4 @@
-import 'package:bynextcourier/bloc/delegate/bloc_delegate.dart';
+import 'package:bynextcourier/bloc/observer/bloc_observer.dart';
 import 'package:bynextcourier/bloc/login_form_bloc.dart';
 import 'package:bynextcourier/bloc/maps_bloc.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    BlocSupervisor.delegate = SimpleBlocDelegate();
+    Bloc.observer = SimpleBlocObserver();
 
     // primary color
     const primaryColor = const Color(0xFF232456);

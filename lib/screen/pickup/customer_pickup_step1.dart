@@ -17,7 +17,7 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
   Widget build(BuildContext context) {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, jobState) {
-        if (jobState is ReadyToStartJobState) {
+        if (jobState is ReadyTaskState) {
           return Scaffold(
             appBar: AppBar(),
             body: SafeArea(
@@ -91,7 +91,7 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                                         "assets/images/navigation-icon.png")))
                           ],
                         ),
-                        onPressed: jobState is ReadyToStartJobState &&
+                        onPressed: jobState is ReadyTaskState &&
                                 (jobState?.task?.location ?? null) != null
                             ? () {
                                 launchMaps(context, jobState.task.location.lat,
@@ -177,7 +177,7 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
   @override
   void initState() {
     final jobState = BlocProvider.of<TaskBloc>(context).state;
-    if (jobState is ReadyToStartJobState && jobState.task.meta.firstOrder) {
+    if (jobState is ReadyTaskState && jobState.task.meta.firstOrder) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await Future.delayed(Duration(
           milliseconds: 600,

@@ -13,8 +13,7 @@ class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> 
   // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
-  @override
-  ForgotPasswordState get initialState => ForgotFormReady();
+  ForgotPasswordBloc() : super(ForgotFormReady());
 
 //  @override
 //  Future<void> close() {

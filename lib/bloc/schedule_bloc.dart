@@ -15,8 +15,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
-  @override
-  ScheduleState get initialState => ScheduleReady([], {}, [], null, null);
+  ScheduleBloc() : super(ScheduleReady([], {}, [], null, null));
 
   @override
   Stream<ScheduleState> mapEventToState(ScheduleEvent event) async* {

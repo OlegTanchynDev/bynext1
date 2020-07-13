@@ -7,12 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
 
-  @override
-  get initialState =>
-      MapsBlocState(
-        installed: [],
-        enabled: "",
-      );
+  MapsBloc() : super(MapsBlocState(
+    installed: [],
+    enabled: "",
+  ));
 
   @override
   Stream<MapsBlocState> mapEventToState(MapsBlocEvent event) async* {

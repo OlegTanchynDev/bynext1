@@ -17,8 +17,8 @@ part 'location_tracker_event.dart';
 part 'location_tracker_state.dart';
 
 class LocationTrackerBloc extends Bloc<LocationTrackerEvent, LocationTrackerBaseState> {
-  @override
-  InitialLocationTrackerState get initialState => InitialLocationTrackerState();
+
+  LocationTrackerBloc() : super(InitialLocationTrackerState());
 
 //  StreamSubscription<Position> _positionStreamSubscription;
   ReceivePort port = ReceivePort();

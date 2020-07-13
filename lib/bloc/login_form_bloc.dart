@@ -17,8 +17,7 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
 
   TokenBloc tokenBloc;
 
-  @override
-  LoginFormState get initialState => LoginFormReady();
+  LoginFormBloc() : super(LoginFormReady());
 
   @override
   Future<void> close() {

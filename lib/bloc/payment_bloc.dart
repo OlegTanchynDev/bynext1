@@ -16,6 +16,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
   StreamSubscription<TokenState> _tokenSubscription;
 
+  PaymentBloc() : super(PaymentState());
 
   set tokenBloc(TokenBloc value) {
     if (_tokenBloc != value){
@@ -35,9 +36,6 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     _tokenSubscription?.cancel();
     return super.close();
   }
-
-  @override
-  get initialState => PaymentState();
 
   @override
   Stream<PaymentState> mapEventToState(PaymentEvent event) async* {

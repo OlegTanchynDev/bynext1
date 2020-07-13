@@ -16,6 +16,7 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
 
   StreamSubscription<TokenState> _tokenSubscription;
 
+  IssuesBloc() : super(IssuesState([]));
 
   set tokenBloc(TokenBloc value) {
     if (_tokenBloc != value){
@@ -35,9 +36,6 @@ class IssuesBloc extends Bloc<IssuesEvent, IssuesState> {
     _tokenSubscription?.cancel();
     return super.close();
   }
-
-  @override
-  get initialState => IssuesState([]);
 
   @override
   Stream<IssuesState> mapEventToState(IssuesEvent event) async* {

@@ -17,6 +17,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   StreamSubscription<TokenState> _tokenSubscription;
 
+  ProfileBloc() : super(ProfileState(null));
+
   set tokenBloc(TokenBloc value) {
     if (_tokenBloc != value) {
       _tokenBloc = value;
@@ -34,9 +36,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     _tokenSubscription?.cancel();
     return super.close();
   }
-
-  @override
-  get initialState => ProfileState(null);
 
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {

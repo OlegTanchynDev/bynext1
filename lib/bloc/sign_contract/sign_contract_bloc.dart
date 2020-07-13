@@ -26,8 +26,7 @@ class SignContractBloc extends Bloc<SignContractEvent, SignContractState> {
   // ignore: close_sinks
   HttpClientBloc httpClientBloc;
 
-  @override
-  SignContractState get initialState => SignContractReady();
+  SignContractBloc() : super(SignContractReady());
 
   @override
   Stream<SignContractState> mapEventToState(SignContractEvent event) async* {

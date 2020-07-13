@@ -19,6 +19,8 @@ class QueuedTasksListBloc extends Bloc<QueuedTasksListEvent, QueuedTasksListStat
 
   StreamSubscription<ShiftDetailsState> _shiftDetailsSubscription;
 
+  QueuedTasksListBloc() : super(QueuedTasksListUninitialized());
+
   set shiftDetailsBloc(ShiftDetailsBloc value) {
     if (_shiftDetailsBloc != value) {
       _shiftDetailsBloc = value;
@@ -36,9 +38,6 @@ class QueuedTasksListBloc extends Bloc<QueuedTasksListEvent, QueuedTasksListStat
     _shiftDetailsSubscription?.cancel();
     return super.close();
   }
-
-  @override
-  QueuedTasksListState get initialState => QueuedTasksListUninitialized();
 
   @override
   Stream<QueuedTasksListState> mapEventToState(QueuedTasksListEvent event) async* {

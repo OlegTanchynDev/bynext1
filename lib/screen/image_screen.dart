@@ -15,6 +15,7 @@ class ImageScreen extends StatelessWidget{
         centerTitle: true,
       ),
       body: PhotoView(
+        minScale: PhotoViewComputedScale.contained,
         imageProvider: NetworkImage(url),
       ),
     );

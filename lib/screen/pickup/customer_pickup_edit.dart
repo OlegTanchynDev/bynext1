@@ -78,7 +78,8 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                                 child: FlatButton(
                                   shape: CircleBorder(),
                                   padding: EdgeInsets.zero,
-                                  child: Image.asset("assets/images/camera-btn.png",
+                                  child: Image.asset(
+                                    "assets/images/camera-btn.png",
                                   ),
                                   onPressed: () {},
                                 ),
@@ -131,53 +132,126 @@ class _CustomerPickupEditState extends State<CustomerPickupEdit> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  Padding(
+                                  Container(
                                     padding: EdgeInsets.symmetric(
-                                      vertical: 9.0,
+                                      vertical: 0.0,
                                       horizontal: 15
                                     ),
-                                    child: Text(
-                                      (jobState.task.location.notes ?? "")
-                                        .length > 0 ? jobState.task.location
-                                        .notes : "No Address Notes")),
-                                  Divider(),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 9.0,
-                                      horizontal: 15
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(Icons.account_box),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text("Doorman"),
+                                        Expanded(
+                                          child: Container(),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.check_circle_outline),
+                                          padding: EdgeInsets.zero,
+                                          onPressed: () {},
+                                        ),
+                                      ],
                                     ),
-                                    child: Text(
-                                      (jobState.task.notes ?? "").length > 0
-                                        ? jobState.task.notes
-                                        : "No Pickup Notes",
-                                      textAlign: TextAlign.center,
-                                    )
+
+//                                    child: ListTile(
+//                                      contentPadding: EdgeInsets.zero,
+//                                      leading: Icon(Icons.account_box),
+//                                      title: Text("Doorman"),
+//                                      trailing: IconButton(
+//                                        icon: Icon(Icons.check_circle_outline),
+//                                        padding: EdgeInsets.zero,
+//                                        onPressed: (){},
+//                                      ),
+//                                    )
                                   ),
                                   Divider(),
-                                  Padding(
+                                  Container(
                                     padding: EdgeInsets.symmetric(
-                                      vertical: 9.0,
+                                      vertical: 0.0,
                                       horizontal: 15
                                     ),
-                                    child: Text(
-                                      (jobState.task.notes ?? "").length > 0
-                                        ? jobState.task.notes
-                                        : "No Pickup Notes",
-                                      textAlign: TextAlign.center,
-                                    )
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(Icons.settings_cell),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text("Elevator"),
+                                        Expanded(
+                                          child: Container(),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.check_circle_outline),
+                                          padding: EdgeInsets.zero,
+                                          onPressed: () {},
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   Divider(),
-                                  Padding(
+                                  Container(
                                     padding: EdgeInsets.symmetric(
-                                      vertical: 9.0,
+                                      vertical: 0.0,
                                       horizontal: 15
                                     ),
-                                    child: Text(
-                                      (jobState.task.notes ?? "").length > 0
-                                        ? jobState.task.notes
-                                        : "No Pickup Notes",
-                                      textAlign: TextAlign.center,
-                                    )
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(Icons.keyboard_arrow_up),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text("Floor"),
+                                        Expanded(
+                                          child: Container(),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.check_circle_outline),
+                                          padding: EdgeInsets.zero,
+                                          onPressed: () {},
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Divider(),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 0.0,
+                                      horizontal: 15
+                                    ),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(Icons.note_add),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text("Address Notes"),
+                                        Expanded(
+                                          child: Container(),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.check_circle_outline),
+                                          padding: EdgeInsets.zero,
+                                          onPressed: () {},
+                                        ),
+                                      ],
+                                    ),
+
+//                                    child: ListTile(
+//                                      contentPadding: EdgeInsets.zero,
+//                                      leading: Icon(Icons.account_box),
+//                                      title: Text("Doorman"),
+//                                      trailing: IconButton(
+//                                        icon: Icon(Icons.check_circle_outline),
+//                                        padding: EdgeInsets.zero,
+//                                        onPressed: (){},
+//                                      ),
+//                                    )
                                   ),
                                 ],
                               )

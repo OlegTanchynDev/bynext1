@@ -194,7 +194,7 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                                   FlatButton(
                                     padding: EdgeInsets.zero,
                                     onPressed: (){
-                                      Navigator.of(context).pushNamed(taskPickupFromClientEditRoute);
+                                      Navigator.of(context).pushNamed(taskPickupFromClientEditRoute, arguments: jobState.task);
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(

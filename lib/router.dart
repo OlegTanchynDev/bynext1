@@ -280,7 +280,9 @@ class Router {
               page = CustomerPickupStep2();
               break;
             case taskPickupFromClientEditRoute:
-              page = CustomerPickupEdit();
+              page = CustomerPickupEdit(
+                task: settings.arguments,
+              );
               break;
             case taskPickupSuppliesRoute:
               page = TaskPickupSuppliesScreen();

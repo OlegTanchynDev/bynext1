@@ -50,28 +50,40 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
                               ),
                             ),
                           ),
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.only(
-                                  bottom: 4
+                          Container(
+                            padding: EdgeInsets.only(
+                              top: 3,
+                              left: 10,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  jobState.task.location.street + ", " +
+                                  jobState.task.location.streetLine2
                                 ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    IconButton(
-                                      icon: Image.asset(
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Container(
+//                                color: Colors.green,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Image.asset(
                                         "assets/images/heart-icon-fill.png",
-                                        height: 25,
+                                        height: 24,
                                       ),
-                                      padding: EdgeInsets.zero,
-                                      alignment: Alignment.bottomCenter,
-                                    ),
-                                    Text(jobState?.task?.location?.name ?? ""),
-                                  ],
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        jobState?.task?.location?.name ?? ""),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),

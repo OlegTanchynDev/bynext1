@@ -25,8 +25,8 @@ class _BagsListState extends State<BagsList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20).copyWith(
-        bottom: 14),
+//      padding: EdgeInsets.symmetric(horizontal: 20).copyWith(
+//        bottom: 14),
       child: Column(
         children: <Widget>[
           SizedBox(
@@ -140,29 +140,6 @@ class _BagsListState extends State<BagsList> {
               height: 1,
             )
           ]).toList()
-          + [
-            Expanded(
-              child: Container(
-                height: 1,
-              ),
-            ),
-            BlocBuilder<
-              LocationTrackerBloc,
-              LocationTrackerBaseState>(
-              builder: (context, locationState) {
-                return AnimatedButton(
-                  child: Text("Picked Up From Customer >>"),
-                  onHorizontalDragUpdate: (details) {
-                    if (details.primaryDelta > 40) {
-                      print("Drag right");
-                    }
-                  },
-                  condition: locationState
-                    .userArrivedAtDestinationLocation,
-                );
-              }
-            )
-          ],
       ),
     );
   }

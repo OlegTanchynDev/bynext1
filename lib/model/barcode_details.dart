@@ -20,3 +20,23 @@ class BarcodeDetails {
     );
   }
 }
+
+class OrderNote{
+  final String text;
+  final String image;
+  final DateTime addedOn;
+
+  OrderNote({
+    this.text,
+    this.image,
+    this.addedOn,
+  });
+
+  factory OrderNote.fromMap(Map<String, dynamic> map){
+    return OrderNote(
+      text: map['text'] as String,
+      image: map['image'] as String,
+      addedOn: DateTime.tryParse(map['added_on'] as String),
+    );
+  }
+}

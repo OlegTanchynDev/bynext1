@@ -36,6 +36,7 @@ class DemoHttpClient extends BaseClient {
 
     //task pickup from client
     '$servicesUrl/delivery/v2/barcode/getOrderAssignedBarcodes/': DemoResponse('assets/mock/regular-business/barcode_getOrderAssignedBarcodes.json'),
+    '$servicesUrl/delivery/v2/order/getOrderNotes/': DemoResponse('assets/mock/regular-business/getOrderNotes.json'),
 
     //task pickup from client
     '$servicesUrl/delivery/v2/chat/token/?task_id=312': DemoResponse('assets/mock/regular-business/chat_token.json'),

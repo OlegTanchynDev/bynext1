@@ -1,5 +1,8 @@
 import 'package:bynextcourier/bloc/barcode_details_bloc.dart';
+import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
+import 'package:bynextcourier/model/barcode_details.dart';
+import 'package:bynextcourier/view/animated_button.dart';
 import 'package:bynextcourier/view/app_bar_title.dart';
 import 'package:bynextcourier/view/bags_list.dart';
 import 'package:flutter/material.dart';
@@ -88,10 +91,68 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
 
                     Expanded(
                       child: BlocBuilder(
-                        bloc: context.bloc<BarcodeDetailsBloc>()..add(GetBarcodes(jobState.task.meta.orderId)),
+                        bloc: context.bloc<BarcodeDetailsBloc>()..add(GetBarcodeDetails(jobState.task.meta.orderId)),
                         builder: (context, barcodeState) {
-                          return BagsList(
-                            barcodes: barcodeState.barcodes,
+                          return Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),
+                            child: Column(
+                              children: <Widget>[
+                                BagsList(
+                                  barcodes: barcodeState.barcodes,
+                                ),
+                              ] +
+                                (barcodeState.notes as List<OrderNote>).map((e) => Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Theme
+                                      .of(context)
+                                      .dividerTheme
+                                      .color
+                                  )
+                                ),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 40,
+                                      height: 40,
+                                      padding: EdgeInsets.all(1),
+                                      child: Image.network(
+                                        e.image,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(e.text),
+                                  ],
+                                ),
+                              )).toList()
+                              + [
+                                Expanded(
+                                  child: Container(
+                                    height: 1,
+                                  ),
+                                ),
+                                BlocBuilder<
+                                  LocationTrackerBloc,
+                                  LocationTrackerBaseState>(
+                                  builder: (context, locationState) {
+                                    return AnimatedButton(
+                                      child: Text("Picked Up From Customer >>"),
+                                      onHorizontalDragUpdate: (details) {
+                                        if (details.primaryDelta > 40) {
+                                          print("Drag right");
+                                        }
+                                      },
+                                      condition: locationState
+                                        .userArrivedAtDestinationLocation,
+                                    );
+                                  }
+                                )
+
+                              ],
+                            ),
                           );
                         }
                       ),

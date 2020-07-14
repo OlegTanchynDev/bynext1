@@ -18,20 +18,38 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
 
   BarcodeDetailsBloc() : super(BarcodeDetailsBlocState(
     barcodes: [],
+    notes: [],
   ));
 
   @override
   Stream<BarcodeDetailsBlocState> mapEventToState(BarcodeDetailsBlocEvent event) async* {
-    if (event is GetBarcodes) {
+    if (event is GetBarcodeDetails) {
+      var _barcodes = [];
+      var _notes = [];
       try {
-        final result = await repository.fetchOrderAssignedBarcodes(httpClientBloc.state.client, tokenBloc.state.token, event.orderId);
-        yield BarcodeDetailsBlocState(barcodes: result);
+        _barcodes = await repository.fetchOrderAssignedBarcodes(httpClientBloc.state.client, tokenBloc.state.token, event.orderId);
+//        yield BarcodeDetailsBlocState(barcodes: result);
       }
       catch (e){
-        yield BarcodeDetailsBlocState(
-          barcodes: [],
-        );
+//        yield BarcodeDetailsBlocState(
+//          barcodes: [],
+//        );
       }
+
+      try {
+        _notes = await repository.fetchOrderNotes(httpClientBloc.state.client, tokenBloc.state.token, event.orderId);
+//        yield BarcodeDetailsBlocState(barcodes: result);
+      }
+      catch (e){
+//        yield BarcodeDetailsBlocState(
+//          barcodes: [],
+//        );
+      }
+      
+      yield BarcodeDetailsBlocState(
+        barcodes: _barcodes,
+        notes: _notes,
+      );
     }
   }
 }
@@ -42,18 +60,19 @@ abstract class BarcodeDetailsBlocEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetBarcodes extends BarcodeDetailsBlocEvent {
+class GetBarcodeDetails extends BarcodeDetailsBlocEvent {
   final String orderId;
 
-  GetBarcodes(this.orderId);
+  GetBarcodeDetails(this.orderId);
 }
 
 // States
 class BarcodeDetailsBlocState extends Equatable {
   final List<BarcodeDetails> barcodes;
+  final List<OrderNote> notes;
 
-  BarcodeDetailsBlocState({this.barcodes});
+  BarcodeDetailsBlocState({this.notes, this.barcodes});
 
   @override
-  List<Object> get props => [barcodes];
+  List<Object> get props => [barcodes, notes];
 }

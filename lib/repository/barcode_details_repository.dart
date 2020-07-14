@@ -30,4 +30,27 @@ class BarcodeDetailsRepository {
       throw RestError.fromMap(parsed);
     }
   }
+
+  Future<List> fetchOrderNotes(Client http, String token, String orderId) async {
+    final response = await http.get(
+      '$servicesUrl/delivery/v2/order/getOrderNotes/' + (!(http is DemoHttpClient) ? orderId : ''),
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': "Token $token",
+        'Accept-Encoding': "gzip",
+      },
+    ).timeout(requestTimeout);
+
+    List<OrderNote> notes = [];
+    final parsed = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      parsed.forEach((element) {
+        notes.add(OrderNote.fromMap(element));
+      });
+      return Future.value(notes);
+    } else {
+      throw RestError.fromMap(parsed);
+    }
+  }
 }

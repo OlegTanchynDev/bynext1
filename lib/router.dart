@@ -310,12 +310,13 @@ class Router {
               );
               break;
             case driverChatRoute:
+              final args = settings.arguments as Map;
               page = BlocProvider(
                   create: (context) => DriverChatBloc()
                     ..repository = context.repository<DriverChatRepository>()
                     ..tokenBloc = context.bloc<TokenBloc>()
                     ..httpClientBloc = context.bloc<HttpClientBloc>(),
-                  child: DriverChatScreen());
+                  child: DriverChatScreen(task: args['task']));
               break;
             default:
               page = Scaffold(

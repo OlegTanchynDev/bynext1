@@ -231,7 +231,7 @@ Future<T> showContactsDialog<T>(BuildContext context, Task task, Timer timer) as
           'CHAT', () {
           Navigator.of(context).pop();
           Navigator.of(context)
-              .pushNamed(driverChatRoute);
+              .pushNamed(driverChatRoute, arguments: {'task': task});
         }),
       ],
     ),

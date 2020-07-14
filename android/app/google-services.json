@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "720832434753",
+    "firebase_url": "https://cleanly-chatsdk-f2cb9.firebaseio.com",
+    "project_id": "cleanly-chatsdk-f2cb9",
+    "storage_bucket": "cleanly-chatsdk-f2cb9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:720832434753:android:9dae4fbdd1e4a5da5bacc0",
+        "android_client_info": {
+          "package_name": "com.bynext.bynextcourier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "720832434753-homgs63us5t0rfpm2fubu3shb1ocbj90.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUL46fYVu8TyQm-21H61xd02qOFjqouog"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "720832434753-homgs63us5t0rfpm2fubu3shb1ocbj90.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "720832434753-afj2h5cjti1jlt14brf7ij69mt3fdvd8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Cleanly.CleanlyCourier"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

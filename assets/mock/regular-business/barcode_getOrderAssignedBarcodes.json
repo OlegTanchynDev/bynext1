@@ -1,0 +1,20 @@
+[
+  {
+    "status" : 5,
+    "id" : 257,
+    "type" : 0,
+    "barcode" : "CL9C67CUDC"
+  },
+  {
+    "status" : 5,
+    "id" : 258,
+    "type" : 1,
+    "barcode" : "CL9C67CUWF"
+  },
+  {
+    "status" : 5,
+    "id" : 259,
+    "type" : 3,
+    "barcode" : "9C67CUWFT25831"
+  }
+]

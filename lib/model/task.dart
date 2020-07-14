@@ -97,6 +97,7 @@ class Task {
 
 class TaskMeta {
   final bool firstOrder;
+  final bool reserve;
   final bool wf;
   final bool wp;
   final bool dc;
@@ -116,6 +117,7 @@ class TaskMeta {
 
   TaskMeta({
     this.firstOrder = false,
+    this.reserve = false,
     this.wf,
     this.wp,
     this.dc,
@@ -134,6 +136,7 @@ class TaskMeta {
 
   factory TaskMeta.fromMap(Map<String, dynamic> map) => TaskMeta(
         firstOrder: map['is_first_order'] as bool,
+        reserve: map['is_reserve'] as bool,
         wf: map['is_wf'] as bool,
         wp: map['is_wp'] as bool,
         dc: map['is_dc'] as bool,

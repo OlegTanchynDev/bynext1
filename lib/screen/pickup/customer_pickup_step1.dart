@@ -1,6 +1,7 @@
 import 'package:bynextcourier/bloc/arrival_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
+import 'package:bynextcourier/helpers/task_utils.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/view/animated_button.dart';
 import 'package:bynextcourier/view/app_bar_title.dart';
@@ -48,16 +49,7 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                       margin: EdgeInsets.only(
                         bottom: 5,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          IconButton(
-                            icon:
-                                Image.asset("assets/images/heart-icon-fill.png"),
-                          ),
-                          Text(jobState?.task?.location?.name ?? ""),
-                        ],
-                      ),
+                      child: Text.rich(customerName(jobState?.task)),
                     ),
                     Offstage(
                       offstage: !jobState.task.meta.isBusinessAccount,
@@ -71,7 +63,7 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                           IconButton(
                             icon: Image.asset(
                               'assets/images/business.png',
-                              color: Color(0xFF403D9C),
+                              color: Theme.of(context).buttonColor,
                             ),
                           ),
                         ],

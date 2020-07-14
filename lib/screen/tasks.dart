@@ -56,24 +56,7 @@ class TasksScreen extends StatelessWidget {
 
           final cleaningOptions = getTaskCleaningOptions(task);
 
-          String taskTypeImage;
-          switch (task.type) {
-            case CardType.COURIER_TASK_TYPE_GOTO_LOCATION:
-              taskTypeImage = 'assets/images/header-supplies.png';
-              break;
-            case CardType.COURIER_TASK_TYPE_PICKUP_FROM_CLIENT:
-              taskTypeImage = 'assets/images/pick-up-icon.png';
-              break;
-            case CardType.COURIER_TASK_TYPE_DELIVER_TO_CLIENT:
-              taskTypeImage = 'assets/images/delivery-icon.png';
-              break;
-            case CardType.COURIER_TASK_TYPE_LAUNDROMAT_PICKUP:
-              taskTypeImage = 'assets/images/header-laundromat.png';
-              break;
-            case CardType.COURIER_TASK_TYPE_LAUNDROMAT_DROPOFF:
-              taskTypeImage = 'assets/images/header-laundromat.png';
-              break;
-          }
+          String taskTypeImage = cardTypeImageAsset(task.type);
           return ListTile(
             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
             leading: Container(
@@ -105,9 +88,7 @@ class TasksScreen extends StatelessWidget {
             ),
             subtitle: Row(
               mainAxisSize: MainAxisSize.max,
-              children: <Widget>[Expanded(child: Text(
-                  cleaningOptions.join(' | ')
-              )), Text(address)],
+              children: <Widget>[Expanded(child: Text(cleaningOptions.join(' | '))), Text(address)],
             ),
           );
         },

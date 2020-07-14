@@ -43,8 +43,8 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                TaskMapView(),
-                TaskNotesView(),
+                TaskMapView(showTime: false),
+                TaskNotesView(showTime: true),
                 Expanded(child: SizedBox()),
                 ArrivedButton(),
               ],

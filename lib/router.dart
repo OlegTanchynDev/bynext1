@@ -1,11 +1,14 @@
+import 'package:bynextcourier/bloc/driver_chat/driver_chat_bloc.dart';
 import 'package:bynextcourier/bloc/shift_details_bloc.dart';
 import 'package:bynextcourier/bloc/sign_contract/sign_contract_bloc.dart';
 import 'package:bynextcourier/bloc/queued_tasks_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/model/assigned_shift.dart';
+import 'package:bynextcourier/repository/driver_chat_repository.dart';
 import 'package:bynextcourier/repository/schedule_repository.dart';
 import 'package:bynextcourier/repository/sign_contract_repository.dart';
 import 'package:bynextcourier/repository/queued_tasks_repository.dart';
+import 'package:bynextcourier/screen/chat/driver_chat_screen.dart';
 import 'package:bynextcourier/screen/forgot_password.dart';
 import 'package:bynextcourier/screen/goto_location/task_go_to_location_step_2.dart';
 import 'package:bynextcourier/screen/image_screen.dart';
@@ -61,6 +64,7 @@ const taskDeliverToClientRoute = 'taskDeliverToClientRoute';
 const taskLaundromatPickupRoute = 'taskLaundromatPickupRoute';
 const taskLaundromatDropOffRoute = 'taskLaundromatDropOffRoute';
 const imageRoute = 'imageRoute';
+const driverChatRoute = 'driverChatRoute';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -304,6 +308,14 @@ class Router {
               page = ImageScreen(
                 url: settings.arguments,
               );
+              break;
+            case driverChatRoute:
+              page = BlocProvider(
+                  create: (context) => DriverChatBloc()
+                    ..repository = context.repository<DriverChatRepository>()
+                    ..tokenBloc = context.bloc<TokenBloc>()
+                    ..httpClientBloc = context.bloc<HttpClientBloc>(),
+                  child: DriverChatScreen());
               break;
             default:
               page = Scaffold(

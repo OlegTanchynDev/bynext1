@@ -5,6 +5,7 @@ import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/repository/courier_repository.dart';
+import 'package:bynextcourier/repository/driver_chat_repository.dart';
 import 'package:bynextcourier/repository/issues_repository.dart';
 import 'package:bynextcourier/repository/payment_repository.dart';
 import 'package:bynextcourier/repository/profile_repository.dart';
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
             RepositoryProvider(create: (_) => ScheduleRepository()),
             RepositoryProvider(create: (_) => TasksRepository()),
             RepositoryProvider(create: (_) => CourierRepository()),
+            RepositoryProvider(create: (_) => DriverChatRepository()),
           ],
           child: MultiBlocProvider(
             providers: [

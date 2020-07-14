@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/maps_bloc.dart';
 import 'package:bynextcourier/model/task.dart';
+import 'package:bynextcourier/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_is_emulator/flutter_is_emulator.dart';
@@ -229,7 +230,8 @@ Future<T> showContactsDialog<T>(BuildContext context, Task task, Timer timer) as
           Image.asset('assets/images/phone-chat.png', color: Colors.black,),
           'CHAT', () {
           Navigator.of(context).pop();
-          printLabel('press CHAT', 'TaskGoToLocationStep2Screen');
+          Navigator.of(context)
+              .pushNamed(driverChatRoute);
         }),
       ],
     ),

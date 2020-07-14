@@ -1,7 +1,9 @@
+import 'package:bynextcourier/bloc/arrival_bloc.dart';
 import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
+import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:bynextcourier/router.dart';
@@ -60,27 +62,12 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
           child: AnimatedButton(
             child: Text('Arrived at place >>'),
             condition: state.userArrivedAtDestinationLocation,
-            onHorizontalDragUpdate: (details) async {
-              final repository = RepositoryProvider.of<TasksRepository>(context);
-              var httpClientState = BlocProvider
-                  .of<HttpClientBloc>(context)
-                  .state;
-              final client = httpClientState.client;
-              final token = BlocProvider
-                  .of<TokenBloc>(context)
-                  .state
-                  .token;
-              final location = state.location;
-              var result;
-              if (httpClientState.demo) {
-                result = await repository.performArriveAtPlaceWithTaskID(
-                    client, token, task.id);
-              } else {
-                result = await repository.performArriveAtPlaceWithTaskID(
-                    client, token, task.id, location.latitude, location.longitude);
+            onHorizontalDragUpdate: (details) {
+              print('onHorizontalDragUpdate = ${details.primaryDelta}');
+              if (details.primaryDelta > 40) {
+                printLabel('onHorizontalDragUpdate', 'TaskGoToLocationScreen');
+                context.bloc<ArrivalBloc>().add(ArrivedAtPlaceEvent());
               }
-
-              Navigator.of(context).pushNamed(taskGoToLocationStep2Route);
             }
           ),
         );

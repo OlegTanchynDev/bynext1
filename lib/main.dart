@@ -21,6 +21,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hidden_drawer/flutter_hidden_drawer.dart';
 import 'package:provider/provider.dart';
 
+import 'bloc/arrival_bloc.dart';
 import 'bloc/http_client_bloc.dart';
 import 'bloc/location_tracker/location_tracker_bloc.dart';
 import 'bloc/shift_details_bloc.dart';
@@ -129,6 +130,13 @@ class MyApp extends StatelessWidget {
                   ..taskBloc = context.bloc<TaskBloc>()
                   ..initAndStartLocationTrackingIfNeeded(),
               ),
+              BlocProvider(
+                  create: (context) => ArrivalBloc()
+                    ..taskBloc = context.bloc<TaskBloc>()
+                    ..tokenBloc = context.bloc<TokenBloc>()
+                    ..httpClientBloc = context.bloc<HttpClientBloc>()
+                    ..locationTrackerBloc = context.bloc<LocationTrackerBloc>()
+                    ..repository = context.repository<TasksRepository>()),
             ],
             child: Builder(
               builder: (context) => MaterialApp(
@@ -236,9 +244,13 @@ class MyApp extends StatelessWidget {
                                 listener: ShiftUtils.shouldSignContractListener,
                                 builder: (context, shiftDetailsState) => Stack(
                                       children: <Widget>[
-                                        BlocListener<TaskBloc, TaskState>(
-                                            listener: TaskRouter.listener,
-                                            child: HomeScreen()),
+                                        MultiBlocListener(
+                                          listeners: [
+                                            BlocListener<TaskBloc, TaskState>(listener: TaskRouter.listener),
+                                            BlocListener<ArrivalBloc, ArrivalState>(listener: TaskRouter.arrivalListener),
+                                          ],
+                                          child: HomeScreen(),
+                                        ),
                                         shiftDetailsState is ShiftDetailsLoading
                                             ? CustomProgressIndicator()
                                             : Container()

@@ -12,7 +12,7 @@ import '../constants.dart';
 class TasksRepository {
   Future<Task> fetchNextTask(Client http, String token, int shiftId, bool business) async {
     final response = await http.get(
-      '$servicesUrl/delivery/v2/tasks/getTask/?&${ business ? 'route_id' : 'shift_id'}=$shiftId',
+      '$servicesUrl/delivery/v2/tasks/getTask/?&${business ? 'route_id' : 'shift_id'}=$shiftId',
       headers: {
         'content-type': 'application/json',
         'Authorization': "Token $token",
@@ -28,17 +28,11 @@ class TasksRepository {
     }
   }
 
-  Future<dynamic> performArriveAtPlaceWithTaskID(Client http, String token, num taskId, [num lat, num lng]) async {
-    Map<String, String> queryParameters = {'taskId':'$taskId'};
-    if (lat != null && lng != null) {
-      queryParameters['lat'] = '$lat';
-      queryParameters['lng'] = '$lng';
-    }
-    var authority = kDebugMode ? "playground.cleanlyapp.com" : "cleanlyapp.com";
-    var uri =
-    Uri.https(authority, '/services/delivery/v2/location/arriveAtPlace', queryParameters);
+  Future<bool> performArriveAtPlaceWithTaskID(Client http, String token, num taskId, [num lat, num lng]) async {
+    print('$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=$taskId&lat=$lat&lng=$lng');
+
     final response = await http.get(
-      uri.toString(),
+      '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=$taskId&lat=$lat&lng=$lng',
       headers: {
         'content-type': 'application/json',
         'Authorization': "Token $token",
@@ -50,7 +44,7 @@ class TasksRepository {
     printLabel('performArriveAtPlaceWithTaskID:$parsed', 'TasksRepository');
 
     if (response.statusCode == 200) {
-      return parsed;
+      return int.tryParse(parsed['status_code'] ?? '-1') == 0;
     } else {
       throw RestError.fromMap(parsed);
     }

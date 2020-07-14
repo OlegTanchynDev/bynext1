@@ -1,7 +1,7 @@
+import 'package:bynextcourier/bloc/arrival_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
-import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/animated_button.dart';
 import 'package:bynextcourier/view/app_bar_title.dart';
 import 'package:flutter/material.dart';
@@ -156,7 +156,7 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                           onHorizontalDragUpdate: (details) {
                             if (details.primaryDelta > 40) {
                               print("Drag right");
-                              Navigator.of(context).pushNamed(taskPickupFromClientStep2Route);
+                              context.bloc<ArrivalBloc>().add(ArrivedAtPlaceEvent());
                             }
                           },
                           condition: locationState.userArrivedAtDestinationLocation,

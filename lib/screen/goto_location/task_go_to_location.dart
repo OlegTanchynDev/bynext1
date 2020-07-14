@@ -9,6 +9,7 @@ import 'package:bynextcourier/repository/tasks_repository.dart';
 import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/animated_button.dart';
 import 'package:bynextcourier/view/app_bar_logo.dart';
+import 'package:bynextcourier/view/arrived_button.dart';
 import 'package:bynextcourier/view/task_map_view.dart';
 import 'package:bynextcourier/view/task_notes_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,33 +46,12 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationScreen> {
                 TaskMapView(),
                 TaskNotesView(),
                 Expanded(child: SizedBox()),
-                buildButton(context, task),
+                ArrivedButton(),
               ],
             );
           },
         ),
       ),
-    );
-  }
-
-  Widget buildButton(BuildContext context, Task task) {
-    return BlocBuilder<LocationTrackerBloc, LocationTrackerBaseState>(
-      builder: (BuildContext context, LocationTrackerBaseState state) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 14.0),
-          child: AnimatedButton(
-            child: Text('Arrived at place >>'),
-            condition: state.userArrivedAtDestinationLocation,
-            onHorizontalDragUpdate: (details) {
-              print('onHorizontalDragUpdate = ${details.primaryDelta}');
-              if (details.primaryDelta > 40) {
-                printLabel('onHorizontalDragUpdate', 'TaskGoToLocationScreen');
-                context.bloc<ArrivalBloc>().add(ArrivedAtPlaceEvent());
-              }
-            }
-          ),
-        );
-      },
     );
   }
 }

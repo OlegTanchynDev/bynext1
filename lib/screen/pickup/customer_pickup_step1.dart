@@ -4,6 +4,7 @@ import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/view/animated_button.dart';
 import 'package:bynextcourier/view/app_bar_title.dart';
+import 'package:bynextcourier/view/arrived_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -149,20 +150,7 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                         height: 1,
                       ),
                     ),
-                    BlocBuilder<LocationTrackerBloc, LocationTrackerBaseState>(
-                      builder: (context, locationState) {
-                        return AnimatedButton(
-                          child: Text("Arrived at place >>"),
-                          onHorizontalDragUpdate: (details) {
-                            if (details.primaryDelta > 40) {
-                              print("Drag right");
-                              context.bloc<ArrivalBloc>().add(ArrivedAtPlaceEvent());
-                            }
-                          },
-                          condition: locationState.userArrivedAtDestinationLocation,
-                        );
-                      }
-                    )
+                    ArrivedButton()
                   ],
                 ),
               ),

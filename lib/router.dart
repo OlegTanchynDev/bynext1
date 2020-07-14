@@ -9,11 +9,14 @@ import 'package:bynextcourier/repository/queued_tasks_repository.dart';
 import 'package:bynextcourier/screen/forgot_password.dart';
 import 'package:bynextcourier/screen/goto_location/task_go_to_location_step_2.dart';
 import 'package:bynextcourier/screen/image_screen.dart';
+import 'package:bynextcourier/screen/laundromat_dropoff/laundromat_dropoff_step1.dart';
+import 'package:bynextcourier/screen/laundromat_pickup/laundromat_pickup_step1.dart';
 import 'package:bynextcourier/screen/pickup/customer_pickup_edit.dart';
 import 'package:bynextcourier/screen/pickup/customer_pickup_step2.dart';
 import 'package:bynextcourier/screen/shifts.dart';
 import 'package:bynextcourier/screen/sign_contract_screen.dart';
 import 'package:bynextcourier/screen/goto_location/task_go_to_location.dart';
+import 'package:bynextcourier/screen/supplies/pickup_supplies_step1.dart';
 import 'package:bynextcourier/screen/tasks.dart';
 import 'package:bynextcourier/screen/webview_screen.dart';
 import 'package:bynextcourier/view/custom_progress_indicator.dart';
@@ -32,16 +35,11 @@ import 'helpers/utils.dart';
 import 'repository/issues_repository.dart';
 import 'repository/payment_repository.dart';
 import 'repository/token_repository.dart';
-import 'screen/delivery/customer_delivery_step1.dart';
+import 'screen/delivery_to_client/customer_delivery_step1.dart';
 import 'screen/issues.dart';
 import 'screen/my_salary.dart';
 import 'screen/navigation_settings.dart';
 import 'screen/pickup/customer_pickup_step1.dart';
-import 'screen/task_delivery_to_client.dart';
-import 'screen/task_laundromat_dropoff.dart';
-import 'screen/task_laundromat_pickup.dart';
-import 'screen/task_pickup_from_client.dart';
-import 'screen/task_pickup_supplies.dart';
 
 const webRoute = 'web';
 const signContractRoute = 'signContract';
@@ -275,7 +273,6 @@ class Router {
               page = TaskGoToLocationStep2Screen();
               break;
             case taskPickupFromClientRoute:
-//              page = TaskPickupFromClientScreen();
               page = CustomerPickupStep1();
               break;
             case taskPickupFromClientStep2Route:
@@ -287,17 +284,16 @@ class Router {
               );
               break;
             case taskPickupSuppliesRoute:
-              page = TaskPickupSuppliesScreen();
+              page = PickupSuppliesStep1();
               break;
             case taskDeliverToClientRoute:
-//              page = TaskDeliveryToClientScreen();
               page = CustomerDeliveryStep1();
               break;
             case taskLaundromatPickupRoute:
-              page = TaskLaundromatPickupScreen();
+              page = LaundromatPickupStep1();
               break;
             case taskLaundromatDropOffRoute:
-              page = TaskLaundromatDropOffScreen();
+              page = LaundromatDropOffStep1();
               break;
             case imageRoute:
               page = ImageScreen(

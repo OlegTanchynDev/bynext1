@@ -4,6 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class TaskNotesView extends StatelessWidget {
+  final bool showTime;
+
+  const TaskNotesView({Key key, this.showTime = false}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TaskBloc, TaskState>(
@@ -15,17 +19,16 @@ class TaskNotesView extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               SizedBox(
                 height: 18,
               ),
-              Row(
-                children: <Widget>[
-                  Text(
-                    '${DateFormat.jm().format(task.meta.startTime)} - ${DateFormat.jm().format(task.meta.endTime)}',
-                  ),
-                ],
-              ),
+              showTime
+                  ? Text(
+                      '${task.meta.startTime != null ? DateFormat.jm().format(task.meta.startTime) : ''} - ${task.meta.endTime != null ? DateFormat.jm().format(task.meta.endTime) : ''}',
+                    )
+                  : Container(),
               SizedBox(
                 height: 10,
               ),

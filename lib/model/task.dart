@@ -26,6 +26,28 @@ CardType parseCardTypeFromInt(int val) {
   }
 }
 
+String cardTypeImageAsset(CardType cardType) {
+  switch (cardType) {
+    case CardType.COURIER_TASK_TYPE_GOTO_LOCATION:
+      return 'assets/images/header-supplies.png';
+      break;
+    case CardType.COURIER_TASK_TYPE_PICKUP_FROM_CLIENT:
+      return 'assets/images/pick-up-icon.png';
+      break;
+    case CardType.COURIER_TASK_TYPE_DELIVER_TO_CLIENT:
+      return 'assets/images/delivery-icon.png';
+      break;
+    case CardType.COURIER_TASK_TYPE_LAUNDROMAT_PICKUP:
+      return 'assets/images/header-laundromat.png';
+      break;
+    case CardType.COURIER_TASK_TYPE_LAUNDROMAT_DROPOFF:
+      return 'assets/images/header-laundromat.png';
+      break;
+    default:
+      return 'assets/images/header-supplies.png';
+  }
+}
+
 class Task {
   final int id;
   final CardType type;
@@ -192,9 +214,7 @@ class TaskLocation {
       city: map['city'] as String,
       state: map['state'] as String,
       zipcode: map['zipcode'] as String,
-
       floor: meta['floor'] as int,
-
     );
   }
 }

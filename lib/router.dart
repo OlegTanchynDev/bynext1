@@ -13,6 +13,7 @@ import 'package:bynextcourier/screen/laundromat_dropoff/laundromat_dropoff_step1
 import 'package:bynextcourier/screen/laundromat_pickup/laundromat_pickup_step1.dart';
 import 'package:bynextcourier/screen/pickup/customer_pickup_edit.dart';
 import 'package:bynextcourier/screen/pickup/customer_pickup_step2.dart';
+import 'package:bynextcourier/screen/pickup/customer_pickup_step3.dart';
 import 'package:bynextcourier/screen/shifts.dart';
 import 'package:bynextcourier/screen/sign_contract_screen.dart';
 import 'package:bynextcourier/screen/goto_location/task_go_to_location.dart';
@@ -53,6 +54,7 @@ const taskGoToLocationRoute = 'taskGoToLocation';
 const taskGoToLocationStep2Route = 'taskGoToLocationStep2';
 const taskPickupFromClientRoute = 'taskPickupFromClientRoute';
 const taskPickupFromClientStep2Route = 'taskPickupFromClientStep2Route';
+const taskPickupFromClientStep3Route = 'taskPickupFromClientStep3Route';
 const taskPickupFromClientEditRoute = 'taskPickupFromClientEditRoute';
 const taskPickupSuppliesRoute = 'taskPickupSuppliesRoute';
 const taskDeliverToClientRoute = 'taskDeliverToClientRoute';
@@ -277,6 +279,9 @@ class Router {
               break;
             case taskPickupFromClientStep2Route:
               page = CustomerPickupStep2();
+              break;
+            case taskPickupFromClientStep3Route:
+              page = CustomerPickupStep3();
               break;
             case taskPickupFromClientEditRoute:
               page = CustomerPickupEdit(

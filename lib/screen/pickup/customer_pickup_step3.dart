@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
-import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/animated_button.dart';
@@ -10,19 +7,12 @@ import 'package:bynextcourier/view/app_bar_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CustomerPickupStep2 extends StatefulWidget {
+class CustomerPickupStep3 extends StatefulWidget {
   @override
-  _CustomerPickupStep2State createState() => _CustomerPickupStep2State();
+  _CustomerPickupStep3State createState() => _CustomerPickupStep3State();
 }
 
-class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
-  Timer _timer;
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
+class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
 
   @override
   Widget build(BuildContext context) {
@@ -31,70 +21,37 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
         if (jobState is ReadyTaskState) {
           return Scaffold(
             appBar: AppBar(
-              title: AppBarTitle(title: Text('Pickup Job'), subtitle: Text('8:00 PM - 9:00 PM')),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text(
-                    "No Show",
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
-                  ),
-                  onPressed: () {},
-                )
-              ],
+              title: AppBarTitle(
+                title: Text('Pickup Job'), subtitle: Text('8:00 PM - 9:00 PM')),
             ),
             body: SafeArea(
               child: Container(
-//                padding:
-//                    EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),
+//                padding: EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        FlatButton(
-                          padding: EdgeInsets.zero,
-                          child: Container(
-                            height: 200,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  "$mediaUrl${jobState.task.meta
-                                    .buildingImgUrl}"),
-                                fit: BoxFit.cover
-                              )
+                    Container(
+                      height: 80,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: 40,
+                            child: Container(
+                              width: 79,
+                              height: 79,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    jobState.task.meta.userImage,
+                                  ),
+                                )
+                              ),
                             ),
                           ),
-                          onPressed: () {
-                            Navigator.of(context).pushNamed(imageRoute, arguments: "$mediaUrl${jobState.task.meta.buildingImgUrl}");
-                          },
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: 10,
-                            right: 15,
-                            top: 150,
-                          ),
-                          height: 80,
-                          alignment: Alignment.bottomCenter,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                          Column(
                             children: <Widget>[
-                              CircleAvatar(
-                                radius: 40,
-                                child: Container(
-                                  width: 79,
-                                  height: 79,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        jobState.task.meta.userImage,
-                                      ),
-                                    )
-                                  ),
-                                ),
-                              ),
                               Container(
                                 padding: EdgeInsets.only(
                                   bottom: 4
@@ -114,46 +71,10 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                                   ],
                                 ),
                               ),
-                              Expanded(
-                                child: Container(),
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Container(
-                                    height: 39,
-                                    width: 39,
-                                    child: FlatButton(
-                                      shape: CircleBorder(),
-                                      padding: EdgeInsets.zero,
-                                      child: Image.asset("assets/images/camera-btn.png",
-                                      ),
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 13,
-                                  ),
-                                  Container(
-                                    height: 28,
-                                    width: 28,
-                                    child: FlatButton(
-                                      shape: CircleBorder(),
-                                      padding: EdgeInsets.zero,
-                                      child: Image.asset(
-                                        "assets/images/call-icon.png",
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () async {
-                                        var result = await showContactsDialog(context, jobState.task, _timer);
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
                             ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
 
                     Expanded(
@@ -205,8 +126,10 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                                   Divider(),
                                   FlatButton(
                                     padding: EdgeInsets.zero,
-                                    onPressed: (){
-                                      Navigator.of(context).pushNamed(taskPickupFromClientEditRoute, arguments: jobState.task);
+                                    onPressed: () {
+                                      Navigator.of(context).pushNamed(
+                                        taskPickupFromClientEditRoute,
+                                        arguments: jobState.task);
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
@@ -289,7 +212,6 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                                   onHorizontalDragUpdate: (details) {
                                     if (details.primaryDelta > 40) {
                                       print("Drag right");
-                                      Navigator.of(context).pushNamed(taskPickupFromClientStep3Route);
                                     }
                                   },
                                   condition: locationState
@@ -298,7 +220,7 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                               }
                             )
                           ],
-                        )
+                        ),
                       ),
                     ),
                   ],

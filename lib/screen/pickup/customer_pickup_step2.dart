@@ -31,7 +31,7 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
         if (jobState is ReadyTaskState) {
           return Scaffold(
             appBar: AppBar(
-              title: AppBarTitle(title: Text('Pickup Job'), subtitle: Text('8:00 PM - 9:00 PM')),
+              title: AppBarTitle(task: jobState.task),
               actions: <Widget>[
                 FlatButton(
                   child: Text(

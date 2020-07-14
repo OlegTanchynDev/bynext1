@@ -115,6 +115,14 @@ class TaskMeta {
   final String jobTitle;
   final String buildingImgUrl;
 
+  final bool deliveryToDoorman;
+  final bool pickupFromDoorman;
+
+  final DateTime pickupDateTime;
+  final DateTime pickupDateTimeEnd;
+  final DateTime deliveryDateTime;
+  final DateTime deliveryDateTimeEnd;
+
   TaskMeta({
     this.firstOrder = false,
     this.reserve = false,
@@ -132,6 +140,12 @@ class TaskMeta {
     this.jobTitle,
     this.buildingImgUrl,
     this.isBusinessAccount,
+    this.deliveryToDoorman,
+    this.pickupFromDoorman,
+    this.pickupDateTime,
+    this.pickupDateTimeEnd,
+    this.deliveryDateTime,
+    this.deliveryDateTimeEnd,
   });
 
   factory TaskMeta.fromMap(Map<String, dynamic> map) => TaskMeta(
@@ -153,6 +167,12 @@ class TaskMeta {
         runType: map['run_type'] as int,
         jobTitle: map['job_title'] as String,
         buildingImgUrl: map['building_img_url'] as String,
+        deliveryToDoorman: map['deliver_to_doorman'] as bool,
+        pickupFromDoorman: map['pickup_from_doorman'] as bool,
+        pickupDateTime: DateTime.tryParse(map['pickup_datetime'] ?? ''),
+        pickupDateTimeEnd: DateTime.tryParse(map['pickup_datetime_end'] ?? ''),
+        deliveryDateTime: DateTime.tryParse(map['delivery_datetime'] ?? ''),
+        deliveryDateTimeEnd: DateTime.tryParse(map['delivery_datetime_end'] ?? ''),
       );
 }
 

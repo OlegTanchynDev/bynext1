@@ -1,13 +1,13 @@
-import 'package:bynextcourier/bloc/arrival_bloc.dart';
-import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/helpers/task_utils.dart';
 import 'package:bynextcourier/helpers/utils.dart';
-import 'package:bynextcourier/view/animated_button.dart';
 import 'package:bynextcourier/view/app_bar_title.dart';
 import 'package:bynextcourier/view/arrived_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../constants.dart';
+import '../../router.dart';
 
 class CustomerPickupStep1 extends StatefulWidget {
   @override
@@ -15,16 +15,13 @@ class CustomerPickupStep1 extends StatefulWidget {
 }
 
 class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, jobState) {
         if (jobState is ReadyTaskState) {
           return Scaffold(
-            appBar: AppBar(
-              title: AppBarTitle(title: Text('Pickup Job'), subtitle: Text('8:00 PM - 9:00 PM'))
-            ),
+            appBar: AppBar(title: AppBarTitle(task: jobState.task)),
             body: SafeArea(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),
@@ -41,8 +38,7 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                               image: NetworkImage(
                                 jobState.task.meta.userImage,
                               ),
-                            )
-                        ),
+                            )),
                       ),
                     ),
                     Container(
@@ -82,16 +78,12 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                             ),
                             Align(
                                 alignment: Alignment.centerRight,
-                                child: IconButton(
-                                    icon: Image.asset(
-                                        "assets/images/navigation-icon.png")))
+                                child: IconButton(icon: Image.asset("assets/images/navigation-icon.png")))
                           ],
                         ),
-                        onPressed: jobState is ReadyTaskState &&
-                                (jobState?.task?.location ?? null) != null
+                        onPressed: jobState is ReadyTaskState && (jobState?.task?.location ?? null) != null
                             ? () {
-                                launchMaps(context, jobState.task.location.lat,
-                                    jobState.task.location.lng);
+                                launchMaps(context, jobState.task.location.lat, jobState.task.location.lng);
                               }
                             : null),
                     SizedBox(
@@ -102,39 +94,30 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                         alignment: Alignment.center,
                         children: <Widget>[
                           Text(
-                            "View Building Photo",
+                            jobState.task.meta?.buildingImgUrl != null ? "View Building Photo" : 'No Building Photo',
                             textAlign: TextAlign.center,
                           ),
                           Align(
                               alignment: Alignment.centerRight,
-                              child: IconButton(
-                                  icon: Image.asset(
-                                      "assets/images/bldg-image-yes.png"))),
+                              child: IconButton(icon: Image.asset("assets/images/bldg-image-yes.png"))),
                         ],
                       ),
-                      onPressed: () {},
+                      onPressed: jobState.task.meta?.buildingImgUrl != null ? () => Navigator.of(context)
+                          .pushNamed(imageRoute, arguments: "$mediaUrl${jobState.task.meta.buildingImgUrl}") : null,
                     ),
                     SizedBox(
                       height: 40,
                     ),
                     Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).dividerTheme.color)),
+                        decoration: BoxDecoration(border: Border.all(color: Theme.of(context).dividerTheme.color)),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Padding(
-                                padding: EdgeInsets.all(9.0),
-                                child: Text(jobState.task.location.street)),
+                            Padding(padding: EdgeInsets.all(9.0), child: Text(jobState.task.location.street)),
                             Divider(),
-                            Padding(padding: EdgeInsets.all(9.0), child: Text(
-                                "8:00 PM – 9:00 PM")),
+                            Padding(padding: EdgeInsets.all(9.0), child: Text(taskTimeInterval(jobState.task))),
                             Divider(),
-                            Padding(
-                                padding: EdgeInsets.all(9.0),
-                                child: Text("Pickup from Customer"
-                                    )),
+                            Padding(padding: EdgeInsets.all(9.0), child: Text(taskShortDescription(jobState.task))),
                           ],
                         )),
                     Expanded(
@@ -166,17 +149,17 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
           milliseconds: 600,
         ));
         await showNoBarrierDialog(context,
-          child: Column(
-            children: <Widget>[
-              IconButton(
-                icon: Image.asset(
-                  "assets/images/heart-icon.png",
-                  color: Colors.black,
+            child: Column(
+              children: <Widget>[
+                IconButton(
+                  icon: Image.asset(
+                    "assets/images/heart-icon.png",
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-              Text("First time customer!"),
-            ],
-          )).timeout(Duration(seconds: 2), onTimeout: () {
+                Text("First time customer!"),
+              ],
+            )).timeout(Duration(seconds: 2), onTimeout: () {
           Navigator.of(context).pop();
         });
       });

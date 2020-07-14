@@ -1,10 +1,11 @@
+import 'package:bynextcourier/helpers/task_utils.dart';
+import 'package:bynextcourier/model/task.dart';
 import 'package:flutter/material.dart';
 
 class AppBarTitle extends StatelessWidget {
-  final Widget title;
-  final Widget subtitle;
+  final Task task;
 
-  const AppBarTitle({Key key, this.title, this.subtitle}) : super(key: key);
+  const AppBarTitle({Key key, this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +13,10 @@ class AppBarTitle extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        title,
+        Text(taskAppBarTitle(task)),
         DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyText2,
-          child: subtitle,
+          child: Text(taskAppBarSubtitle(task)),
         )
       ],
     );

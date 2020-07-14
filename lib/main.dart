@@ -1,9 +1,11 @@
+import 'package:bynextcourier/bloc/barcode_details_bloc.dart';
 import 'package:bynextcourier/bloc/observer/bloc_observer.dart';
 import 'package:bynextcourier/bloc/login_form_bloc.dart';
 import 'package:bynextcourier/bloc/maps_bloc.dart';
 import 'package:bynextcourier/bloc/profile_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
+import 'package:bynextcourier/repository/barcode_details_repository.dart';
 import 'package:bynextcourier/repository/courier_repository.dart';
 import 'package:bynextcourier/repository/driver_chat_repository.dart';
 import 'package:bynextcourier/repository/issues_repository.dart';
@@ -84,6 +86,7 @@ class MyApp extends StatelessWidget {
             RepositoryProvider(create: (_) => TasksRepository()),
             RepositoryProvider(create: (_) => CourierRepository()),
             RepositoryProvider(create: (_) => DriverChatRepository()),
+            RepositoryProvider(create: (_) => BarcodeDetailsRepository()),
           ],
           child: MultiBlocProvider(
             providers: [
@@ -138,7 +141,13 @@ class MyApp extends StatelessWidget {
                     ..tokenBloc = context.bloc<TokenBloc>()
                     ..httpClientBloc = context.bloc<HttpClientBloc>()
                     ..locationTrackerBloc = context.bloc<LocationTrackerBloc>()
-                    ..repository = context.repository<TasksRepository>()),
+                    ..repository = context.repository<TasksRepository>()
+              ),
+              BlocProvider(
+                create: (context) => BarcodeDetailsBloc()
+                  ..tokenBloc = context.bloc<TokenBloc>()
+                  ..httpClientBloc = context.bloc<HttpClientBloc>()
+                  ..repository = context.repository<BarcodeDetailsRepository>()),
             ],
             child: Builder(
               builder: (context) => MaterialApp(

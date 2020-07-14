@@ -9,8 +9,10 @@ import 'package:equatable/equatable.dart';
 
 class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlocState> {
   BarcodeDetailsRepository repository;
-  TokenBloc _tokenBloc;
+  TokenBloc tokenBloc;
   HttpClientBloc httpClientBloc;
+
+
 
   StreamSubscription<TokenState> _tokenBlocSubscription;
 
@@ -22,11 +24,13 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
   Stream<BarcodeDetailsBlocState> mapEventToState(BarcodeDetailsBlocEvent event) async* {
     if (event is GetBarcodes) {
       try {
-        final result = await repository.fetchOrderAssignedBarcodes(httpClientBloc.state.client, _tokenBloc.state.token, event.taskId);
+        final result = await repository.fetchOrderAssignedBarcodes(httpClientBloc.state.client, tokenBloc.state.token, event.taskId);
         yield BarcodeDetailsBlocState(barcodes: result);
       }
       catch (e){
-        yield BarcodeDetailsBlocState();
+        yield BarcodeDetailsBlocState(
+          barcodes: [],
+        );
       }
     }
   }

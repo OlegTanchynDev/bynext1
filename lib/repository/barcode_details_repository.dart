@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bynextcourier/client/app_http_client.dart';
+import 'package:bynextcourier/model/barcode_details.dart';
 import 'package:bynextcourier/model/rest_error.dart';
 import 'package:http/http.dart';
 
@@ -17,10 +18,14 @@ class BarcodeDetailsRepository {
       },
     ).timeout(requestTimeout);
 
+    List<BarcodeDetails> details = [];
     final parsed = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      return Future.value([]);
+      parsed.forEach((element) {
+        details.add(BarcodeDetails.fromMap(element));
+      });
+      return Future.value(details);
     } else {
       throw RestError.fromMap(parsed);
     }

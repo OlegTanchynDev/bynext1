@@ -1,3 +1,4 @@
+import 'package:bynextcourier/bloc/barcode_details_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/helpers/utils.dart';
@@ -89,11 +90,14 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
                     ),
 
                     Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20).copyWith(
-                          bottom: 14),
-                        child: Column(
-                          children: <Widget>[
+                      child: BlocBuilder(
+                        bloc: context.bloc<BarcodeDetailsBloc>()..add(GetBarcodes(jobState.task.id)),
+                        builder: (context, barcodeState) {
+                          return Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20).copyWith(
+                              bottom: 14),
+                            child: Column(
+                              children: <Widget>[
 
 //                    Offstage(
 //                      offstage: !jobState.task.meta.isBusinessAccount,
@@ -113,188 +117,190 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
 //                        ],
 //                      ),
 //                    ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: RaisedButton(
-                                    child: Row(
-                                      children: <Widget>[
-                                        SizedBox(
-                                          width: 10,
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: RaisedButton(
+                                        child: Row(
+                                          children: <Widget>[
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              "SNAP PHOTO",
+                                              style: TextStyle(
+                                                fontSize: 15
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(),
+                                            ),
+                                            Image.asset("assets/images/checkbox-grey-checked.png")
+                                          ],
                                         ),
-                                        Text(
-                                          "SNAP PHOTO",
-                                          style: TextStyle(
-                                            fontSize: 15
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(),
-                                        ),
-                                        Image.asset("assets/images/checkbox-grey-checked.png")
-                                      ],
+                                        onPressed: (){},
+                                      )
                                     ),
-                                    onPressed: (){},
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                      child: RaisedButton(
+                                        child: Row(
+                                          children: <Widget>[
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              "SCAN BARCODE",
+                                              style: TextStyle(
+                                                fontSize: 15
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(),
+                                            ),
+                                            Image.asset("assets/images/checkbox-grey-checked.png")
+                                          ],
+                                        ),
+                                        onPressed: (){},
+                                      )
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Text("Bags "),
+
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Theme
+                                        .of(context)
+                                        .dividerTheme
+                                        .color)),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 9.0,
+                                          horizontal: 15
+                                        ),
+                                        child: Text(
+                                          jobState.task.location.street + " - " +
+                                            jobState.task.location.streetLine2)),
+                                      Divider(),
+                                      FlatButton(
+                                        padding: EdgeInsets.zero,
+                                        onPressed: () {
+                                          Navigator.of(context).pushNamed(
+                                            taskPickupFromClientEditRoute,
+                                            arguments: jobState.task);
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 9.0,
+                                            horizontal: 15
+                                          ),
+                                          child: Text(
+                                            "Doorman Building - ${jobState.task
+                                              .location.doorman ?? "Unknown"}, " +
+                                              "${jobState.task.location.floor ??
+                                                "Unknown"} Floor, " +
+                                              "${jobState.task.location.elevator ??
+                                                "Unknown"} Elevator.",
+                                            textAlign: TextAlign.center,
+                                          )
+                                        ),
+                                      ),
+                                      Divider(),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 9.0,
+                                          horizontal: 15
+                                        ),
+                                        child: Text(
+                                          getTaskCleaningOptions(jobState.task)
+                                            .join(", "))
+                                      ),
+                                    ],
                                   )
                                 ),
                                 SizedBox(
-                                  width: 5,
+                                  height: 10,
                                 ),
-                                Expanded(
-                                  child: RaisedButton(
-                                    child: Row(
-                                      children: <Widget>[
-                                        SizedBox(
-                                          width: 10,
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Theme
+                                        .of(context)
+                                        .dividerTheme
+                                        .color)),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 9.0,
+                                          horizontal: 15
                                         ),
-                                        Text(
-                                          "SCAN BARCODE",
-                                          style: TextStyle(
-                                            fontSize: 15
-                                          ),
+                                        child: Text(
+                                          (jobState.task.location.notes ?? "")
+                                            .length > 0 ? jobState.task.location
+                                            .notes : "No Address Notes")),
+                                      Divider(),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 9.0,
+                                          horizontal: 15
                                         ),
-                                        Expanded(
-                                          child: Container(),
-                                        ),
-                                        Image.asset("assets/images/checkbox-grey-checked.png")
-                                      ],
-                                    ),
-                                    onPressed: (){},
+                                        child: Text(
+                                          (jobState.task.notes ?? "").length > 0
+                                            ? jobState.task.notes
+                                            : "No Pickup Notes",
+                                          textAlign: TextAlign.center,
+                                        )
+                                      ),
+                                    ],
                                   )
                                 ),
+                                Expanded(
+                                  child: Container(
+                                    height: 1,
+                                  ),
+                                ),
+                                BlocBuilder<
+                                  LocationTrackerBloc,
+                                  LocationTrackerBaseState>(
+                                  builder: (context, locationState) {
+                                    return AnimatedButton(
+                                      child: Text("Picked Up From Customer >>"),
+                                      onHorizontalDragUpdate: (details) {
+                                        if (details.primaryDelta > 40) {
+                                          print("Drag right");
+                                        }
+                                      },
+                                      condition: locationState
+                                        .userArrivedAtDestinationLocation,
+                                    );
+                                  }
+                                )
                               ],
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Text("Bags "),
-
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Theme
-                                    .of(context)
-                                    .dividerTheme
-                                    .color)),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 9.0,
-                                      horizontal: 15
-                                    ),
-                                    child: Text(
-                                      jobState.task.location.street + " - " +
-                                        jobState.task.location.streetLine2)),
-                                  Divider(),
-                                  FlatButton(
-                                    padding: EdgeInsets.zero,
-                                    onPressed: () {
-                                      Navigator.of(context).pushNamed(
-                                        taskPickupFromClientEditRoute,
-                                        arguments: jobState.task);
-                                    },
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 9.0,
-                                        horizontal: 15
-                                      ),
-                                      child: Text(
-                                        "Doorman Building - ${jobState.task
-                                          .location.doorman ?? "Unknown"}, " +
-                                          "${jobState.task.location.floor ??
-                                            "Unknown"} Floor, " +
-                                          "${jobState.task.location.elevator ??
-                                            "Unknown"} Elevator.",
-                                        textAlign: TextAlign.center,
-                                      )
-                                    ),
-                                  ),
-                                  Divider(),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 9.0,
-                                      horizontal: 15
-                                    ),
-                                    child: Text(
-                                      getTaskCleaningOptions(jobState.task)
-                                        .join(", "))
-                                  ),
-                                ],
-                              )
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Theme
-                                    .of(context)
-                                    .dividerTheme
-                                    .color)),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 9.0,
-                                      horizontal: 15
-                                    ),
-                                    child: Text(
-                                      (jobState.task.location.notes ?? "")
-                                        .length > 0 ? jobState.task.location
-                                        .notes : "No Address Notes")),
-                                  Divider(),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 9.0,
-                                      horizontal: 15
-                                    ),
-                                    child: Text(
-                                      (jobState.task.notes ?? "").length > 0
-                                        ? jobState.task.notes
-                                        : "No Pickup Notes",
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ),
-                                ],
-                              )
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 1,
-                              ),
-                            ),
-                            BlocBuilder<
-                              LocationTrackerBloc,
-                              LocationTrackerBaseState>(
-                              builder: (context, locationState) {
-                                return AnimatedButton(
-                                  child: Text("Picked Up From Customer >>"),
-                                  onHorizontalDragUpdate: (details) {
-                                    if (details.primaryDelta > 40) {
-                                      print("Drag right");
-                                    }
-                                  },
-                                  condition: locationState
-                                    .userArrivedAtDestinationLocation,
-                                );
-                              }
-                            )
-                          ],
-                        ),
+                          );
+                        }
                       ),
                     ),
                   ],

@@ -8,11 +8,11 @@ import 'package:http/http.dart';
 import '../constants.dart';
 
 class BarcodeDetailsRepository {
-  Future<List> fetchOrderAssignedBarcodes(Client http, String token, int taskId) async {
+  Future<List> fetchOrderAssignedBarcodes(Client http, String token, String orderId) async {
     final response = await http.get(
-      '$servicesUrl/delivery/v2/barcode/getOrderAssignedBarcodes/' + (!(http is DemoHttpClient) ? '?order_id=$taskId' : ''),
+      '$servicesUrl/delivery/v2/barcode/getOrderAssignedBarcodes/' + (!(http is DemoHttpClient) ? '?order_id=$orderId' : ''),
       headers: {
-//        'content-type': 'application/json',
+        'content-type': 'application/json',
         'Authorization': "Token $token",
         'Accept-Encoding': "gzip",
       },

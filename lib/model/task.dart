@@ -115,6 +115,8 @@ class TaskMeta {
   final String jobTitle;
   final String buildingImgUrl;
 
+  final String orderId;
+
   final bool deliveryToDoorman;
   final bool pickupFromDoorman;
 
@@ -140,6 +142,7 @@ class TaskMeta {
     this.jobTitle,
     this.buildingImgUrl,
     this.isBusinessAccount,
+    this.orderId,
     this.deliveryToDoorman,
     this.pickupFromDoorman,
     this.pickupDateTime,
@@ -167,6 +170,8 @@ class TaskMeta {
         runType: map['run_type'] as int,
         jobTitle: map['job_title'] as String,
         buildingImgUrl: map['building_img_url'] as String,
+
+        orderId: map['order_id'] as String,
         deliveryToDoorman: map['deliver_to_doorman'] as bool,
         pickupFromDoorman: map['pickup_from_doorman'] as bool,
         pickupDateTime: DateTime.tryParse(map['pickup_datetime'] ?? ''),

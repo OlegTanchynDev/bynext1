@@ -24,7 +24,7 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
   Stream<BarcodeDetailsBlocState> mapEventToState(BarcodeDetailsBlocEvent event) async* {
     if (event is GetBarcodes) {
       try {
-        final result = await repository.fetchOrderAssignedBarcodes(httpClientBloc.state.client, tokenBloc.state.token, event.taskId);
+        final result = await repository.fetchOrderAssignedBarcodes(httpClientBloc.state.client, tokenBloc.state.token, event.orderId);
         yield BarcodeDetailsBlocState(barcodes: result);
       }
       catch (e){
@@ -43,9 +43,9 @@ abstract class BarcodeDetailsBlocEvent extends Equatable {
 }
 
 class GetBarcodes extends BarcodeDetailsBlocEvent {
-  final int taskId;
+  final String orderId;
 
-  GetBarcodes(this.taskId);
+  GetBarcodes(this.orderId);
 }
 
 // States

@@ -91,7 +91,7 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
 
                     Expanded(
                       child: BlocBuilder(
-                        bloc: context.bloc<BarcodeDetailsBloc>()..add(GetBarcodes(jobState.task.id)),
+                        bloc: context.bloc<BarcodeDetailsBloc>()..add(GetBarcodes(jobState.task.meta.orderId)),
                         builder: (context, barcodeState) {
                           return Container(
                             padding: EdgeInsets.symmetric(horizontal: 20).copyWith(

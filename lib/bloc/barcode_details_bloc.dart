@@ -12,31 +12,13 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
   BarcodeDetailsRepository repository;
   TokenBloc tokenBloc;
   HttpClientBloc httpClientBloc;
-  TaskBloc _taskBloc;
+  TaskBloc taskBloc;
 
-  StreamSubscription<TaskState> _taskBlocSubscription;
-
-  set taskBloc(TaskBloc value) {
-    if (_taskBloc != value) {
-      _taskBloc = value;
-      _taskBlocSubscription = _taskBloc.listen((jobState) {
-        if (jobState is ReadyTaskState && jobState.task != null) {
-          add(GetBarcodeDetails(jobState.task.meta.orderId));
-        }
-      });
-    }
-  }
-
-  @override
-  Future<void> close() {
-    _taskBlocSubscription?.cancel();
-    return super.close();
-  }
-
-  BarcodeDetailsBloc() : super(BarcodeDetailsBlocState(
-    barcodes: [],
-    notes: [],
-  ));
+  BarcodeDetailsBloc()
+      : super(BarcodeDetailsBlocState(
+          barcodes: [],
+          notes: [],
+        ));
 
   @override
   Stream<BarcodeDetailsBlocState> mapEventToState(BarcodeDetailsBlocEvent event) async* {
@@ -44,32 +26,31 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
       var _barcodes = [];
       var _notes = [];
       try {
-        _barcodes = await repository.fetchOrderAssignedBarcodes(httpClientBloc.state.client, tokenBloc.state.token, event.orderId);
+        _barcodes = await repository.fetchOrderAssignedBarcodes(
+            httpClientBloc.state.client, tokenBloc.state.token, taskBloc.state.task.meta.orderId);
 //        yield BarcodeDetailsBlocState(barcodes: result);
-      }
-      catch (e){
+      } catch (e) {
 //        yield BarcodeDetailsBlocState(
 //          barcodes: [],
 //        );
       }
 
       try {
-        _notes = await repository.fetchOrderNotes(httpClientBloc.state.client, tokenBloc.state.token, event.orderId);
+        _notes = await repository.fetchOrderNotes(httpClientBloc.state.client, tokenBloc.state.token, taskBloc.state.task.meta.orderId);
 //        yield BarcodeDetailsBlocState(barcodes: result);
-      }
-      catch (e){
+      } catch (e) {
 //        yield BarcodeDetailsBlocState(
 //          barcodes: [],
 //        );
       }
-      
+
       yield BarcodeDetailsBlocState(
         barcodes: _barcodes,
         notes: _notes,
       );
     }
 
-    if(event is RemoveBarcode) {
+    if (event is RemoveBarcode) {
       List<BarcodeDetails> newBarcodes = List.from(state.barcodes);
       newBarcodes.remove(event.barcode);
 
@@ -97,11 +78,7 @@ abstract class BarcodeDetailsBlocEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetBarcodeDetails extends BarcodeDetailsBlocEvent {
-  final String orderId;
-
-  GetBarcodeDetails(this.orderId);
-}
+class GetBarcodeDetails extends BarcodeDetailsBlocEvent {}
 
 class RemoveBarcode extends BarcodeDetailsBlocEvent {
 //  final String barcode;

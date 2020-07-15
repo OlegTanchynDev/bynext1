@@ -27,18 +27,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'bloc/barcode_details_bloc.dart';
 import 'bloc/forgot_password_bloc.dart';
 import 'bloc/http_client_bloc.dart';
 import 'bloc/issues_bloc.dart';
 import 'bloc/payment_bloc.dart';
 import 'bloc/schedule_bloc.dart';
+import 'bloc/task/task_bloc.dart';
 import 'constants.dart';
 import 'generated/l10n.dart';
 import 'helpers/utils.dart';
+import 'repository/barcode_details_repository.dart';
 import 'repository/issues_repository.dart';
 import 'repository/payment_repository.dart';
 import 'repository/token_repository.dart';
-import 'screen/delivery_to_client/customer_delivery_step1.dart';
+import 'screen/delivery_to_client/customer_delivery_step3.dart';
 import 'screen/issues.dart';
 import 'screen/my_salary.dart';
 import 'screen/navigation_settings.dart';
@@ -62,7 +65,7 @@ const taskPickupFromClientStep4Route = 'taskPickupFromClientStep4Route';
 const taskPickupFromClientStep5Route = 'taskPickupFromClientStep5Route';
 const taskPickupFromClientStep3Route = 'taskPickupFromClientStep3Route';
 const taskPickupSuppliesRoute = 'taskPickupSuppliesRoute';
-//const taskDeliverToClientRoute = 'taskDeliverToClientRoute';
+const taskDeliverToClientStep3Route = 'taskDeliverToClientStep3Route';
 const taskLaundromatPickupRoute = 'taskLaundromatPickupRoute';
 const taskLaundromatDropOffRoute = 'taskLaundromatDropOffRoute';
 const taskBatchedOrdersRoute = 'taskBatchedOrdersRoute';
@@ -288,7 +291,15 @@ class Router {
               page = CustomerPickupStep4();
               break;
             case taskPickupFromClientStep5Route:
-              page = CustomerPickupStep5();
+              page = BlocProvider(
+                create: (context) => BarcodeDetailsBloc()
+                  ..tokenBloc = context.bloc<TokenBloc>()
+                  ..httpClientBloc = context.bloc<HttpClientBloc>()
+                  ..taskBloc = context.bloc<TaskBloc>()
+                  ..repository = context.repository<BarcodeDetailsRepository>()
+                  ..add(GetBarcodeDetails()),
+                child: CustomerPickupStep5(),
+              );
               break;
             case taskPickupFromClientStep3Route:
               page = CustomerPickupStep3(
@@ -298,9 +309,17 @@ class Router {
             case taskPickupSuppliesRoute:
               page = PickupSuppliesStep1();
               break;
-//            case taskDeliverToClientRoute:
-//              page = CustomerDeliveryStep1(); // reuse customer pickup screen #1
-//              break;
+            case taskDeliverToClientStep3Route:
+              page = BlocProvider(
+                create: (context) => BarcodeDetailsBloc()
+                  ..tokenBloc = context.bloc<TokenBloc>()
+                  ..httpClientBloc = context.bloc<HttpClientBloc>()
+                  ..taskBloc = context.bloc<TaskBloc>()
+                  ..repository = context.repository<BarcodeDetailsRepository>()
+                  ..add(GetBarcodeDetails()),
+                child: CustomerDeliveryStep3(),
+              );
+              break;
             case taskLaundromatPickupRoute:
               page = LaundromatPickupStep1();
               break;

@@ -40,6 +40,9 @@ class DemoHttpClient extends BaseClient {
 
     //task pickup from client
     '$servicesUrl/delivery/v2/chat/token/?task_id=312': DemoResponse('assets/mock/regular-business/chat_token.json'),
+
+    // task deliver to customer
+    '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=289&lat=null&lng=null': DemoResponse('assets/mock/regular-business/location_arriveAtPlace.json'),
   };
 
   final BuildContext context;

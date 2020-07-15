@@ -57,6 +57,12 @@ class TaskRouter {
           Navigator.of(context)
               .pushNamed(taskPickupFromClientStep4Route)
               .whenComplete(() => context.bloc<ArrivalBloc>().add(ArrivalClearEvent()));
+          break;
+        case CardType.COURIER_TASK_TYPE_DELIVER_TO_CLIENT:
+          Navigator.of(context)
+              .pushNamed(taskDeliverToClientStep3Route)
+              .whenComplete(() => context.bloc<ArrivalBloc>().add(ArrivalClearEvent()));
+          break;
       }
     }
   }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/constants.dart';
+import 'package:bynextcourier/helpers/task_utils.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/animated_button.dart';
@@ -96,23 +97,8 @@ class _CustomerPickupStep4State extends State<CustomerPickupStep4> {
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.only(
-                                  bottom: 4
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    IconButton(
-                                      icon: Image.asset(
-                                        "assets/images/heart-icon-fill.png",
-                                        height: 25,
-                                      ),
-                                      padding: EdgeInsets.zero,
-                                      alignment: Alignment.bottomCenter,
-                                    ),
-                                    Text(jobState?.task?.location?.name ?? ""),
-                                  ],
-                                ),
+                                padding: EdgeInsets.only(bottom: 4),
+                                child: Text.rich(customerName(jobState?.task)),
                               ),
                               Expanded(
                                 child: Container(),

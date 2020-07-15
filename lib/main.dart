@@ -143,13 +143,6 @@ class MyApp extends StatelessWidget {
                     ..locationTrackerBloc = context.bloc<LocationTrackerBloc>()
                     ..repository = context.repository<TasksRepository>()
               ),
-              BlocProvider(
-                lazy: false,
-                create: (context) => BarcodeDetailsBloc()
-                  ..tokenBloc = context.bloc<TokenBloc>()
-                  ..httpClientBloc = context.bloc<HttpClientBloc>()
-                  ..taskBloc = context.bloc<TaskBloc>()
-                  ..repository = context.repository<BarcodeDetailsRepository>()),
             ],
             child: Builder(
               builder: (context) => MaterialApp(
@@ -158,6 +151,7 @@ class MyApp extends StatelessWidget {
                     brightness: Brightness.light,
                     primarySwatch: Colors.grey,
                     scaffoldBackgroundColor: const Color(0xFFF2EDEB),
+                    buttonColor: const Color(0xFF403D9C),
                     colorScheme: const ColorScheme(
                       brightness: Brightness.light,
                       primary: primaryColor,

@@ -148,6 +148,7 @@ class MyApp extends StatelessWidget {
                 create: (context) => BarcodeDetailsBloc()
                   ..tokenBloc = context.bloc<TokenBloc>()
                   ..httpClientBloc = context.bloc<HttpClientBloc>()
+                  ..taskBloc = context.bloc<TaskBloc>()
                   ..repository = context.repository<BarcodeDetailsRepository>()),
             ],
             child: Builder(

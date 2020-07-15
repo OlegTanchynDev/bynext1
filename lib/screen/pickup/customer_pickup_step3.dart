@@ -20,7 +20,6 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, jobState) {
         if (jobState is ReadyTaskState) {
-          context.bloc<BarcodeDetailsBloc>().add(GetBarcodeDetails(jobState.task.meta.orderId));
           return Scaffold(
             appBar: AppBar(
               title: AppBarTitle(task: jobState.task),

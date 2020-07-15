@@ -1,28 +1,12 @@
 import 'package:bynextcourier/bloc/barcode_details_bloc.dart';
-import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/model/barcode_details.dart';
-import 'package:bynextcourier/view/animated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BagsList extends StatefulWidget{
+class BagsList extends StatelessWidget{
   final List<BarcodeDetails> barcodes;
 
   const BagsList({Key key, this.barcodes}) : super(key: key);
-
-  @override
-  _BagsListState createState() => _BagsListState();
-}
-
-class _BagsListState extends State<BagsList> {
-  List<BarcodeDetails> _barcodes;
-
-  @override
-  void initState() {
-    _barcodes = widget.barcodes;
-//    _barcodes = context.bloc<BarcodeDetailsBloc>().state.barcodes;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,14 +75,14 @@ class _BagsListState extends State<BagsList> {
           Row(
             children: <Widget>[
               Text("Bags "),
-              Text(_barcodes.length.toString())
+              Text(barcodes.length.toString())
             ],
           ),
           SizedBox(
             height: 10,
           ),
         ] +
-          _barcodes.expand((e) =>
+          barcodes.expand((e) =>
           [
             Container(
               padding: EdgeInsets.all(9),
@@ -129,10 +113,8 @@ class _BagsListState extends State<BagsList> {
                       "Remove",
                     ),
                     onTap: () {
-                      _barcodes.remove(e);
-                      setState(() {
-                        _barcodes = _barcodes;
-                      });
+//                      _barcodes.remove(e);
+                      context.bloc<BarcodeDetailsBloc>().add(RemoveBarcode(e));
                     },
                   )
                 ],

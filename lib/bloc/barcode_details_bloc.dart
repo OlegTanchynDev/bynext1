@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bynextcourier/bloc/http_client_bloc.dart';
+import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/model/barcode_details.dart';
 import 'package:bynextcourier/repository/barcode_details_repository.dart';
@@ -11,8 +12,26 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
   BarcodeDetailsRepository repository;
   TokenBloc tokenBloc;
   HttpClientBloc httpClientBloc;
+  TaskBloc _taskBloc;
 
-  StreamSubscription<TokenState> _tokenBlocSubscription;
+  StreamSubscription<TaskState> _taskBlocSubscription;
+
+  set taskBloc(TaskBloc value) {
+    if (_taskBloc != value) {
+      _taskBloc = value;
+      _taskBlocSubscription = _taskBloc.listen((jobState) {
+        if (jobState is ReadyTaskState && jobState.task != null) {
+          add(GetBarcodeDetails(jobState.task.meta.orderId));
+        }
+      });
+    }
+  }
+
+  @override
+  Future<void> close() {
+    _taskBlocSubscription?.cancel();
+    return super.close();
+  }
 
   BarcodeDetailsBloc() : super(BarcodeDetailsBlocState(
     barcodes: [],
@@ -49,6 +68,16 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
         notes: _notes,
       );
     }
+
+    if(event is RemoveBarcode) {
+      List<BarcodeDetails> newBarcodes = List.from(state.barcodes);
+      newBarcodes.remove(event.barcode);
+
+      yield BarcodeDetailsBlocState(
+        barcodes: newBarcodes as List<BarcodeDetails>,
+        notes: state.notes,
+      );
+    }
   }
 }
 
@@ -62,6 +91,13 @@ class GetBarcodeDetails extends BarcodeDetailsBlocEvent {
   final String orderId;
 
   GetBarcodeDetails(this.orderId);
+}
+
+class RemoveBarcode extends BarcodeDetailsBlocEvent {
+//  final String barcode;
+  final BarcodeDetails barcode;
+
+  RemoveBarcode(this.barcode);
 }
 
 // States

@@ -23,6 +23,7 @@ class TaskRouter {
           Navigator.of(context).pushNamed(taskGoToLocationRoute);
           break;
         case CardType.COURIER_TASK_TYPE_PICKUP_FROM_CLIENT:
+        case CardType.COURIER_TASK_TYPE_DELIVER_TO_CLIENT:
           if (taskState.task.linkedTasks?.isEmpty ?? true) {
             Navigator.of(context).pushNamed(taskPickupFromClientRoute);
           } else {
@@ -31,13 +32,6 @@ class TaskRouter {
           break;
         case CardType.COURIER_TASK_TYPE_PICKUP_SUPPLIES:
           Navigator.of(context).pushNamed(taskPickupSuppliesRoute);
-          break;
-        case CardType.COURIER_TASK_TYPE_DELIVER_TO_CLIENT:
-          if (taskState.task.linkedTasks?.isEmpty ?? true) {
-            Navigator.of(context).pushNamed(taskDeliverToClientRoute);
-          } else {
-            Navigator.of(context).pushNamed(taskBatchedOrdersRoute);
-          }
           break;
         case CardType.COURIER_TASK_TYPE_LAUNDROMAT_PICKUP:
           Navigator.of(context).pushNamed(taskLaundromatPickupRoute);

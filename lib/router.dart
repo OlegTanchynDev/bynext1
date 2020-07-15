@@ -61,7 +61,7 @@ const taskPickupFromClientStep2Route = 'taskPickupFromClientStep2Route';
 const taskPickupFromClientStep3Route = 'taskPickupFromClientStep3Route';
 const taskPickupFromClientEditRoute = 'taskPickupFromClientEditRoute';
 const taskPickupSuppliesRoute = 'taskPickupSuppliesRoute';
-const taskDeliverToClientRoute = 'taskDeliverToClientRoute';
+//const taskDeliverToClientRoute = 'taskDeliverToClientRoute';
 const taskLaundromatPickupRoute = 'taskLaundromatPickupRoute';
 const taskLaundromatDropOffRoute = 'taskLaundromatDropOffRoute';
 const taskBatchedOrdersRoute = 'taskBatchedOrdersRoute';
@@ -297,9 +297,9 @@ class Router {
             case taskPickupSuppliesRoute:
               page = PickupSuppliesStep1();
               break;
-            case taskDeliverToClientRoute:
-              page = CustomerDeliveryStep1();
-              break;
+//            case taskDeliverToClientRoute:
+//              page = CustomerDeliveryStep1(); // reuse customer pickup screen #1
+//              break;
             case taskLaundromatPickupRoute:
               page = LaundromatPickupStep1();
               break;

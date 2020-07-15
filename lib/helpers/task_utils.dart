@@ -65,6 +65,12 @@ String taskTimeInterval(Task task) {
     } else {
       return '';
     }
+  } else if (task.type == CardType.COURIER_TASK_TYPE_GOTO_LOCATION) {
+    if (task.meta?.startTime != null && task.meta?.endTime != null) {
+      return '${DateFormat.jm().format(task.meta.startTime)} - ${DateFormat.jm().format(task.meta.endTime)}';
+    } else {
+      return '';
+    }
   } else {
     if (task.meta?.deliveryDateTime != null && task.meta?.deliveryDateTimeEnd != null) {
       return '${DateFormat.jm().format(task.meta?.deliveryDateTime)} - ${DateFormat.jm().format(task.meta?.deliveryDateTimeEnd)}';

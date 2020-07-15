@@ -1,6 +1,10 @@
 PODS:
   - background_locator (0.0.1):
     - Flutter
+  - barcode_scan (0.0.1):
+    - Flutter
+    - MTBBarcodeScanner
+    - SwiftProtobuf
   - device_info (0.0.1):
     - Flutter
   - Flutter (1.0.0)
@@ -31,6 +35,7 @@ PODS:
     - Flutter
   - map_launcher (0.0.1):
     - Flutter
+  - MTBBarcodeScanner (5.0.11)
   - package_info (0.0.1):
     - Flutter
   - path_provider (0.0.1):
@@ -48,6 +53,7 @@ PODS:
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
+  - SwiftProtobuf (1.10.2)
   - url_launcher (0.0.1):
     - Flutter
   - url_launcher_macos (0.0.1):
@@ -59,6 +65,7 @@ PODS:
 
 DEPENDENCIES:
   - background_locator (from `.symlinks/plugins/background_locator/ios`)
+  - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - Flutter (from `Flutter`)
   - flutter_is_emulator (from `.symlinks/plugins/flutter_is_emulator/ios`)
@@ -87,10 +94,14 @@ SPEC REPOS:
   trunk:
     - FMDB
     - GoogleMaps
+    - MTBBarcodeScanner
+    - SwiftProtobuf
 
 EXTERNAL SOURCES:
   background_locator:
     :path: ".symlinks/plugins/background_locator/ios"
+  barcode_scan:
+    :path: ".symlinks/plugins/barcode_scan/ios"
   device_info:
     :path: ".symlinks/plugins/device_info/ios"
   Flutter:
@@ -140,6 +151,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   background_locator: d8daad218f2282920654de8a649b430d75c218d9
+  barcode_scan: a5c27959edfafaa0c771905bad0b29d6d39e4479
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_is_emulator: b1d882329a081ea30e0e335f1dbe782f5a34242a
@@ -153,6 +165,7 @@ SPEC CHECKSUMS:
   just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
   location_permissions: 7e0f9aa0f60deb8ff93ddf0e2a164c7e8197bc94
   map_launcher: e325db1261d029ff33e08e03baccffe09593ffea
+  MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
@@ -161,6 +174,7 @@ SPEC CHECKSUMS:
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
+  SwiftProtobuf: bec1ae7d686ff73dd09d79866154f4970b891410
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c

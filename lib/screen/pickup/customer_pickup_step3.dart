@@ -20,6 +20,7 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, jobState) {
         if (jobState is ReadyTaskState) {
+          context.bloc<BarcodeDetailsBloc>().add(GetBarcodeDetails(jobState.task.meta.orderId));
           return Scaffold(
             appBar: AppBar(
               title: AppBarTitle(task: jobState.task),
@@ -90,68 +91,72 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
                     ),
 
                     Expanded(
-                      child: BlocBuilder(
-                        bloc: context.bloc<BarcodeDetailsBloc>()..add(GetBarcodeDetails(jobState.task.meta.orderId)),
+                      child: BlocBuilder<BarcodeDetailsBloc, BarcodeDetailsBlocState>(
+//                        bloc: context.bloc<BarcodeDetailsBloc>()..add(GetBarcodeDetails(jobState.task.meta.orderId)),
                         builder: (context, barcodeState) {
                           return Container(
-                            padding: EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),
+                            padding: EdgeInsets.symmetric(horizontal: 20)
+                              .copyWith(bottom: 14),
                             child: Column(
                               children: <Widget>[
                                 BagsList(
                                   barcodes: barcodeState.barcodes,
                                 ),
                               ] +
-                                (barcodeState.notes as List<OrderNote>).map((e) => Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Theme
-                                      .of(context)
-                                      .dividerTheme
-                                      .color
-                                  )
-                                ),
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      padding: EdgeInsets.all(1),
-                                      child: Image.network(
-                                        e.image,
-                                        fit: BoxFit.cover,
-                                      ),
+                                (barcodeState.notes as List<OrderNote>).map((
+                                  e) =>
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Theme
+                                          .of(context)
+                                          .dividerTheme
+                                          .color
+                                      )
                                     ),
-                                    SizedBox(
-                                      width: 10,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          padding: EdgeInsets.all(1),
+                                          child: Image.network(
+                                            e.image,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(e.text),
+                                      ],
                                     ),
-                                    Text(e.text),
-                                  ],
-                                ),
-                              )).toList()
-                              + [
-                                Expanded(
-                                  child: Container(
-                                    height: 1,
+                                  )).toList()
+                                + [
+                                  Expanded(
+                                    child: Container(
+                                      height: 1,
+                                    ),
                                   ),
-                                ),
-                                BlocBuilder<
-                                  LocationTrackerBloc,
-                                  LocationTrackerBaseState>(
-                                  builder: (context, locationState) {
-                                    return AnimatedButton(
-                                      child: Text("Picked Up From Customer >>"),
-                                      onHorizontalDragUpdate: (details) {
-                                        if (details.primaryDelta > 40) {
-                                          print("Drag right");
-                                        }
-                                      },
-                                      condition: locationState
-                                        .userArrivedAtDestinationLocation,
-                                    );
-                                  }
-                                )
+                                  BlocBuilder<
+                                    LocationTrackerBloc,
+                                    LocationTrackerBaseState>(
+                                    builder: (context, locationState) {
+                                      return AnimatedButton(
+                                        child: Text(
+                                          "Picked Up From Customer >>"),
+                                        onHorizontalDragUpdate: (details) {
+                                          if (details.primaryDelta > 40) {
+                                            print("Drag right");
+                                          }
+                                        },
+                                        condition: locationState
+                                          .userArrivedAtDestinationLocation,
+                                      );
+                                    }
+                                  )
 
-                              ],
+                                ],
                             ),
                           );
                         }

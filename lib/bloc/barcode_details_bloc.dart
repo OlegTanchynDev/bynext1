@@ -12,8 +12,6 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
   TokenBloc tokenBloc;
   HttpClientBloc httpClientBloc;
 
-
-
   StreamSubscription<TokenState> _tokenBlocSubscription;
 
   BarcodeDetailsBloc() : super(BarcodeDetailsBlocState(
@@ -74,5 +72,5 @@ class BarcodeDetailsBlocState extends Equatable {
   BarcodeDetailsBlocState({this.notes, this.barcodes});
 
   @override
-  List<Object> get props => [barcodes, notes];
+  List<Object> get props => [...barcodes, ...notes];
 }

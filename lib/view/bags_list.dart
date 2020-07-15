@@ -1,3 +1,4 @@
+import 'package:bynextcourier/bloc/barcode_details_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/model/barcode_details.dart';
 import 'package:bynextcourier/view/animated_button.dart';
@@ -19,6 +20,7 @@ class _BagsListState extends State<BagsList> {
   @override
   void initState() {
     _barcodes = widget.barcodes;
+//    _barcodes = context.bloc<BarcodeDetailsBloc>().state.barcodes;
     super.initState();
   }
 

@@ -144,6 +144,7 @@ class MyApp extends StatelessWidget {
                     ..repository = context.repository<TasksRepository>()
               ),
               BlocProvider(
+                lazy: false,
                 create: (context) => BarcodeDetailsBloc()
                   ..tokenBloc = context.bloc<TokenBloc>()
                   ..httpClientBloc = context.bloc<HttpClientBloc>()

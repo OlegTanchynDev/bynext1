@@ -78,6 +78,16 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
         notes: state.notes,
       );
     }
+
+    if(event is AddDemoBarcode) {
+      List<BarcodeDetails> newBarcodes = List.from(state.barcodes);
+      newBarcodes.add(event.barcode);
+
+      yield BarcodeDetailsBlocState(
+        barcodes: newBarcodes as List<BarcodeDetails>,
+        notes: state.notes,
+      );
+    }
   }
 }
 
@@ -99,6 +109,14 @@ class RemoveBarcode extends BarcodeDetailsBlocEvent {
 
   RemoveBarcode(this.barcode);
 }
+
+class AddDemoBarcode extends BarcodeDetailsBlocEvent {
+//  final String barcode;
+  final BarcodeDetails barcode;
+
+  AddDemoBarcode(this.barcode);
+}
+
 
 // States
 class BarcodeDetailsBlocState extends Equatable {

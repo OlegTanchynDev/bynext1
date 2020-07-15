@@ -2,11 +2,17 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:bynextcourier/bloc/barcode_details_bloc.dart';
+import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/maps_bloc.dart';
+import 'package:bynextcourier/client/app_http_client.dart';
+import 'package:bynextcourier/model/barcode_details.dart';
 import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_is_emulator/flutter_is_emulator.dart';
 import 'package:map_launcher/map_launcher.dart';
@@ -381,6 +387,36 @@ List<String> getTaskCleaningOptions(Task task){
   return cleaningOptions;
 }
 
-Future<void> scanBarCode(){
+Future<dynamic> scanBarCode(BuildContext context, String key) async{
+  if(context.bloc<HttpClientBloc>().state.client is DemoHttpClient) {
+    final demoBarcode = BarcodeDetails(
+      status: 5,
+      id : 260,
+      type : 0,
+      barcode : "PU0000"
+    );
+    return demoBarcode;
 
+//    context.bloc<BarcodeDetailsBloc>().add(AddDemoBarcode(demoBarcode));
+  }
+  else {
+    var result;
+    try {
+      result = await BarcodeScanner.scan();
+      return result;
+    } on PlatformException catch (e) {
+      result = ScanResult(
+        type: ResultType.Error,
+        format: BarcodeFormat.unknown,
+      );
+
+      if (e.code == BarcodeScanner.cameraAccessDenied) {
+          result.rawContent = 'The user did not grant the camera permission!';
+      } else {
+        result.rawContent = 'Unknown error: $e';
+      }
+    }
+
+    return result;
+  }
 }

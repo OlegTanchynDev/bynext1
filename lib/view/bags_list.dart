@@ -65,8 +65,9 @@ class BagsList extends StatelessWidget{
                     ],
                   ),
                   onPressed: () async {
-                    await scanBarCode();
-                    var result = await BarcodeScanner.scan();
+                    final scanResult = await scanBarCode(context, 'PU');
+
+//                    if()
                   },
                 )
               ),

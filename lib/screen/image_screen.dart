@@ -1,4 +1,5 @@
 import 'package:bynextcourier/view/app_bar_logo.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -16,7 +17,7 @@ class ImageScreen extends StatelessWidget{
       ),
       body: PhotoView(
         minScale: PhotoViewComputedScale.contained,
-        imageProvider: NetworkImage(url),
+        imageProvider: CachedNetworkImageProvider(url),
       ),
     );
   }

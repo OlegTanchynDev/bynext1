@@ -33,7 +33,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>ByNext needs access to PhotoLibrary.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>ByNext needs access to Camera.</string>
+	<string>ByNext needs access to Camera for taking photos and reading barcodes</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

@@ -55,7 +55,7 @@ class TaskRouter {
           break;
         case CardType.COURIER_TASK_TYPE_PICKUP_FROM_CLIENT:
           Navigator.of(context)
-              .pushNamed(taskPickupFromClientStep2Route)
+              .pushNamed(taskPickupFromClientStep4Route)
               .whenComplete(() => context.bloc<ArrivalBloc>().add(ArrivalClearEvent()));
       }
     }

@@ -380,3 +380,7 @@ List<String> getTaskCleaningOptions(Task task){
 
   return cleaningOptions;
 }
+
+Future<void> scanBarCode(){
+
+}

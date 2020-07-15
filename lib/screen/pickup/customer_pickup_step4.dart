@@ -10,12 +10,12 @@ import 'package:bynextcourier/view/app_bar_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CustomerPickupStep2 extends StatefulWidget {
+class CustomerPickupStep4 extends StatefulWidget {
   @override
-  _CustomerPickupStep2State createState() => _CustomerPickupStep2State();
+  _CustomerPickupStep4State createState() => _CustomerPickupStep4State();
 }
 
-class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
+class _CustomerPickupStep4State extends State<CustomerPickupStep4> {
   Timer _timer;
 
   @override
@@ -206,7 +206,7 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                                   FlatButton(
                                     padding: EdgeInsets.zero,
                                     onPressed: (){
-                                      Navigator.of(context).pushNamed(taskPickupFromClientEditRoute, arguments: jobState.task);
+                                      Navigator.of(context).pushNamed(taskPickupFromClientStep3Route, arguments: jobState.task);
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
@@ -289,7 +289,7 @@ class _CustomerPickupStep2State extends State<CustomerPickupStep2> {
                                   onHorizontalDragUpdate: (details) {
                                     if (details.primaryDelta > 40) {
                                       print("Drag right");
-                                      Navigator.of(context).pushNamed(taskPickupFromClientStep3Route);
+                                      Navigator.of(context).pushNamed(taskPickupFromClientStep5Route);
                                     }
                                   },
                                   condition: locationState

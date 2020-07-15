@@ -1,5 +1,7 @@
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:bynextcourier/bloc/barcode_details_bloc.dart';
 import 'package:bynextcourier/model/barcode_details.dart';
+import 'package:bynextcourier/helpers/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,8 +13,6 @@ class BagsList extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-//      padding: EdgeInsets.symmetric(horizontal: 20).copyWith(
-//        bottom: 14),
       child: Column(
         children: <Widget>[
           SizedBox(
@@ -64,7 +64,10 @@ class BagsList extends StatelessWidget{
                       Image.asset("assets/images/checkbox-grey-checked.png")
                     ],
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await scanBarCode();
+                    var result = await BarcodeScanner.scan();
+                  },
                 )
               ),
             ],
@@ -113,7 +116,6 @@ class BagsList extends StatelessWidget{
                       "Remove",
                     ),
                     onTap: () {
-//                      _barcodes.remove(e);
                       context.bloc<BarcodeDetailsBloc>().add(RemoveBarcode(e));
                     },
                   )

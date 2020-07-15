@@ -15,9 +15,7 @@ import 'package:bynextcourier/screen/goto_location/task_go_to_location_step_2.da
 import 'package:bynextcourier/screen/image_screen.dart';
 import 'package:bynextcourier/screen/laundromat_dropoff/laundromat_dropoff_step1.dart';
 import 'package:bynextcourier/screen/laundromat_pickup/laundromat_pickup_step1.dart';
-import 'package:bynextcourier/screen/pickup/customer_pickup_edit.dart';
-import 'package:bynextcourier/screen/pickup/customer_pickup_step2.dart';
-import 'package:bynextcourier/screen/pickup/customer_pickup_step3.dart';
+
 import 'package:bynextcourier/screen/shifts.dart';
 import 'package:bynextcourier/screen/sign_contract_screen.dart';
 import 'package:bynextcourier/screen/goto_location/task_go_to_location.dart';
@@ -45,6 +43,9 @@ import 'screen/issues.dart';
 import 'screen/my_salary.dart';
 import 'screen/navigation_settings.dart';
 import 'screen/pickup/customer_pickup_step1.dart';
+import 'screen/pickup/customer_pickup_step3.dart';
+import 'screen/pickup/customer_pickup_step4.dart';
+import 'screen/pickup/customer_pickup_step5.dart';
 
 const webRoute = 'web';
 const signContractRoute = 'signContract';
@@ -57,9 +58,9 @@ const issuesRoute = 'issues';
 const taskGoToLocationRoute = 'taskGoToLocation';
 const taskGoToLocationStep2Route = 'taskGoToLocationStep2';
 const taskPickupFromClientRoute = 'taskPickupFromClientRoute';
-const taskPickupFromClientStep2Route = 'taskPickupFromClientStep2Route';
+const taskPickupFromClientStep4Route = 'taskPickupFromClientStep4Route';
+const taskPickupFromClientStep5Route = 'taskPickupFromClientStep5Route';
 const taskPickupFromClientStep3Route = 'taskPickupFromClientStep3Route';
-const taskPickupFromClientEditRoute = 'taskPickupFromClientEditRoute';
 const taskPickupSuppliesRoute = 'taskPickupSuppliesRoute';
 //const taskDeliverToClientRoute = 'taskDeliverToClientRoute';
 const taskLaundromatPickupRoute = 'taskLaundromatPickupRoute';
@@ -283,14 +284,14 @@ class Router {
             case taskPickupFromClientRoute:
               page = CustomerPickupStep1();
               break;
-            case taskPickupFromClientStep2Route:
-              page = CustomerPickupStep2();
+            case taskPickupFromClientStep4Route:
+              page = CustomerPickupStep4();
+              break;
+            case taskPickupFromClientStep5Route:
+              page = CustomerPickupStep5();
               break;
             case taskPickupFromClientStep3Route:
-              page = CustomerPickupStep3();
-              break;
-            case taskPickupFromClientEditRoute:
-              page = CustomerPickupEdit(
+              page = CustomerPickupStep3(
                 task: settings.arguments,
               );
               break;

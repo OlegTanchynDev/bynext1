@@ -1,3 +1,5 @@
+import 'package:bynextcourier/helpers/utils.dart';
+
 enum CardType {
   COURIER_TASK_TYPE_GOTO_LOCATION,
   COURIER_TASK_TYPE_PICKUP_SUPPLIES,
@@ -63,17 +65,17 @@ class Task {
 
   final List<Task> linkedTasks;
 
-  Task(
-      {this.id,
-      this.type,
-      this.noShowEnabled,
-      this.noShowWaitSeconds,
-      this.actionTime,
-      this.contact,
-      this.location,
-      this.meta,
-      this.notes,
-      this.linkedTasks});
+  Task({this.id,
+    this.type,
+    this.noShowEnabled,
+    this.noShowWaitSeconds,
+    this.actionTime,
+    this.contact,
+    this.location,
+    this.meta,
+    this.notes,
+    linkedMap}) :
+        linkedTasks = parseLinkedTask(linkedMap);
 
   factory Task.fromMap(Map<String, dynamic> map) {
     return Task(
@@ -86,13 +88,24 @@ class Task {
         location: TaskLocation.fromMap(map['location']),
         meta: TaskMeta.fromMap(map['meta']),
         notes: map['notes'] as String,
-        linkedTasks: []);
+        linkedMap: map['linked_tasks'] as List);
   }
 
   @override
   String toString() {
     return 'Task{id: $id, type: $type, noShowEnabled: $noShowEnabled, noShowWaitSeconds: $noShowWaitSeconds, actionTime: $actionTime, notes: $notes}';
   }
+}
+
+parseLinkedTask(linkedMap) {
+  printLabel('linkedMap:$linkedMap', 'TEST');
+  List<Task> list = [];
+  if (linkedMap != null) {
+    for (var map in linkedMap) {
+      list.add(Task.fromMap(map));
+    }
+  }
+  return list;
 }
 
 class TaskMeta {
@@ -151,7 +164,8 @@ class TaskMeta {
     this.deliveryDateTimeEnd,
   });
 
-  factory TaskMeta.fromMap(Map<String, dynamic> map) => TaskMeta(
+  factory TaskMeta.fromMap(Map<String, dynamic> map) =>
+      TaskMeta(
         firstOrder: map['is_first_order'] as bool,
         reserve: map['is_reserve'] as bool,
         wf: map['is_wf'] as bool,
@@ -189,7 +203,8 @@ class TaskContact {
 
   TaskContact({this.name, this.phone, this.email, this.id});
 
-  factory TaskContact.fromMap(Map<String, dynamic> map) => TaskContact(
+  factory TaskContact.fromMap(Map<String, dynamic> map) =>
+      TaskContact(
         id: map['id'] as String,
         name: map['name'] as String,
         email: map['email'] as String,
@@ -213,21 +228,20 @@ class TaskLocation {
   final bool latchBuilding;
   final bool doorCodeBuilding;
 
-  TaskLocation(
-      {this.name,
-      this.lat,
-      this.lng,
-      this.notes,
-      this.street,
-      this.streetLine2,
-      this.city,
-      this.state,
-      this.zipcode,
-      this.floor,
-      this.doorman,
-      this.elevator,
-      this.latchBuilding,
-      this.doorCodeBuilding});
+  TaskLocation({this.name,
+    this.lat,
+    this.lng,
+    this.notes,
+    this.street,
+    this.streetLine2,
+    this.city,
+    this.state,
+    this.zipcode,
+    this.floor,
+    this.doorman,
+    this.elevator,
+    this.latchBuilding,
+    this.doorCodeBuilding});
 
   factory TaskLocation.fromMap(Map<String, dynamic> map) {
     final meta = map['meta'] as Map;

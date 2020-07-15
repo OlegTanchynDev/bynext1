@@ -26,7 +26,7 @@ class TaskRouter {
           if (taskState.task.linkedTasks?.isEmpty ?? true) {
             Navigator.of(context).pushNamed(taskPickupFromClientRoute);
           } else {
-            // Batched Orders
+            Navigator.of(context).pushNamed(taskBatchedOrdersRoute);
           }
           break;
         case CardType.COURIER_TASK_TYPE_PICKUP_SUPPLIES:
@@ -36,7 +36,7 @@ class TaskRouter {
           if (taskState.task.linkedTasks?.isEmpty ?? true) {
             Navigator.of(context).pushNamed(taskDeliverToClientRoute);
           } else {
-            // Batched Orders
+            Navigator.of(context).pushNamed(taskBatchedOrdersRoute);
           }
           break;
         case CardType.COURIER_TASK_TYPE_LAUNDROMAT_PICKUP:

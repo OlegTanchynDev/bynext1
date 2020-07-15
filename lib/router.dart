@@ -8,6 +8,7 @@ import 'package:bynextcourier/repository/driver_chat_repository.dart';
 import 'package:bynextcourier/repository/schedule_repository.dart';
 import 'package:bynextcourier/repository/sign_contract_repository.dart';
 import 'package:bynextcourier/repository/queued_tasks_repository.dart';
+import 'package:bynextcourier/screen/batched_orders/batched_orders_screen.dart';
 import 'package:bynextcourier/screen/chat/driver_chat_screen.dart';
 import 'package:bynextcourier/screen/forgot_password.dart';
 import 'package:bynextcourier/screen/goto_location/task_go_to_location_step_2.dart';
@@ -63,6 +64,7 @@ const taskPickupSuppliesRoute = 'taskPickupSuppliesRoute';
 const taskDeliverToClientRoute = 'taskDeliverToClientRoute';
 const taskLaundromatPickupRoute = 'taskLaundromatPickupRoute';
 const taskLaundromatDropOffRoute = 'taskLaundromatDropOffRoute';
+const taskBatchedOrdersRoute = 'taskBatchedOrdersRoute';
 const imageRoute = 'imageRoute';
 const driverChatRoute = 'driverChatRoute';
 
@@ -303,6 +305,9 @@ class Router {
               break;
             case taskLaundromatDropOffRoute:
               page = LaundromatDropOffStep1();
+              break;
+            case taskBatchedOrdersRoute:
+              page = BatchedOrdersScreen();
               break;
             case imageRoute:
               page = ImageScreen(

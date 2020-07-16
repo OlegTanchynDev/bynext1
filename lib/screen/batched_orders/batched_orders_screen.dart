@@ -26,9 +26,9 @@ class _BatchedOrdersScreenState extends State<BatchedOrdersScreen> {
 
   @override
   void initState() {
-//    WidgetsBinding.instance.addPostFrameCallback((_) async {
-//      this.showPopup(context);
-//    });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      this.showPopup(context);
+    });
     Task task = (BlocProvider.of<TaskBloc>(context).state as ReadyTaskState).task;
 
     String tabTitle = _generateTabTitle(task);
@@ -103,9 +103,12 @@ class _BatchedOrdersScreenState extends State<BatchedOrdersScreen> {
 
   Widget buildLayout(BatchedOrderTabItem tab) {
     Task task = tab.task;
-    return Navigator(
-      onGenerateRoute: (RouteSettings settings)=> TaskRouter.generateRoute(settings, task),
-      initialRoute: this._generateInitialRoute(task),
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0),
+      child: Navigator(
+        onGenerateRoute: (RouteSettings settings)=> TaskRouter.generateRoute(settings, task),
+        initialRoute: this._generateInitialRoute(task),
+      ),
     );
   }
 

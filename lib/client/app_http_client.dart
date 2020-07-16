@@ -36,6 +36,7 @@ class DemoHttpClient extends BaseClient {
     '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=312': DemoResponse('assets/mock/regular-business/location_arriveAtPlace.json'),
     '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=312&lat=null&lng=null': DemoResponse('assets/mock/regular-business/location_arriveAtPlace.json'),
     '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=294&lat=null&lng=null': DemoResponse('assets/mock/regular-business/location_arriveAtPlace.json'),
+    '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=298&lat=null&lng=null': DemoResponse('assets/mock/regular-business/location_arriveAtPlace.json'),
     '$servicesUrl/delivery/v2/tasks/getTask/?&route_id=484': DemoTaskResponse(),
 
     //task pickup from client

@@ -1,4 +1,5 @@
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
+import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/generated/l10n.dart';
 import 'package:bynextcourier/helpers/task_utils.dart';
 import 'package:bynextcourier/helpers/utils.dart';
@@ -25,7 +26,7 @@ class _BatchedOrdersScreenState extends State<BatchedOrdersScreen> {
       this.showPopup(context);
     });
     Task task = (BlocProvider.of<TaskBloc>(context).state as ReadyTaskState).task;
-    
+
     String tabTitle = _generateTabTitle(task);
     tabs.add(BatchedOrderTabItem(title: tabTitle, task: task));
     for (var item in task.linkedTasks) {
@@ -66,14 +67,22 @@ class _BatchedOrdersScreenState extends State<BatchedOrdersScreen> {
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0,
           title: Text('Batched Orders'),
           bottom: TabBar(
-//                indicatorSize: TabBarIndicatorSize.label,
+            labelColor: Colors.white,
+            isScrollable: tabs.length > 2,
+            unselectedLabelColor: Theme.of(context).primaryTextTheme.headline1.color,
+            indicator: BoxDecoration(borderRadius: BorderRadius.circular(10), color: raisedButtonColor),
             tabs: tabs
-                .map((tab) => CustomTab(60,
-                      child: Text(
-                        tab.title,
-                        textAlign: TextAlign.center,
+                .map((tab) => CustomTab(
+                      60,
+                      child: Container(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(tab.title,
+                              textAlign: TextAlign.center, softWrap: false, overflow: TextOverflow.fade),
+                        ),
                       ),
                     ))
                 .toList(),

@@ -9,6 +9,8 @@ import 'demo_response.dart';
 
 class DemoHttpClient extends BaseClient {
 
+  static BarcodeResponse barcodeResponse = BarcodeResponse('assets/mock/regular-business/barcode_getOrderAssignedBarcodes.json');
+
   final requestsMap = <String, DemoResponse>{
     '$servicesUrl/delivery/v2/shift/getShiftDetails/': DemoResponse('assets/mock/regular-business/shift_getShiftDetails.json'),
     '$servicesUrl/delivery/v2/courier/getCourierProfile/':DemoResponse('assets/mock/regular-business/courier_getCourierProfile.json'),
@@ -35,14 +37,16 @@ class DemoHttpClient extends BaseClient {
     '$servicesUrl/delivery/v2/tasks/getTask/?&route_id=484': DemoTaskResponse(),
 
     //task pickup from client
-    '$servicesUrl/delivery/v2/barcode/getOrderAssignedBarcodes/': DemoResponse('assets/mock/regular-business/barcode_getOrderAssignedBarcodes.json'),
     '$servicesUrl/delivery/v2/order/getOrderNotes/': DemoResponse('assets/mock/regular-business/getOrderNotes.json'),
+    '$servicesUrl/delivery/v2/barcode/assign/pickupBarcode/' : barcodeResponse,
+    '$servicesUrl/delivery/v2/barcode/getOrderAssignedBarcodes/?order_id=6TGALQ': barcodeResponse,
 
     //task pickup from client
     '$servicesUrl/delivery/v2/chat/token/?task_id=312': DemoResponse('assets/mock/regular-business/chat_token.json'),
 
     // task deliver to customer
     '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=289&lat=null&lng=null': DemoResponse('assets/mock/regular-business/location_arriveAtPlace.json'),
+
   };
 
   final BuildContext context;
@@ -55,7 +59,7 @@ class DemoHttpClient extends BaseClient {
     printLabel('url:$url', 'Client');
     final request = requestsMap[url];
     if (request != null) {
-      return Future.delayed(Duration(seconds: 1), () async => http.Response(await DefaultAssetBundle.of(context).loadString(request.assetPath(currentTask)), 200));
+      return Future.delayed(Duration(seconds: 1), () async => http.Response(await request.getStringResponse(context, url, 'get', currentTask), 200));
     } else {
      return super.get(url, headers: headers);
     }

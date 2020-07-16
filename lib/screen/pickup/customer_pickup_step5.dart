@@ -1,3 +1,4 @@
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:bynextcourier/bloc/barcode_details_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
@@ -111,8 +112,13 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
                                   children: <Widget>[
                                     FlatButton(
                                       child: Text("Yes"),
-                                      onPressed: (){
+                                      onPressed: () async {
                                         Navigator.of(context).pop();
+                                        final scanResult = await scanBarCode(context);
+
+                                        if(scanResult.type == ResultType.Barcode){
+                                          context.bloc<BarcodeDetailsBloc>().add(AddBarcode(scanResult.rawContent));
+                                        }
                                       },
                                     ),
                                     Divider(),

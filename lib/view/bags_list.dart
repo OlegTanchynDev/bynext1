@@ -69,11 +69,6 @@ class BagsList extends StatelessWidget{
 
                     if(scanResult.type == ResultType.Barcode){
                       context.bloc<BarcodeDetailsBloc>().add(AddBarcode(scanResult.rawContent));
-//                      showCustomDialog2(
-//                        context,
-//                        title: Text("Scan next barcode?"),
-//                        child: Text("Barcode: ${scanResult.rawContent} scanned. Scan next barcode?")
-//                      );
                     }
                   },
                 )

@@ -6,7 +6,6 @@ import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/model/barcode_details.dart';
 import 'package:bynextcourier/model/rest_error.dart';
-import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/repository/barcode_details_repository.dart';
 import 'package:equatable/equatable.dart';
 
@@ -50,6 +49,7 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
         barcodes: _barcodes,
         notes: _notes,
         error: null,
+        newBarcode: event.newBarcode,
       );
     }
 
@@ -60,7 +60,9 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
           taskBloc.state.task
         );
         if (success) {
-          add(GetBarcodeDetails());
+          add(GetBarcodeDetails(
+            newBarcode: event.barcode,
+          ));
         }
         else {
           yield BarcodeDetailsBlocState(
@@ -100,7 +102,11 @@ abstract class BarcodeDetailsBlocEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetBarcodeDetails extends BarcodeDetailsBlocEvent {}
+class GetBarcodeDetails extends BarcodeDetailsBlocEvent {
+  final String newBarcode;
+
+  GetBarcodeDetails({this.newBarcode});
+}
 
 class RemoveBarcode extends BarcodeDetailsBlocEvent {
 //  final String barcode;
@@ -122,8 +128,9 @@ class BarcodeDetailsBlocState extends Equatable {
   final List<BarcodeDetails> barcodes;
   final List<OrderNote> notes;
   final RestError error;
+  final String newBarcode;
 
-  BarcodeDetailsBlocState({this.notes, this.barcodes, this.error});
+  BarcodeDetailsBlocState({this.notes, this.barcodes, this.error, this.newBarcode});
 
   @override
   List<Object> get props => [...barcodes, ...notes, error];

@@ -95,7 +95,35 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
                                   onPressed: (){
                                     Navigator.of(context).pop();
                                   },
-                                )
+                                ),
+                              ]
+                            );
+                          }
+
+                          if(barcodeState.newBarcode != null){
+                            await showCustomDialog2(
+                              context,
+                              title: Text("Scan new barcode?"),
+                              child: Text("Barcode ${barcodeState.newBarcode} scanned. Scan new barcode?"),
+                              buttons: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                                    FlatButton(
+                                      child: Text("Yes"),
+                                      onPressed: (){
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    Divider(),
+                                    FlatButton(
+                                      child: Text("Close scanner"),
+                                      onPressed: (){
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                ),
                               ],
                             );
                           }

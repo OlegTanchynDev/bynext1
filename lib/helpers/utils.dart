@@ -387,17 +387,21 @@ List<String> getTaskCleaningOptions(Task task){
   return cleaningOptions;
 }
 
-Future<dynamic> scanBarCode(BuildContext context, String key) async{
+Future<ScanResult> scanBarCode(BuildContext context) async{
   if(context.bloc<HttpClientBloc>().state.client is DemoHttpClient) {
-    final demoBarcode = BarcodeDetails(
-      status: 5,
-      id : 260,
-      type : 0,
-      barcode : "PU0000"
-    );
-    return demoBarcode;
+//    final demoBarcode = BarcodeDetails(
+//      status: 5,
+//      id : 260,
+//      type : 0,
+//      barcode : "PU0000"
+//    );
+//    return demoBarcode;
 
-//    context.bloc<BarcodeDetailsBloc>().add(AddDemoBarcode(demoBarcode));
+    return ScanResult(
+      type: ResultType.Barcode,
+//      format: BarcodeFormat.
+      rawContent: "PU0000"
+    );
   }
   else {
     var result;

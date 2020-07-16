@@ -5,6 +5,7 @@ import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/model/barcode_details.dart';
+import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/repository/barcode_details_repository.dart';
 import 'package:equatable/equatable.dart';
 
@@ -60,14 +61,22 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
       );
     }
 
-    if(event is AddDemoBarcode) {
-      List<BarcodeDetails> newBarcodes = List.from(state.barcodes);
-      newBarcodes.add(event.barcode);
+    if(event is AddBarcode) {
+      final success = await repository.addNewBarcode(httpClientBloc.state.client, tokenBloc.state.token, event.barcode, taskBloc.state.task);
+      if(success) {
+        add(GetBarcodeDetails());
 
-      yield BarcodeDetailsBlocState(
-        barcodes: newBarcodes as List<BarcodeDetails>,
-        notes: state.notes,
-      );
+
+      }
+
+
+////      List<BarcodeDetails> newBarcodes = List.from(state.barcodes);
+//      newBarcodes.add(event.barcode);
+//
+//      yield BarcodeDetailsBlocState(
+//        barcodes: newBarcodes as List<BarcodeDetails>,
+//        notes: state.notes,
+//      );
     }
   }
 }
@@ -87,11 +96,11 @@ class RemoveBarcode extends BarcodeDetailsBlocEvent {
   RemoveBarcode(this.barcode);
 }
 
-class AddDemoBarcode extends BarcodeDetailsBlocEvent {
-//  final String barcode;
-  final BarcodeDetails barcode;
+class AddBarcode extends BarcodeDetailsBlocEvent {
+  final String barcode;
+//  final Task task;
 
-  AddDemoBarcode(this.barcode);
+  AddBarcode(this.barcode);
 }
 
 

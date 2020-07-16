@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bynextcourier/client/app_http_client.dart';
 import 'package:bynextcourier/model/barcode_details.dart';
 import 'package:bynextcourier/model/rest_error.dart';
+import 'package:bynextcourier/model/task.dart';
 import 'package:http/http.dart';
 
 import '../constants.dart';
@@ -27,6 +28,35 @@ class BarcodeDetailsRepository {
         details.add(BarcodeDetails.fromMap(element));
       });
       return Future.value(details);
+    } else {
+      throw RestError.fromMap(parsed);
+    }
+  }
+
+  Future<bool> addNewBarcode(Client http, String token, String barcode, Task task) async {
+//    print('$servicesUrl/delivery/v2/barcode/getOrderAssignedBarcodes/?order_id=$orderId');
+    final response = await http.post(
+      '$servicesUrl/delivery/v2/barcode/assign/pickupBarcode/',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': "Token $token",
+        'Accept-Encoding': "gzip",
+      },
+      body: {
+        "scanned_barcode": barcode,
+        "order_friendly_id": task.meta.orderId,
+        "task_id": task.id,
+      }
+    ).timeout(requestTimeout);
+
+//    List<BarcodeDetails> details = [];
+    final parsed = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+//      parsed.forEach((element) {
+//        details.add(BarcodeDetails.fromMap(element));
+//      });
+      return Future.value(true);
     } else {
       throw RestError.fromMap(parsed);
     }

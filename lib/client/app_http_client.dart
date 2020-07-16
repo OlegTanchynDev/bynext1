@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
@@ -56,12 +58,23 @@ class DemoHttpClient extends BaseClient {
 
   @override
   Future<Response> get(url, {Map<String, String> headers}) {
-    printLabel('url:$url', 'Client');
+    printLabel('get url:$url', 'Client');
     final request = requestsMap[url];
     if (request != null) {
       return Future.delayed(Duration(seconds: 1), () async => http.Response(await request.getStringResponse(context, url, 'get', currentTask), 200));
     } else {
      return super.get(url, headers: headers);
+    }
+  }
+
+
+  @override
+  Future<Response> post(url, {Map<String, String> headers, body, Encoding encoding}) {
+    printLabel('post url:$url', 'Client');
+    printLabel('body:$body', 'Client');
+    final request = requestsMap[url];
+    if (request != null) {
+      return Future.delayed(Duration(seconds: 1), () async => http.Response(await request.getStringResponse(context, url, 'post', currentTask, body), 200));
     }
   }
 

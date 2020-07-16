@@ -8,8 +8,7 @@ class DemoResponse {
 
   String assetPath(DemoTasks demoTask) => _assetPath;
 
-  Future<String> getStringResponse(BuildContext context, String url, String method, DemoTasks currentTask,
-      [Map<String, dynamic> body]) {
+  Future<String> getStringResponse(BuildContext context, String url, String method, DemoTasks currentTask, [body]) {
     return DefaultAssetBundle.of(context).loadString(assetPath(currentTask));
   }
 
@@ -57,7 +56,7 @@ class BarcodeResponse extends DemoResponse {
 
   @override
   Future<String> getStringResponse(BuildContext context, String url, String method, DemoTasks currentTask,
-      [Map<String, dynamic> body]) async {
+      [body]) async {
     if (barcodes == null) {
       final str = await DefaultAssetBundle.of(context).loadString(assetPath(currentTask));
       barcodes = json.decode(str);
@@ -70,9 +69,21 @@ class BarcodeResponse extends DemoResponse {
         if (barcodes.where((item) => item['barcode'] == barcode).length == 0) {
           barcodes.add(<String, dynamic>{"status": 5, "id": 260, "type": 0, "barcode": barcode});
         }
+
+        return '''{
+          "message" : "",
+          "data" : "",
+          "status_code" : "0"
+        }''';
       } else if (url.endsWith('delivery/v2/barcode/unassign/pickupBarcode/')) {
         final barcode = body['scanned_barcode'];
         barcodes.removeWhere((item) => item['barcode'] == barcode);
+
+        return '''{
+          "message" : "",
+          "data" : "",
+          "status_code" : "0"
+        }''';
       }
     }
 

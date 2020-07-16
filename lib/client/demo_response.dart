@@ -68,13 +68,24 @@ class BarcodeResponse extends DemoResponse {
       if (url.endsWith('delivery/v2/barcode/assign/pickupBarcode/')) {
         final barcode = body['scanned_barcode'];
         if (barcodes.where((item) => item['barcode'] == barcode).length == 0) {
-          barcodes.add(<String, dynamic>{"status": 5, "id": 260, "type": 0, "barcode": barcode});
+          barcodes.add(<String, dynamic>{
+            "status": 5,
+            "id": 260,
+            "type": 0,
+            "barcode": barcode
+          });
+
+          return '''{
+            "message" : "",
+            "data" : "",
+            "status_code" : "0"
+          }''';
         }
 
         return '''{
-          "message" : "",
+          "message" : "Pickup barcode is invalid",
           "data" : "",
-          "status_code" : "0"
+          "status_code" : "1"
         }''';
       } else if (url.endsWith('delivery/v2/barcode/unassign/pickupBarcode/')) {
         final barcode = body['scanned_barcode'];

@@ -51,7 +51,13 @@ class BarcodeDetailsRepository {
     final parsed = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      return Future.value(true);
+      final responseBody = json.decode(response.body) as Map;
+      if (responseBody['status_code'] == "0") {
+        return Future.value(true);
+      }
+      else {
+        return Future.value(false);
+      }
     } else {
       throw RestError.fromMap(parsed);
     }

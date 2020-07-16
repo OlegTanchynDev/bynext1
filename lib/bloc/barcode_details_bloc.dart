@@ -5,6 +5,7 @@ import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
 import 'package:bynextcourier/model/barcode_details.dart';
+import 'package:bynextcourier/model/rest_error.dart';
 import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/repository/barcode_details_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -48,15 +49,41 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
       yield BarcodeDetailsBlocState(
         barcodes: _barcodes,
         notes: _notes,
+        error: null,
       );
     }
 
     if(event is AddBarcode) {
-      final success = await repository.addNewBarcode(httpClientBloc.state.client, tokenBloc.state.token, event.barcode, taskBloc.state.task);
-      if(success) {
-        add(GetBarcodeDetails());
+//      try {
+        final success = await repository.addNewBarcode(
+          httpClientBloc.state.client, tokenBloc.state.token, event.barcode,
+          taskBloc.state.task
+        );
+        if (success) {
+          add(GetBarcodeDetails());
+        }
+        else {
+          yield BarcodeDetailsBlocState(
+            barcodes: state.barcodes,
+            notes: state.notes,
+            error: RestError(
+              errors: {
+                "error" : "Pickup barcode is invalid"
+              }
+            ),
+          );
+        }
       }
-    }
+//      catch (e) {
+////        if (e is RestError) {
+//          yield BarcodeDetailsBlocState(
+//            barcodes: state.barcodes,
+//            notes: state.notes,
+//            error: e,
+//          );
+////        }
+//      }
+//    }
 
     if(event is RemoveBarcode) {
       final success = await repository.removeBarcode(httpClientBloc.state.client, tokenBloc.state.token, event.barcode.barcode, taskBloc.state.task);
@@ -94,9 +121,10 @@ class AddBarcode extends BarcodeDetailsBlocEvent {
 class BarcodeDetailsBlocState extends Equatable {
   final List<BarcodeDetails> barcodes;
   final List<OrderNote> notes;
+  final RestError error;
 
-  BarcodeDetailsBlocState({this.notes, this.barcodes});
+  BarcodeDetailsBlocState({this.notes, this.barcodes, this.error});
 
   @override
-  List<Object> get props => [...barcodes, ...notes];
+  List<Object> get props => [...barcodes, ...notes, error];
 }

@@ -51,16 +51,6 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
       );
     }
 
-//    if (event is RemoveBarcode) {
-//      List<BarcodeDetails> newBarcodes = List.from(state.barcodes);
-//      newBarcodes.remove(event.barcode);
-//
-//      yield BarcodeDetailsBlocState(
-//        barcodes: newBarcodes as List<BarcodeDetails>,
-//        notes: state.notes,
-//      );
-//    }
-
     if(event is AddBarcode) {
       final success = await repository.addNewBarcode(httpClientBloc.state.client, tokenBloc.state.token, event.barcode, taskBloc.state.task);
       if(success) {

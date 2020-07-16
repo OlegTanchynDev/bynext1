@@ -387,8 +387,11 @@ List<String> getTaskCleaningOptions(Task task){
   return cleaningOptions;
 }
 
-Future<ScanResult> scanBarCode(BuildContext context) async{
-  if(context.bloc<HttpClientBloc>().state.client is DemoHttpClient) {
+Future<ScanResult> scanBarCode(BuildContext context) async {
+  if (context
+    .bloc<HttpClientBloc>()
+    .state
+    .client is DemoHttpClient) {
 //    final demoBarcode = BarcodeDetails(
 //      status: 5,
 //      id : 260,
@@ -415,7 +418,7 @@ Future<ScanResult> scanBarCode(BuildContext context) async{
       );
 
       if (e.code == BarcodeScanner.cameraAccessDenied) {
-          result.rawContent = 'The user did not grant the camera permission!';
+        result.rawContent = 'The user did not grant the camera permission!';
       } else {
         result.rawContent = 'Unknown error: $e';
       }

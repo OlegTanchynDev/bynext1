@@ -118,8 +118,28 @@ class BagsList extends StatelessWidget{
                     child: Text(
                       "Remove",
                     ),
-                    onTap: () {
-                      context.bloc<BarcodeDetailsBloc>().add(RemoveBarcode(e));
+                    onTap: () async {
+                      await showCustomDialog2(
+                        context,
+                        title: Text("Remove barcode"),
+                        child: Text("Are you sure you want to delete barcode ${e.barcode}?"),
+                        buttons: [
+                          FlatButton(
+                            child: Text("Cancel"),
+                            onPressed: (){
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          FlatButton(
+                            child: Text("Confirm"),
+                            onPressed: (){
+                              context.bloc<BarcodeDetailsBloc>().add(RemoveBarcode(e));
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+//                      context.bloc<BarcodeDetailsBloc>().add(RemoveBarcode(e));
                     },
                   )
                 ],

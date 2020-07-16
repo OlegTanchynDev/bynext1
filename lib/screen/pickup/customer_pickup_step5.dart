@@ -2,6 +2,7 @@ import 'package:bynextcourier/bloc/barcode_details_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/helpers/task_utils.dart';
+import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/barcode_details.dart';
 import 'package:bynextcourier/view/animated_button.dart';
 import 'package:bynextcourier/view/app_bar_title.dart';
@@ -79,7 +80,26 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
                     ),
 
                     Expanded(
-                      child: BlocBuilder<BarcodeDetailsBloc, BarcodeDetailsBlocState>(
+//                      child: BlocBuilder<BarcodeDetailsBloc, BarcodeDetailsBlocState>(
+                      child: BlocConsumer<BarcodeDetailsBloc, BarcodeDetailsBlocState>(
+                        listener: (context, barcodeState) async {
+                          if(barcodeState.error != null){
+                            await showCustomDialog2(
+                              context,
+                              title: Text("Invalid barcode"),
+//                              child: Text("There was an error processing your request, please try again"),
+                              child: Text("${barcodeState.error.errors['error']}"),
+                              buttons: [
+                                FlatButton(
+                                  child: Text("OK"),
+                                  onPressed: (){
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ],
+                            );
+                          }
+                        },
                         builder: (context, barcodeState) {
                           return Container(
                             padding: EdgeInsets.symmetric(horizontal: 20)

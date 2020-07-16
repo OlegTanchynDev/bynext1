@@ -1,10 +1,14 @@
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/constants.dart';
 import 'package:bynextcourier/generated/l10n.dart';
+import 'package:bynextcourier/helpers/task_router.dart';
 import 'package:bynextcourier/helpers/task_utils.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/task.dart';
+import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/screen/batched_orders/batched_order_tab.dart';
+import 'package:bynextcourier/screen/pickup/customer_pickup_step1.dart';
+import 'package:bynextcourier/screen/pickup/customer_pickup_step1_widget.dart';
 import 'package:bynextcourier/view/app_bar_title.dart';
 import 'package:bynextcourier/view/custom_tab.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +26,9 @@ class _BatchedOrdersScreenState extends State<BatchedOrdersScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      this.showPopup(context);
-    });
+//    WidgetsBinding.instance.addPostFrameCallback((_) async {
+//      this.showPopup(context);
+//    });
     Task task = (BlocProvider.of<TaskBloc>(context).state as ReadyTaskState).task;
 
     String tabTitle = _generateTabTitle(task);
@@ -88,14 +92,36 @@ class _BatchedOrdersScreenState extends State<BatchedOrdersScreen> {
                 .toList(),
           ),
         ),
-        body: SafeArea(
-          child: TabBarView(
-            children: tabs.map((tab) {
-              return Text(tab.title);
-            }).toList(),
-          ),
+        body: TabBarView(
+          children: tabs.map((tab) {
+            return buildLayout(tab);
+          }).toList(),
         ),
       ),
     );
+  }
+
+  Widget buildLayout(BatchedOrderTabItem tab) {
+    Task task = tab.task;
+    return Navigator(
+      onGenerateRoute: (RouteSettings settings)=> TaskRouter.generateRoute(settings, task),
+      initialRoute: this._generateInitialRoute(task),
+    );
+  }
+
+  _generateInitialRoute(Task task) {
+    String route;
+    switch (task.type) {
+      case CardType.COURIER_TASK_TYPE_PICKUP_FROM_CLIENT:
+      case CardType.COURIER_TASK_TYPE_DELIVER_TO_CLIENT:
+        route = taskPickupFromClientRoute;
+        break;
+      case CardType.COURIER_TASK_TYPE_GOTO_LOCATION:
+        route = taskGoToLocationRoute;
+        break;
+      default:
+        route = 'undefinedRoute';
+    }
+    return route;
   }
 }

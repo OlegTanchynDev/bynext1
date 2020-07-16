@@ -34,7 +34,6 @@ class BarcodeDetailsRepository {
   }
 
   Future<bool> addNewBarcode(Client http, String token, String barcode, Task task) async {
-//    print('$servicesUrl/delivery/v2/barcode/getOrderAssignedBarcodes/?order_id=$orderId');
     final response = await http.post(
       '$servicesUrl/delivery/v2/barcode/assign/pickupBarcode/',
       headers: {
@@ -49,13 +48,33 @@ class BarcodeDetailsRepository {
       }
     ).timeout(requestTimeout);
 
-//    List<BarcodeDetails> details = [];
     final parsed = json.decode(response.body);
 
     if (response.statusCode == 200) {
-//      parsed.forEach((element) {
-//        details.add(BarcodeDetails.fromMap(element));
-//      });
+      return Future.value(true);
+    } else {
+      throw RestError.fromMap(parsed);
+    }
+  }
+
+  Future<bool> removeBarcode(Client http, String token, String barcode, Task task) async {
+    final response = await http.post(
+      '$servicesUrl/delivery/v2/barcode/unassign/pickupBarcode/',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': "Token $token",
+        'Accept-Encoding': "gzip",
+      },
+      body: {
+        "scanned_barcode": barcode,
+//        "order_friendly_id": task.meta.orderId,
+        "task_id": task.id,
+      }
+    ).timeout(requestTimeout);
+
+    final parsed = json.decode(response.body);
+
+    if (response.statusCode == 200) {
       return Future.value(true);
     } else {
       throw RestError.fromMap(parsed);

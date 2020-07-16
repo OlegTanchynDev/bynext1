@@ -41,6 +41,7 @@ class DemoHttpClient extends BaseClient {
     //task pickup from client
     '$servicesUrl/delivery/v2/order/getOrderNotes/': DemoResponse('assets/mock/regular-business/getOrderNotes.json'),
     '$servicesUrl/delivery/v2/barcode/assign/pickupBarcode/' : barcodeResponse,
+    '$servicesUrl/delivery/v2/barcode/unassign/pickupBarcode/' : barcodeResponse,
     '$servicesUrl/delivery/v2/barcode/getOrderAssignedBarcodes/?order_id=6TGALQ': barcodeResponse,
 
     //task pickup from client

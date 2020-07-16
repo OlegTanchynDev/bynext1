@@ -68,7 +68,7 @@ class BagsList extends StatelessWidget{
                     final scanResult = await scanBarCode(context);
 
                     if(scanResult.type == ResultType.Barcode){
-
+                      context.bloc<BarcodeDetailsBloc>().add(AddBarcode(scanResult.rawContent));
                     }
                   },
                 )

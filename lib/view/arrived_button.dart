@@ -11,7 +11,7 @@ class ArrivedButton extends StatelessWidget {
     return BlocBuilder<LocationTrackerBloc, LocationTrackerBaseState>(
       builder: (BuildContext context, LocationTrackerBaseState state) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 14.0),
+          padding: const EdgeInsets.symmetric(vertical: 14.0),
           child: AnimatedButton(
               child: Text('Arrived at place >>'),
               condition: state.userArrivedAtDestinationLocation,

@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
+import 'package:bynextcourier/generated/intl/messages_all.dart';
 import 'package:bynextcourier/model/barcode_details.dart';
 import 'package:bynextcourier/model/rest_error.dart';
 import 'package:bynextcourier/repository/barcode_details_repository.dart';
@@ -93,6 +94,16 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
         add(GetBarcodeDetails());
       }
     }
+
+    if(event is AddNote) {
+      List<OrderNote> newNotes = List.from(state.notes);
+      newNotes.add(event.note);
+
+      yield BarcodeDetailsBlocState(
+        barcodes: state.barcodes,
+        notes: newNotes,
+      );
+    }
   }
 }
 
@@ -120,6 +131,12 @@ class AddBarcode extends BarcodeDetailsBlocEvent {
 //  final Task task;
 
   AddBarcode(this.barcode);
+}
+
+class AddNote extends BarcodeDetailsBlocEvent {
+  final OrderNote note;
+
+  AddNote(this.note);
 }
 
 

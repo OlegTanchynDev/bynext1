@@ -15,69 +15,69 @@ class BagsList extends StatelessWidget{
     return Container(
       child: Column(
         children: <Widget>[
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: RaisedButton(
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "SNAP PHOTO",
-                        style: TextStyle(
-                          fontSize: 15
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(),
-                      ),
-                      Image.asset("assets/images/checkbox-grey-checked.png")
-                    ],
-                  ),
-                  onPressed: () {},
-                )
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child: RaisedButton(
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "SCAN BARCODE",
-                        style: TextStyle(
-                          fontSize: 15
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(),
-                      ),
-                      Image.asset("assets/images/checkbox-grey-checked.png")
-                    ],
-                  ),
-                  onPressed: () async {
-                    final scanResult = await scanBarCode(context);
-
-                    if(scanResult.type == ResultType.Barcode){
-                      context.bloc<BarcodeDetailsBloc>().add(AddBarcode(scanResult.rawContent));
-                    }
-                  },
-                )
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
+//          SizedBox(
+//            height: 20,
+//          ),
+//          Row(
+//            children: <Widget>[
+//              Expanded(
+//                child: RaisedButton(
+//                  child: Row(
+//                    children: <Widget>[
+//                      SizedBox(
+//                        width: 10,
+//                      ),
+//                      Text(
+//                        "SNAP PHOTO",
+//                        style: TextStyle(
+//                          fontSize: 15
+//                        ),
+//                      ),
+//                      Expanded(
+//                        child: Container(),
+//                      ),
+//                      Image.asset("assets/images/checkbox-grey-checked.png")
+//                    ],
+//                  ),
+//                  onPressed: () {},
+//                )
+//              ),
+//              SizedBox(
+//                width: 5,
+//              ),
+//              Expanded(
+//                child: RaisedButton(
+//                  child: Row(
+//                    children: <Widget>[
+//                      SizedBox(
+//                        width: 10,
+//                      ),
+//                      Text(
+//                        "SCAN BARCODE",
+//                        style: TextStyle(
+//                          fontSize: 15
+//                        ),
+//                      ),
+//                      Expanded(
+//                        child: Container(),
+//                      ),
+//                      Image.asset("assets/images/checkbox-grey-checked.png")
+//                    ],
+//                  ),
+//                  onPressed: () async {
+//                    final scanResult = await scanBarCode(context);
+//
+//                    if(scanResult.type == ResultType.Barcode){
+//                      context.bloc<BarcodeDetailsBloc>().add(AddBarcode(scanResult.rawContent));
+//                    }
+//                  },
+//                )
+//              ),
+//            ],
+//          ),
+//          SizedBox(
+//            height: 10,
+//          ),
           Row(
             children: <Widget>[
               Text("Bags "),

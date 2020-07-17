@@ -8,6 +8,7 @@ import 'package:bynextcourier/model/barcode_details.dart';
 import 'package:bynextcourier/view/animated_button.dart';
 import 'package:bynextcourier/view/app_bar_title.dart';
 import 'package:bynextcourier/view/bags_list.dart';
+import 'package:bynextcourier/view/notes_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -140,40 +141,106 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
                               .copyWith(bottom: 14),
                             child: Column(
                               children: <Widget>[
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: RaisedButton(
+                                        child: Row(
+                                          children: <Widget>[
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              "SNAP PHOTO",
+                                              style: TextStyle(
+                                                fontSize: 15
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(),
+                                            ),
+                                            Image.asset("assets/images/checkbox-grey-checked.png")
+                                          ],
+                                        ),
+                                        onPressed: getImage,
+                                      )
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                      child: RaisedButton(
+                                        child: Row(
+                                          children: <Widget>[
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              "SCAN BARCODE",
+                                              style: TextStyle(
+                                                fontSize: 15
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(),
+                                            ),
+                                            Image.asset("assets/images/checkbox-grey-checked.png")
+                                          ],
+                                        ),
+                                        onPressed: () async {
+                                          final scanResult = await scanBarCode(context);
+
+                                          if(scanResult.type == ResultType.Barcode){
+                                            context.bloc<BarcodeDetailsBloc>().add(AddBarcode(scanResult.rawContent));
+                                          }
+                                        },
+                                      )
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 BagsList(
                                   barcodes: barcodeState.barcodes,
                                 ),
+                                NotesList(
+                                  notes: barcodeState.notes,
+                                )
                               ] +
-                                (barcodeState.notes as List<OrderNote>).map((
-                                  e) =>
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Theme
-                                          .of(context)
-                                          .dividerTheme
-                                          .color
-                                      )
-                                    ),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Container(
-                                          width: 40,
-                                          height: 40,
-                                          padding: EdgeInsets.all(1),
-                                          child: Image.network(
-                                            e.image,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(e.text),
-                                      ],
-                                    ),
-                                  )).toList()
-                                + [
+//                                (barcodeState.notes as List<OrderNote>).map((
+//                                  e) =>
+//                                  Container(
+//                                    decoration: BoxDecoration(
+//                                      border: Border.all(
+//                                        color: Theme
+//                                          .of(context)
+//                                          .dividerTheme
+//                                          .color
+//                                      )
+//                                    ),
+//                                    child: Row(
+//                                      children: <Widget>[
+//                                        Container(
+//                                          width: 40,
+//                                          height: 40,
+//                                          padding: EdgeInsets.all(1),
+//                                          child: Image.network(
+//                                            e.image,
+//                                            fit: BoxFit.cover,
+//                                          ),
+//                                        ),
+//                                        SizedBox(
+//                                          width: 10,
+//                                        ),
+//                                        Text(e.text),
+//                                      ],
+//                                    ),
+//                                  )).toList() +
+                                [
                                   Expanded(
                                     child: Container(
                                       height: 1,
@@ -214,6 +281,47 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
           );
         }
       },
+    );
+  }
+
+  Future getImage() async {
+    final pickedFile = await getPhoto();
+    printLabel('getImage pickedFile.path: ${pickedFile?.path}', 'TaskGoToLocationStep2Screen');
+//    setState(() {
+//      _image = pickedFile?.path != null ? File(pickedFile?.path) : null;
+//    });
+
+    String text;
+    await showCustomDialog2(
+      context,
+      title: Text("Add Notes"),
+      child: Column(
+        children: <Widget>[
+          Text("Please let us know what's this photo about. This field can't be empty."),
+          TextField(
+            onChanged: (val) => text = val,
+          )
+        ],
+      ),
+      buttons: [
+        FlatButton(
+          child: Text("Cancel"),
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+        ),
+        FlatButton(
+          child: Text("Upload"),
+          onPressed: (){
+            context.bloc<BarcodeDetailsBloc>().add(AddNote(OrderNote(
+              text: text,
+              image: pickedFile?.path,
+              addedOn: DateTime.now(),
+            )));
+            Navigator.of(context).pop();
+          },
+        )
+      ],
     );
   }
 }

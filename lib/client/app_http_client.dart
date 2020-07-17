@@ -12,6 +12,7 @@ import 'demo_response.dart';
 class DemoHttpClient extends BaseClient {
 
   static BarcodeResponse barcodeResponse = BarcodeResponse('assets/mock/regular-business/barcode_getOrderAssignedBarcodes.json');
+  static DemoTaskResponse taskResponse = DemoTaskResponse();
 
   final requestsMap = <String, DemoResponse>{
     '$servicesUrl/delivery/v2/shift/getShiftDetails/': DemoResponse('assets/mock/regular-business/shift_getShiftDetails.json'),
@@ -28,8 +29,9 @@ class DemoHttpClient extends BaseClient {
     '$servicesUrl/delivery/v2/shift/getUpcomingShifts/': DemoResponse('assets/mock/regular-business/shift_getUpcomingShifts.json'),
 
     //Tasks
-    '$servicesUrl/delivery/v2/tasks/getTask/': DemoTaskResponse(),
-    '$servicesUrl/delivery/v2/tasks/getTask/?&shift_id=484': DemoTaskResponse(),
+    '$servicesUrl/delivery/v2/tasks/getTask/': taskResponse,
+    '$servicesUrl/delivery/v2/tasks/getTask/?shift_id=484': taskResponse,
+    '$servicesUrl/delivery/v2/tasks/getTask/?route_id=484': taskResponse,
 
     //task go to location
     '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=312&lat=40.688124&lng=-73.99238': DemoResponse('assets/mock/regular-business/location_arriveAtPlace.json'),
@@ -37,7 +39,6 @@ class DemoHttpClient extends BaseClient {
     '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=312&lat=null&lng=null': DemoResponse('assets/mock/regular-business/location_arriveAtPlace.json'),
     '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=294&lat=null&lng=null': DemoResponse('assets/mock/regular-business/location_arriveAtPlace.json'),
     '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=298&lat=null&lng=null': DemoResponse('assets/mock/regular-business/location_arriveAtPlace.json'),
-    '$servicesUrl/delivery/v2/tasks/getTask/?&route_id=484': DemoTaskResponse(),
 
     //task pickup from client
     '$servicesUrl/delivery/v2/order/getOrderNotes/': DemoResponse('assets/mock/regular-business/getOrderNotes.json'),
@@ -54,7 +55,8 @@ class DemoHttpClient extends BaseClient {
   };
 
   final BuildContext context;
-  DemoTasks currentTask = DemoTasks.pickupFromClient;
+  set currentTask(value) => taskResponse.demoTask = value;
+  DemoTasks get currentTask => taskResponse.demoTask;
 
   DemoHttpClient(this.context);
 
@@ -63,7 +65,7 @@ class DemoHttpClient extends BaseClient {
     printLabel('get url:$url', 'Client');
     final request = requestsMap[url];
     if (request != null) {
-      return Future.delayed(Duration(seconds: 1), () async => http.Response(await request.getStringResponse(context, url, 'get', currentTask), 200));
+      return Future.delayed(Duration(seconds: 1), () async => http.Response(await request.getStringResponse(context, url, 'get'), 200));
     } else {
      return super.get(url, headers: headers);
     }
@@ -76,7 +78,7 @@ class DemoHttpClient extends BaseClient {
     printLabel('body:$body', 'Client');
     final request = requestsMap[url];
     if (request != null) {
-      return Future.delayed(Duration(seconds: 1), () async => http.Response(await request.getStringResponse(context, url, 'post', currentTask, body), 200));
+      return Future.delayed(Duration(seconds: 1), () async => http.Response(await request.getStringResponse(context, url, 'post', body), 200));
     }
   }
 

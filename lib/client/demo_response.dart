@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 class DemoResponse {
   final String _assetPath;
 
-  String assetPath(DemoTasks demoTask) => _assetPath;
+  String assetPath() => _assetPath;
 
-  Future<String> getStringResponse(BuildContext context, String url, String method, DemoTasks currentTask, [body]) {
-    return DefaultAssetBundle.of(context).loadString(assetPath(currentTask));
+  Future<String> getStringResponse(BuildContext context, String url, String method, [body]) {
+    return DefaultAssetBundle.of(context).loadString(assetPath());
   }
 
   DemoResponse(this._assetPath);
@@ -18,8 +18,10 @@ class DemoResponse {
 class DemoTaskResponse extends DemoResponse {
   DemoTaskResponse() : super(null);
 
+  DemoTasks demoTask = DemoTasks.pickupFromClient;
+
   @override
-  String assetPath(DemoTasks demoTask) {
+  String assetPath() {
     String jsonName = "";
     switch (demoTask) {
       case DemoTasks.pickupFromClient:
@@ -55,10 +57,9 @@ class BarcodeResponse extends DemoResponse {
   BarcodeResponse(String assetPath) : super(assetPath);
 
   @override
-  Future<String> getStringResponse(BuildContext context, String url, String method, DemoTasks currentTask,
-      [body]) async {
+  Future<String> getStringResponse(BuildContext context, String url, String method, [body]) async {
     if (barcodes == null) {
-      final str = await DefaultAssetBundle.of(context).loadString(assetPath(currentTask));
+      final str = await DefaultAssetBundle.of(context).loadString(assetPath());
       barcodes = json.decode(str);
     }
 

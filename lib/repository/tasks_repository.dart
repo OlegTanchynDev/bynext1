@@ -12,7 +12,7 @@ import '../constants.dart';
 class TasksRepository {
   Future<Task> fetchNextTask(Client http, String token, int shiftId, bool business) async {
     final response = await http.get(
-      '$servicesUrl/delivery/v2/tasks/getTask/?&${business ? 'route_id' : 'shift_id'}=$shiftId',
+      '$servicesUrl/delivery/v2/tasks/getTask/?${business ? 'route_id' : 'shift_id'}=$shiftId',
       headers: {
         'content-type': 'application/json',
         'Authorization': "Token $token",

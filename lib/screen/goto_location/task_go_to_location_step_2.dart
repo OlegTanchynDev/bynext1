@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
+import 'package:bynextcourier/router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_is_emulator/flutter_is_emulator.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
@@ -86,23 +87,33 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
     return GestureDetector(
       onTap: task.meta.buildingImgUrl != null
           ? () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return Scaffold(
-                      appBar: AppBar(
-                        title: AppBarLogo(),
-                        centerTitle: true,
-                      ),
-                      body: Center(
-                          child: Container(
-                              width: screenWidth,
-                              height: screenWidth,
-                              color: Colors.grey[300],
-                              child: buildImage(buildingImgUrl))),
-                    );
-                  },
-                ),
+              Navigator.of(context).pushNamed(
+//                MaterialPageRoute(
+//                  builder: (BuildContext context) {
+//                    return Scaffold(
+//                      appBar: AppBar(
+//                        title: AppBarLogo(),
+//                        centerTitle: true,
+//                      ),
+//                      body: Center(
+//                          child: Container(
+//                              width: screenWidth,
+//                              height: screenWidth,
+//                              color: Colors.grey[300],
+//                              child: buildImage(buildingImgUrl))),
+//                    );
+//                  },
+//                ),
+
+                imageRoute, arguments: _image != null
+                ? FileImage(
+                _image,
+//                fit: BoxFit.cover,
+              )
+                : NetworkImage(
+                buildingImgUrl,
+//                fit: BoxFit.cover,
+              )
               );
             }
           : null,

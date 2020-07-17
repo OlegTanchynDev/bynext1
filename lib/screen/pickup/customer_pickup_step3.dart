@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/constants.dart';
@@ -21,6 +23,7 @@ class CustomerPickupStep3 extends StatefulWidget {
 
 class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
   Task _task;
+  File _image;
 
   @override
   void initState() {
@@ -50,15 +53,19 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
                         height: 400,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: NetworkImage(
-                              "$mediaUrl${_task.meta
-                                .buildingImgUrl}"),
+                            image: _image != null
+                              ? FileImage(
+                              _image,
+                            )
+                              : NetworkImage(
+                              "$mediaUrl${_task.meta.buildingImgUrl}",
+                            ),
                             fit: BoxFit.cover
                           )
                         ),
                       ),
                       onPressed: () {
-                        Navigator.of(context).pushNamed(imageRoute, arguments: CachedNetworkImageProvider("$mediaUrl${_task.meta.buildingImgUrl}"));
+                        Navigator.of(context).pushNamed(imageRoute, arguments: _image == null ? CachedNetworkImageProvider("$mediaUrl${_task.meta.buildingImgUrl}") : _image);
                       },
                     ),
                     Container(
@@ -98,7 +105,7 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
                               child: Image.asset(
                                 "assets/images/camera-btn.png",
                               ),
-                              onPressed: () {},
+                              onPressed: getImage,
                             ),
                           ),
                         ],
@@ -113,26 +120,6 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
                       bottom: 14),
                     child: Column(
                       children: <Widget>[
-
-//                    Offstage(
-//                      offstage: !jobState.task.meta.isBusinessAccount,
-//                      child: Row(
-//                        mainAxisAlignment: MainAxisAlignment.center,
-//                        children: <Widget>[
-//                          Text('Business Account'),
-//                          SizedBox(
-//                            width: 5,
-//                          ),
-//                          IconButton(
-//                            icon: Image.asset(
-//                              'assets/images/business.png',
-//                              color: Color(0xFF403D9C),
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                    ),
-
                         Container(
                           padding: EdgeInsets.symmetric(
                             vertical: 20,
@@ -333,5 +320,13 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
       );
       },
     );
+  }
+
+  Future getImage() async {
+    final pickedFile = await getPhoto();
+    printLabel('getImage pickedFile.path: ${pickedFile?.path}', 'TaskGoToLocationStep2Screen');
+    setState(() {
+      _image = pickedFile?.path != null ? File(pickedFile?.path) : null;
+    });
   }
 }

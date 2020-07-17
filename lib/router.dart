@@ -335,7 +335,8 @@ class Router {
               break;
             case imageRoute:
               page = ImageScreen(
-                url: settings.arguments,
+//                url: settings.arguments,
+                imageProvider: settings.arguments,
               );
               break;
             case driverChatRoute:

@@ -22,7 +22,7 @@ class TaskGoToLocationStep2Screen extends StatefulWidget {
 class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
   Timer _timer;
   File _image;
-  final picker = ImagePicker();
+//  final picker = ImagePicker();
 
   @override
   void dispose() {
@@ -278,8 +278,9 @@ class _TaskGoToLocationScreenState extends State<TaskGoToLocationStep2Screen> {
 //  }
 
   Future getImage() async {
-    bool isIosEmulator = await isIosSimulator();
-    final pickedFile = await picker.getImage(source: isIosEmulator ? ImageSource.gallery : ImageSource.camera);
+//    bool isIosEmulator = await isIosSimulator();
+//    final pickedFile = await picker.getImage(source: isIosEmulator ? ImageSource.gallery : ImageSource.camera);
+    final pickedFile = await getPhoto();
     printLabel('getImage pickedFile.path: ${pickedFile?.path}', 'TaskGoToLocationStep2Screen');
     setState(() {
       _image = pickedFile?.path != null ? File(pickedFile?.path) : null;

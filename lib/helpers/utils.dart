@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_is_emulator/flutter_is_emulator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -426,4 +427,11 @@ Future<ScanResult> scanBarCode(BuildContext context) async {
 
     return result;
   }
+}
+
+Future getPhoto() async {
+  final picker = ImagePicker();
+  bool isIosEmulator = await isIosSimulator();
+  final pickedFile = await picker.getImage(source: isIosEmulator ? ImageSource.gallery : ImageSource.camera);
+  return pickedFile;
 }

@@ -3,6 +3,7 @@ import 'package:bynextcourier/helpers/task_utils.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/view/app_bar_title.dart';
 import 'package:bynextcourier/view/arrived_button.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -106,10 +107,8 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                               child: IconButton(icon: Image.asset("assets/images/bldg-image-yes.png"))),
                         ],
                       ),
-                      onPressed: jobState.task.meta?.buildingImgUrl != null
-                          ? () => Navigator.of(context)
-                              .pushNamed(imageRoute, arguments: "$mediaUrl${jobState.task.meta.buildingImgUrl}")
-                          : null,
+                      onPressed: jobState.task.meta?.buildingImgUrl != null ? () => Navigator.of(context)
+                          .pushNamed(imageRoute, arguments: CachedNetworkImageProvider("$mediaUrl${jobState.task.meta.buildingImgUrl}")) : null,
                     ),
                     SizedBox(
                       height: 40,

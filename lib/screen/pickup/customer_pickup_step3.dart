@@ -6,6 +6,7 @@ import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/animated_button.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -57,7 +58,7 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.of(context).pushNamed(imageRoute, arguments: "$mediaUrl${_task.meta.buildingImgUrl}");
+                        Navigator.of(context).pushNamed(imageRoute, arguments: CachedNetworkImageProvider("$mediaUrl${_task.meta.buildingImgUrl}"));
                       },
                     ),
                     Container(

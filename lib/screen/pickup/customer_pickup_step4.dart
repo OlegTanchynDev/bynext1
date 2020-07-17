@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/router.dart';
 import 'package:bynextcourier/view/animated_button.dart';
 import 'package:bynextcourier/view/app_bar_title.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +20,7 @@ class CustomerPickupStep4 extends StatefulWidget {
 
 class _CustomerPickupStep4State extends State<CustomerPickupStep4> {
   Timer _timer;
+  File _image;
 
   @override
   void dispose() {
@@ -60,15 +63,22 @@ class _CustomerPickupStep4State extends State<CustomerPickupStep4> {
                             height: 200,
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: NetworkImage(
-                                  "$mediaUrl${jobState.task.meta
-                                    .buildingImgUrl}"),
+                                image: _image != null
+                                  ? FileImage(
+                                  _image,
+                                )
+                                  : NetworkImage(
+                                  "$mediaUrl${jobState.task.meta.buildingImgUrl}",
+                                ),
+//                                NetworkImage(
+//                                  "$mediaUrl${jobState.task.meta
+//                                    .buildingImgUrl}"),
                                 fit: BoxFit.cover
                               )
                             ),
                           ),
                           onPressed: () {
-                            Navigator.of(context).pushNamed(imageRoute, arguments: "$mediaUrl${jobState.task.meta.buildingImgUrl}");
+                            Navigator.of(context).pushNamed(imageRoute, arguments: _image == null ? CachedNetworkImageProvider("$mediaUrl${jobState.task.meta.buildingImgUrl}") : FileImage(_image));
                           },
                         ),
                         Container(
@@ -114,7 +124,7 @@ class _CustomerPickupStep4State extends State<CustomerPickupStep4> {
                                       padding: EdgeInsets.zero,
                                       child: Image.asset("assets/images/camera-btn.png",
                                       ),
-                                      onPressed: () {},
+                                      onPressed: getImage,
                                     ),
                                   ),
                                   SizedBox(
@@ -149,25 +159,6 @@ class _CustomerPickupStep4State extends State<CustomerPickupStep4> {
                           bottom: 14),
                         child: Column(
                           children: <Widget>[
-
-//                    Offstage(
-//                      offstage: !jobState.task.meta.isBusinessAccount,
-//                      child: Row(
-//                        mainAxisAlignment: MainAxisAlignment.center,
-//                        children: <Widget>[
-//                          Text('Business Account'),
-//                          SizedBox(
-//                            width: 5,
-//                          ),
-//                          IconButton(
-//                            icon: Image.asset(
-//                              'assets/images/business.png',
-//                              color: Color(0xFF403D9C),
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                    ),
                             SizedBox(
                               height: 20,
                             ),
@@ -300,5 +291,13 @@ class _CustomerPickupStep4State extends State<CustomerPickupStep4> {
         }
       },
     );
+  }
+
+  Future getImage() async {
+    final pickedFile = await getPhoto();
+    printLabel('getImage pickedFile.path: ${pickedFile?.path}', 'TaskGoToLocationStep2Screen');
+    setState(() {
+      _image = pickedFile?.path != null ? File(pickedFile?.path) : null;
+    });
   }
 }

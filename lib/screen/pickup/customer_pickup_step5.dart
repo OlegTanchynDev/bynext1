@@ -65,14 +65,14 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
                               children: <Widget>[
                                 Text(
                                   jobState.task.location.street + ", " +
-                                  jobState.task.location.streetLine2
+                                    jobState.task.location.streetLine2
                                 ),
                                 SizedBox(
                                   height: 5,
                                 ),
                                 Container(
-//                                color: Colors.green,
-                                  child: Text.rich(customerName(jobState?.task)),
+                                  child: Text.rich(
+                                    customerName(jobState?.task)),
                                 ),
                               ],
                             ),
@@ -82,19 +82,20 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
                     ),
 
                     Expanded(
-//                      child: BlocBuilder<BarcodeDetailsBloc, BarcodeDetailsBlocState>(
-                      child: BlocConsumer<BarcodeDetailsBloc, BarcodeDetailsBlocState>(
+                      child: BlocConsumer<
+                        BarcodeDetailsBloc,
+                        BarcodeDetailsBlocState>(
                         listener: (context, barcodeState) async {
-                          if(barcodeState.error != null){
+                          if (barcodeState.error != null) {
                             await showCustomDialog2(
                               context,
                               title: Text("Invalid barcode"),
-//                              child: Text("There was an error processing your request, please try again"),
-                              child: Text("${barcodeState.error.errors['error']}"),
+                              child: Text(
+                                "${barcodeState.error.errors['error']}"),
                               buttons: [
                                 FlatButton(
                                   child: Text("OK"),
-                                  onPressed: (){
+                                  onPressed: () {
                                     Navigator.of(context).pop();
                                   },
                                 ),
@@ -102,30 +103,36 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
                             );
                           }
 
-                          if(barcodeState.newBarcode != null){
+                          if (barcodeState.newBarcode != null) {
                             await showCustomDialog2(
                               context,
                               title: Text("Scan new barcode?"),
-                              child: Text("Barcode ${barcodeState.newBarcode} scanned. Scan new barcode?"),
+                              child: Text("Barcode ${barcodeState
+                                .newBarcode} scanned. Scan new barcode?"),
                               buttons: [
                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  crossAxisAlignment: CrossAxisAlignment
+                                    .stretch,
                                   children: <Widget>[
                                     FlatButton(
                                       child: Text("Yes"),
                                       onPressed: () async {
                                         Navigator.of(context).pop();
-                                        final scanResult = await scanBarCode(context);
+                                        final scanResult = await scanBarCode(
+                                          context);
 
-                                        if(scanResult.type == ResultType.Barcode){
-                                          context.bloc<BarcodeDetailsBloc>().add(AddBarcode(scanResult.rawContent));
+                                        if (scanResult.type ==
+                                          ResultType.Barcode) {
+                                          context.bloc<BarcodeDetailsBloc>()
+                                            .add(
+                                            AddBarcode(scanResult.rawContent));
                                         }
                                       },
                                     ),
                                     Divider(),
                                     FlatButton(
                                       child: Text("Close scanner"),
-                                      onPressed: (){
+                                      onPressed: () {
                                         Navigator.of(context).pop();
                                       },
                                     )
@@ -162,7 +169,8 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
                                             Expanded(
                                               child: Container(),
                                             ),
-                                            Image.asset("assets/images/checkbox-grey-checked.png")
+                                            Image.asset(
+                                              "assets/images/checkbox-grey-checked.png")
                                           ],
                                         ),
                                         onPressed: getImage,
@@ -187,14 +195,19 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
                                             Expanded(
                                               child: Container(),
                                             ),
-                                            Image.asset("assets/images/checkbox-grey-checked.png")
+                                            Image.asset(
+                                              "assets/images/checkbox-grey-checked.png")
                                           ],
                                         ),
                                         onPressed: () async {
-                                          final scanResult = await scanBarCode(context);
+                                          final scanResult = await scanBarCode(
+                                            context);
 
-                                          if(scanResult.type == ResultType.Barcode){
-                                            context.bloc<BarcodeDetailsBloc>().add(AddBarcode(scanResult.rawContent));
+                                          if (scanResult.type ==
+                                            ResultType.Barcode) {
+                                            context.bloc<BarcodeDetailsBloc>()
+                                              .add(AddBarcode(
+                                              scanResult.rawContent));
                                           }
                                         },
                                       )
@@ -209,62 +222,30 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
                                 ),
                                 NotesList(
                                   notes: barcodeState.notes,
-                                )
-                              ] +
-//                                (barcodeState.notes as List<OrderNote>).map((
-//                                  e) =>
-//                                  Container(
-//                                    decoration: BoxDecoration(
-//                                      border: Border.all(
-//                                        color: Theme
-//                                          .of(context)
-//                                          .dividerTheme
-//                                          .color
-//                                      )
-//                                    ),
-//                                    child: Row(
-//                                      children: <Widget>[
-//                                        Container(
-//                                          width: 40,
-//                                          height: 40,
-//                                          padding: EdgeInsets.all(1),
-//                                          child: Image.network(
-//                                            e.image,
-//                                            fit: BoxFit.cover,
-//                                          ),
-//                                        ),
-//                                        SizedBox(
-//                                          width: 10,
-//                                        ),
-//                                        Text(e.text),
-//                                      ],
-//                                    ),
-//                                  )).toList() +
-                                [
-                                  Expanded(
-                                    child: Container(
-                                      height: 1,
-                                    ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: 1,
                                   ),
-                                  BlocBuilder<
-                                    LocationTrackerBloc,
-                                    LocationTrackerBaseState>(
-                                    builder: (context, locationState) {
-                                      return AnimatedButton(
-                                        child: Text(
-                                          "Picked Up From Customer >>"),
-                                        onHorizontalDragUpdate: (details) {
-                                          if (details.primaryDelta > 40) {
-                                            print("Drag right");
-                                          }
-                                        },
-                                        condition: locationState
-                                          .userArrivedAtDestinationLocation,
-                                      );
-                                    }
-                                  )
-
-                                ],
+                                ),
+                                BlocBuilder<
+                                  LocationTrackerBloc,
+                                  LocationTrackerBaseState>(
+                                  builder: (context, locationState) {
+                                    return AnimatedButton(
+                                      child: Text(
+                                        "Picked Up From Customer >>"),
+                                      onHorizontalDragUpdate: (details) {
+                                        if (details.primaryDelta > 40) {
+                                          print("Drag right");
+                                        }
+                                      },
+                                      condition: locationState
+                                        .userArrivedAtDestinationLocation,
+                                    );
+                                  }
+                                )
+                              ],
                             ),
                           );
                         }
@@ -286,10 +267,8 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
 
   Future getImage() async {
     final pickedFile = await getPhoto();
-    printLabel('getImage pickedFile.path: ${pickedFile?.path}', 'TaskGoToLocationStep2Screen');
-//    setState(() {
-//      _image = pickedFile?.path != null ? File(pickedFile?.path) : null;
-//    });
+    printLabel('getImage pickedFile.path: ${pickedFile?.path}',
+      'TaskGoToLocationStep2Screen');
 
     String text = "";
     await showCustomDialog2(
@@ -297,7 +276,8 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
       title: Text("Add Notes"),
       child: Column(
         children: <Widget>[
-          Text("Please let us know what's this photo about. This field can't be empty."),
+          Text(
+            "Please let us know what's this photo about. This field can't be empty."),
           TextField(
             onChanged: (val) => text = val,
           )
@@ -306,13 +286,13 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
       buttons: [
         FlatButton(
           child: Text("Cancel"),
-          onPressed: (){
+          onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         FlatButton(
           child: Text("Upload"),
-          onPressed: (){
+          onPressed: () {
             if (text.length > 0) {
               context.bloc<BarcodeDetailsBloc>().add(AddNote(OrderNote(
                 text: text,

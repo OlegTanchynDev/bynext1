@@ -131,19 +131,8 @@ class NoteResponse extends DemoResponse {
             "status_code" : "0"
           }''';
       }
-//      else if (url.endsWith('delivery/v2/barcode/unassign/pickupBarcode/')) {
-//        final barcode = body['scanned_barcode'];
-//        barcodes.removeWhere((item) => item['barcode'] == barcode);
-//
-//        return '''{
-//          "message" : "",
-//          "data" : "",
-//          "status_code" : "0"
-//        }''';
-//      }
     }
 
-    final result = json.encode(notes);
-    return result.toString();
+    return json.encode(notes);
   }
 }

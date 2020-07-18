@@ -36,17 +36,23 @@ class _CustomerPickupStep4State extends State<CustomerPickupStep4> {
           return Scaffold(
             appBar: AppBar(
               title: AppBarTitle(task: jobState.task),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text(
-                    "No Show",
-                    style: TextStyle(
-                      color: Colors.red,
+              actions: jobState.task.noShowEnabled ? <Widget>[
+                GestureDetector(
+                  child: Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(
+                      right: 10
+                    ),
+                    child: Text(
+                      "No Show",
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
                     ),
                   ),
-                  onPressed: () {},
+                  onTap: () {},
                 )
-              ],
+              ] : [],
               bottom: bottomPlaceholder(jobState.rootTask != null),
             ),
             body: SafeArea(

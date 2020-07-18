@@ -17,7 +17,11 @@ class TaskUnchangedEvent extends TaskEvent {}
 // called to allow RefreshTaskEvent again
 class TaskChangedEvent extends TaskEvent {}
 
-class CompleteTaskEvent extends TaskEvent {}
+class CompleteTaskEvent extends TaskEvent {
+  final int taskId;
+
+  CompleteTaskEvent({this.taskId});
+}
 
 class ClearTaskEvent extends TaskEvent {}
 

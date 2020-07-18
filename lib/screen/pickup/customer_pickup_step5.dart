@@ -21,7 +21,23 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TaskBloc, TaskState>(
+//    return BlocBuilder<TaskBloc, TaskState>(
+    return BlocConsumer<TaskBloc, TaskState>(
+      listener: (context, jobState) async {
+        if (jobState is CompleteTaskState){
+          await showCustomDialog2(
+            context,
+            title: Text("${jobState.reward}"),
+            child: Text(""),
+          ).timeout(
+            Duration(seconds: 5),
+            onTimeout: (){
+              Navigator.of(context).pop();
+//              Navigator.of(context).popUntil((route) => route.);
+            }
+          );
+        }
+      },
       builder: (context, jobState) {
         if (jobState is ReadyTaskState) {
           return Scaffold(
@@ -238,6 +254,9 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
                                       onHorizontalDragUpdate: (details) {
                                         if (details.primaryDelta > 40) {
                                           print("Drag right");
+                                          context.bloc<TaskBloc>().add(CompleteTaskEvent(
+//                                            taskId:
+                                          ));
                                         }
                                       },
                                       condition: locationState
@@ -256,7 +275,8 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
               ),
             ),
           );
-        } else {
+        }
+        else {
           return Center(
             child: Text("No task selected"),
           );

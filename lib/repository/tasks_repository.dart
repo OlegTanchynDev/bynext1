@@ -1,10 +1,8 @@
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/rest_error.dart';
 import 'package:bynextcourier/model/task.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
 import '../constants.dart';
@@ -49,4 +47,27 @@ class TasksRepository {
       throw RestError.fromMap(parsed);
     }
   }
+
+  Future<num> getTaskReward(Client http, String token, num taskId) async {
+    print('$servicesUrl/delivery/v2/tasks/completeTask/?task_id=$taskId');
+
+    final response = await http.get(
+      '$servicesUrl/delivery/v2/tasks/completeTask/?task_id=$taskId',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': "Token $token",
+        'Accept-Encoding': 'gzip',
+      },
+    ).timeout(requestTimeout);
+
+    final parsed = json.decode(response.body);
+    printLabel('performCompleteWithTaskID:$parsed', 'TasksRepository');
+
+    if (response.statusCode == 200) {
+      return (parsed['data'])['pay_for_run'] ?? -1;
+    } else {
+      throw RestError.fromMap(parsed);
+    }
+  }
+
 }

@@ -62,6 +62,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       case ClearTaskEvent:
         yield* _mapClearToState();
         break;
+      case CompleteTaskEvent:
+        yield* _mapCompleteToState();
+        break;
       case SetTaskEvent:
         yield* _mapSetTaskToState(event);
         break;
@@ -112,6 +115,16 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   Stream<TaskState> _mapClearToState() async* {
     yield WaitingTaskState();
+  }
+
+  Stream<TaskState> _mapCompleteToState() async* {
+    num reward = await repository.getTaskReward(httpClientBloc.state.client, tokenBloc.state.token, state.task.id) ?? -1;
+    yield CompleteTaskState(
+      state.task,
+      reward: reward,
+    );
+//    await Future.delayed(Duration(seconds : 5));
+//    add(GetNextTaskEvent());
   }
 
   Stream<TaskState> _mapSetTaskToState(SetTaskEvent event) async* {

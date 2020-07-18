@@ -21,23 +21,22 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
 
   @override
   Widget build(BuildContext context) {
-//    return BlocBuilder<TaskBloc, TaskState>(
-    return BlocConsumer<TaskBloc, TaskState>(
-      listener: (context, jobState) async {
-        if (jobState is CompleteTaskState){
-          await showCustomDialog2(
-            context,
-            title: Text("${jobState.reward}"),
-            child: Text(""),
-          ).timeout(
-            Duration(seconds: 5),
-            onTimeout: (){
-              Navigator.of(context).pop();
-//              Navigator.of(context).popUntil((route) => route.);
-            }
-          );
-        }
-      },
+    return BlocBuilder<TaskBloc, TaskState>(
+//    return BlocConsumer<TaskBloc, TaskState>(
+//      listener: (context, jobState) async {
+//        if (jobState is CompleteTaskState){
+//          await showCustomDialog2(
+//            context,
+//            title: Text("${jobState.reward}"),
+//            child: Text(""),
+//          ).timeout(
+//            Duration(seconds: 5),
+//            onTimeout: (){
+//              Navigator.of(context).popUntil((route) => route );
+//            }
+//          );
+//        }
+//      },
       builder: (context, jobState) {
         if (jobState is ReadyTaskState) {
           return Scaffold(

@@ -10,7 +10,19 @@ import 'utils.dart';
 
 class TaskRouter {
   static void listener(context, taskState) async {
-    if (taskState is ReadyTaskState) {
+    if (taskState is CompleteTaskState){
+      await showCustomDialog2(
+        context,
+        title: Text("${taskState.reward}"),
+        child: Text(""),
+      ).timeout(
+        Duration(seconds: 5),
+        onTimeout: (){
+          Navigator.of(context).popUntil(ModalRoute.withName('/'));
+          context.bloc<TaskBloc>().add(GetNextTaskEvent());
+        }
+      );
+    } else if (taskState is ReadyTaskState) {
       if (taskState.switchToNewTask) {
         await showCustomDialog2(context,
             title: Text(S.of(context).taskChangedTitle),

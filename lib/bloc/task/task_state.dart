@@ -27,4 +27,7 @@ class CompleteTaskState extends ReadyTaskState {
   final num reward;
 
   CompleteTaskState(Task task, {this.reward}) : super(task);
+
+  @override
+  List<Object> get props => super.props + [reward];
 }

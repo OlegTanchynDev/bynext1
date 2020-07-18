@@ -12,6 +12,7 @@ import 'demo_response.dart';
 class DemoHttpClient extends BaseClient {
 
   static BarcodeResponse barcodeResponse = BarcodeResponse('assets/mock/regular-business/barcode_getOrderAssignedBarcodes.json');
+  static NoteResponse noteResponse = NoteResponse('assets/mock/regular-business/getOrderNotes.json');
   static DemoTaskResponse taskResponse = DemoTaskResponse();
 
   final requestsMap = <String, DemoResponse>{
@@ -41,7 +42,8 @@ class DemoHttpClient extends BaseClient {
     '$servicesUrl/delivery/v2/location/arriveAtPlace?taskId=298&lat=null&lng=null': DemoResponse('assets/mock/regular-business/location_arriveAtPlace.json'),
 
     //task pickup from client
-    '$servicesUrl/delivery/v2/order/getOrderNotes/': DemoResponse('assets/mock/regular-business/getOrderNotes.json'),
+    '$servicesUrl/delivery/v2/order/getOrderNotes/6TGALQ': noteResponse,
+    '$servicesUrl/delivery/v2/order/addOrderNotes/6TGALQ': noteResponse,
     '$servicesUrl/delivery/v2/barcode/assign/pickupBarcode/' : barcodeResponse,
     '$servicesUrl/delivery/v2/barcode/unassign/pickupBarcode/' : barcodeResponse,
     '$servicesUrl/delivery/v2/barcode/getOrderAssignedBarcodes/?order_id=6TGALQ': barcodeResponse,

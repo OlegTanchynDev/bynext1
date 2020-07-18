@@ -102,3 +102,48 @@ class BarcodeResponse extends DemoResponse {
     return json.encode(barcodes);
   }
 }
+
+class NoteResponse extends DemoResponse {
+  dynamic notes;
+
+  NoteResponse(String assetPath) : super(assetPath);
+
+  @override
+  Future<String> getStringResponse(BuildContext context, String url, String method, DemoTasks currentTask,
+    [body]) async {
+    if (notes == null) {
+      final str = await DefaultAssetBundle.of(context).loadString(assetPath(currentTask));
+      notes = json.decode(str);
+    }
+
+    if (method == 'post') {
+      // modifies list
+      if (url.endsWith('delivery/v2/order/addOrderNotes/6TGALQ')) {
+        notes.add(<String, dynamic>{
+          "text": body["note"],
+          "image": body["imageUrl"],
+          "added_on": DateTime.now().toIso8601String(),
+        });
+
+        return '''{
+            "message" : "",
+            "data" : "",
+            "status_code" : "0"
+          }''';
+      }
+//      else if (url.endsWith('delivery/v2/barcode/unassign/pickupBarcode/')) {
+//        final barcode = body['scanned_barcode'];
+//        barcodes.removeWhere((item) => item['barcode'] == barcode);
+//
+//        return '''{
+//          "message" : "",
+//          "data" : "",
+//          "status_code" : "0"
+//        }''';
+//      }
+    }
+
+    final result = json.encode(notes);
+    return result.toString();
+  }
+}

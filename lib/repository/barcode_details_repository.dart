@@ -89,7 +89,8 @@ class BarcodeDetailsRepository {
 
   Future<List<OrderNote>> fetchOrderNotes(Client http, String token, String orderId) async {
     final response = await http.get(
-      '$servicesUrl/delivery/v2/order/getOrderNotes/' + (!(http is DemoHttpClient) ? orderId : ''),
+//      '$servicesUrl/delivery/v2/order/getOrderNotes/' + (!(http is DemoHttpClient) ? orderId : ''),
+      '$servicesUrl/delivery/v2/order/getOrderNotes/$orderId',
       headers: {
         'content-type': 'application/json',
         'Authorization': "Token $token",

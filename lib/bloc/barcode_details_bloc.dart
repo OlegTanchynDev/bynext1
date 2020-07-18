@@ -38,13 +38,14 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
 
       try {
         _notes = await repository.fetchOrderNotes(httpClientBloc.state.client, tokenBloc.state.token, taskBloc.state.task.meta.orderId);
-//        yield BarcodeDetailsBlocState(barcodes: result);
+        print("object");
       } catch (e) {
 //        yield BarcodeDetailsBlocState(
 //          barcodes: [],
 //        );
       }
 
+      print("object");
       yield BarcodeDetailsBlocState(
         barcodes: _barcodes,
         notes: _notes,

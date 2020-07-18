@@ -109,4 +109,33 @@ class BarcodeDetailsRepository {
       throw RestError.fromMap(parsed);
     }
   }
+
+  Future<bool> addNewOrderNote(Client http, String token, OrderNote note, String orderId) async {
+    final response = await http.post(
+      '$servicesUrl/delivery/v2/order/addOrderNotes/$orderId',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': "Token $token",
+        'Accept-Encoding': "gzip",
+      },
+      body: {
+        "note": note.text,
+        "imageUrl": note.image,
+      }
+    ).timeout(requestTimeout);
+
+    final parsed = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      final responseBody = json.decode(response.body) as Map;
+      if (responseBody['status_code'] == "0") {
+        return Future.value(true);
+      }
+      else {
+        return Future.value(false);
+      }
+    } else {
+      throw RestError.fromMap(parsed);
+    }
+  }
 }

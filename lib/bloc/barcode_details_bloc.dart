@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/bloc/token_bloc.dart';
-import 'package:bynextcourier/generated/intl/messages_all.dart';
 import 'package:bynextcourier/model/barcode_details.dart';
 import 'package:bynextcourier/model/rest_error.dart';
 import 'package:bynextcourier/repository/barcode_details_repository.dart';
@@ -51,6 +50,7 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
         notes: _notes,
         error: null,
         newBarcode: event.newBarcode,
+        newNote: event.newNote,
       );
     }
 
@@ -96,13 +96,26 @@ class BarcodeDetailsBloc extends Bloc<BarcodeDetailsBlocEvent, BarcodeDetailsBlo
     }
 
     if(event is AddNote) {
-      List<OrderNote> newNotes = List.from(state.notes);
-      newNotes.add(event.note);
-
-      yield BarcodeDetailsBlocState(
-        barcodes: state.barcodes,
-        notes: newNotes,
+      final success = await repository.addNewOrderNote(
+        httpClientBloc.state.client, tokenBloc.state.token, event.note,
+        taskBloc.state.task.meta.orderId
       );
+      if (success) {
+        add(GetBarcodeDetails(
+          newNote: event.note.text,
+        ));
+      }
+      else {
+        yield BarcodeDetailsBlocState(
+          barcodes: state.barcodes,
+          notes: state.notes,
+          error: RestError(
+            errors: {
+              "error" : "Pickup barcode is invalid"
+            }
+          ),
+        );
+      }
     }
   }
 }
@@ -115,8 +128,9 @@ abstract class BarcodeDetailsBlocEvent extends Equatable {
 
 class GetBarcodeDetails extends BarcodeDetailsBlocEvent {
   final String newBarcode;
+  final String newNote;
 
-  GetBarcodeDetails({this.newBarcode});
+  GetBarcodeDetails({this.newBarcode, this.newNote});
 }
 
 class RemoveBarcode extends BarcodeDetailsBlocEvent {
@@ -146,8 +160,9 @@ class BarcodeDetailsBlocState extends Equatable {
   final List<OrderNote> notes;
   final RestError error;
   final String newBarcode;
+  final String newNote;
 
-  BarcodeDetailsBlocState({this.notes, this.barcodes, this.error, this.newBarcode});
+  BarcodeDetailsBlocState({this.notes, this.barcodes, this.error, this.newBarcode, this.newNote});
 
   @override
   List<Object> get props => [...barcodes, ...notes, error];

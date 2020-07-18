@@ -291,7 +291,7 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
 //      _image = pickedFile?.path != null ? File(pickedFile?.path) : null;
 //    });
 
-    String text;
+    String text = "";
     await showCustomDialog2(
       context,
       title: Text("Add Notes"),
@@ -313,12 +313,14 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
         FlatButton(
           child: Text("Upload"),
           onPressed: (){
-            context.bloc<BarcodeDetailsBloc>().add(AddNote(OrderNote(
-              text: text,
-              image: pickedFile?.path,
-              addedOn: DateTime.now(),
-            )));
-            Navigator.of(context).pop();
+            if (text.length > 0) {
+              context.bloc<BarcodeDetailsBloc>().add(AddNote(OrderNote(
+                text: text,
+                image: pickedFile?.path,
+                addedOn: DateTime.now(),
+              )));
+              Navigator.of(context).pop();
+            }
           },
         )
       ],

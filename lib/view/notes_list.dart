@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:bynextcourier/bloc/barcode_details_bloc.dart';
 import 'package:bynextcourier/model/barcode_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class NotesList extends StatelessWidget{
+class NotesList extends StatelessWidget {
   final List<OrderNote> notes;
 
   const NotesList({Key key, this.notes}) : super(key: key);
@@ -12,8 +14,11 @@ class NotesList extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-        children:  (context.bloc<BarcodeDetailsBloc>().state.notes as List<OrderNote>).map((
-          e) =>
+        children: (context
+          .bloc<BarcodeDetailsBloc>()
+          .state
+          .notes as List<OrderNote>).expand((e) {
+            return [
           Container(
             decoration: BoxDecoration(
               border: Border.all(
@@ -29,8 +34,11 @@ class NotesList extends StatelessWidget{
                   width: 40,
                   height: 40,
                   padding: EdgeInsets.all(1),
-                  child: Image.network(
+                  child: e.image.startsWith("http") ? Image.network(
                     e.image,
+                    fit: BoxFit.cover,
+                  ) : Image.file(
+                    File(e.image),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -40,7 +48,12 @@ class NotesList extends StatelessWidget{
                 Text(e.text),
               ],
             ),
-          )).toList(),
+          ),
+          SizedBox(
+            height: 1,
+          )
+        ];
+          }).toList(),
       ),
     );
   }

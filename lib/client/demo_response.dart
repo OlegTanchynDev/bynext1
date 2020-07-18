@@ -109,10 +109,10 @@ class NoteResponse extends DemoResponse {
   NoteResponse(String assetPath) : super(assetPath);
 
   @override
-  Future<String> getStringResponse(BuildContext context, String url, String method, DemoTasks currentTask,
+  Future<String> getStringResponse(BuildContext context, String url, String method,
     [body]) async {
     if (notes == null) {
-      final str = await DefaultAssetBundle.of(context).loadString(assetPath(currentTask));
+      final str = await DefaultAssetBundle.of(context).loadString(assetPath());
       notes = json.decode(str);
     }
 

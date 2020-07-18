@@ -10,10 +10,12 @@ class CustomerDeliveryStep3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final task = BlocProvider.of<TaskBloc>(context).state.task;
+    final rootTask = BlocProvider.of<TaskBloc>(context).state.rootTask;
 
     return Scaffold(
         appBar: AppBar(
           title: AppBarTitle(task: task),
+          bottom: bottomPlaceholder(rootTask != null),
         ),
         body: SafeArea(
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <Widget>[

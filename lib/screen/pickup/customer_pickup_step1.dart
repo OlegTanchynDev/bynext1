@@ -21,10 +21,11 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
       builder: (context, jobState) {
         if (jobState is ReadyTaskState) {
           return Scaffold(
-            appBar: jobState.rootTask == null ? AppBar(
+            appBar: AppBar(
               title: AppBarTitle(task: jobState.task),
               centerTitle: true,
-            ) : null,
+              bottom: bottomPlaceholder(jobState.rootTask != null),
+            ),
             body: SafeArea(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),

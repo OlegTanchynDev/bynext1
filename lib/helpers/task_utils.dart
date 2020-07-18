@@ -33,7 +33,7 @@ String taskShortDescription(Task task) {
 }
 
 String taskAppBarTitle(Task task) {
-  switch(task.type) {
+  switch (task.type) {
     case CardType.COURIER_TASK_TYPE_PICKUP_FROM_CLIENT:
       return task.linkedTasks.length > 0 ? 'Batched Orders' : 'Pickup Job';
     case CardType.COURIER_TASK_TYPE_DELIVER_TO_CLIENT:
@@ -48,7 +48,7 @@ String taskAppBarTitle(Task task) {
 }
 
 String taskAppBarSubtitle(Task task) {
-  switch(task.type) {
+  switch (task.type) {
     case CardType.COURIER_TASK_TYPE_PICKUP_FROM_CLIENT:
       return task.linkedTasks.length == 0 ? taskTimeInterval(task) : '';
     case CardType.COURIER_TASK_TYPE_DELIVER_TO_CLIENT:
@@ -78,4 +78,13 @@ String taskTimeInterval(Task task) {
       return '';
     }
   }
+}
+
+PreferredSizeWidget bottomPlaceholder(bool addSpace) {
+  return addSpace
+      ? PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: Container(),
+        )
+      : null;
 }

@@ -1,6 +1,7 @@
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/task/task_bloc.dart';
 import 'package:bynextcourier/constants.dart';
+import 'package:bynextcourier/helpers/task_utils.dart';
 import 'package:bynextcourier/helpers/utils.dart';
 import 'package:bynextcourier/model/task.dart';
 import 'package:bynextcourier/router.dart';
@@ -33,7 +34,9 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
       builder: (context, taskState) {
         final _task = taskState.task;
         return Scaffold(
-        appBar: taskState.rootTask == null ? AppBar() : null,
+        appBar: AppBar(
+          bottom: bottomPlaceholder(taskState.rootTask != null),
+        ),
         body: SafeArea(
           child: Container(
             child: Column(

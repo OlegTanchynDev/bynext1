@@ -24,6 +24,7 @@ class _CustomerPickupStep5State extends State<CustomerPickupStep5> {
           return Scaffold(
             appBar: AppBar(
               title: AppBarTitle(task: jobState.task),
+              bottom: bottomPlaceholder(jobState.rootTask != null),
             ),
             body: SafeArea(
               child: Container(

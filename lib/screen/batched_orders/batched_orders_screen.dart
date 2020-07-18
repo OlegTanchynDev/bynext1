@@ -71,34 +71,44 @@ class _BatchedOrdersScreenState extends State<BatchedOrdersScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: tabs.length,
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          title: Text('Batched Orders'),
-          bottom: TabBar(
-            labelColor: Colors.white,
-            isScrollable: tabs.length > 2,
-            unselectedLabelColor: Theme.of(context).primaryTextTheme.headline1.color,
-            indicator: BoxDecoration(borderRadius: BorderRadius.circular(10), color: raisedButtonColor),
-            tabs: tabs
-                .map((tab) => CustomTab(
-                      60,
-                      child: Container(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(tab.title,
-                              textAlign: TextAlign.center, softWrap: false, overflow: TextOverflow.fade),
-                        ),
-                      ),
-                    ))
-                .toList(),
+      child: Stack(
+        children: <Widget>[
+          Scaffold(
+            body: TabBarView(
+              children: tabs.map((tab) {
+                return buildLayout(tab);
+              }).toList(),
+            ),
           ),
-        ),
-        body: TabBarView(
-          children: tabs.map((tab) {
-            return buildLayout(tab);
-          }).toList(),
-        ),
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(top: AppBar().preferredSize.height),
+              child: SizedBox(
+                height: 60,
+                child: Material(
+                  child: TabBar(
+                    labelColor: Colors.white,
+                    isScrollable: tabs.length > 2,
+                    unselectedLabelColor: Theme.of(context).primaryTextTheme.headline1.color,
+                    indicator: BoxDecoration(borderRadius: BorderRadius.circular(10), color: raisedButtonColor),
+                    tabs: tabs
+                        .map((tab) => CustomTab(
+                              60,
+                              child: Container(
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(tab.title,
+                                      textAlign: TextAlign.center, softWrap: false, overflow: TextOverflow.fade),
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -106,26 +116,23 @@ class _BatchedOrdersScreenState extends State<BatchedOrdersScreen> {
   Widget buildLayout(BatchedOrderTabItem tab) {
     Task task = tab.task;
     Task batchTask = BlocProvider.of<TaskBloc>(context).state.task;
-    return Padding(
-      padding: const EdgeInsets.only(top: 20.0),
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            lazy: false,
-            create: (context) => TaskBloc()..add(SetTaskEvent(task, batchTask)),
-          ),
-          BlocProvider(
-              create: (context) => ArrivalBloc()
-                ..taskBloc = context.bloc<TaskBloc>()
-                ..tokenBloc = context.bloc<TokenBloc>()
-                ..httpClientBloc = context.bloc<HttpClientBloc>()
-                ..locationTrackerBloc = context.bloc<LocationTrackerBloc>()
-                ..repository = context.repository<TasksRepository>()),
-        ],
-        child: Navigator(
-          onGenerateRoute: Router.generateRoute,
-          initialRoute: TaskRouter.routeFromTask(task, forceNonBatched: true),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          lazy: false,
+          create: (context) => TaskBloc()..add(SetTaskEvent(task, batchTask)),
         ),
+        BlocProvider(
+            create: (context) => ArrivalBloc()
+              ..taskBloc = context.bloc<TaskBloc>()
+              ..tokenBloc = context.bloc<TokenBloc>()
+              ..httpClientBloc = context.bloc<HttpClientBloc>()
+              ..locationTrackerBloc = context.bloc<LocationTrackerBloc>()
+              ..repository = context.repository<TasksRepository>()),
+      ],
+      child: Navigator(
+        onGenerateRoute: Router.generateRoute,
+        initialRoute: TaskRouter.routeFromTask(task, forceNonBatched: true),
       ),
     );
   }

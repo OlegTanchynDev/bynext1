@@ -21,7 +21,10 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
       builder: (context, jobState) {
         if (jobState is ReadyTaskState) {
           return Scaffold(
-            appBar: AppBar(title: AppBarTitle(task: jobState.task)),
+            appBar: jobState.rootTask == null ? AppBar(
+              title: AppBarTitle(task: jobState.task),
+              centerTitle: true,
+            ) : null,
             body: SafeArea(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20).copyWith(bottom: 14),
@@ -102,8 +105,10 @@ class _CustomerPickupStep1State extends State<CustomerPickupStep1> {
                               child: IconButton(icon: Image.asset("assets/images/bldg-image-yes.png"))),
                         ],
                       ),
-                      onPressed: jobState.task.meta?.buildingImgUrl != null ? () => Navigator.of(context)
-                          .pushNamed(imageRoute, arguments: "$mediaUrl${jobState.task.meta.buildingImgUrl}") : null,
+                      onPressed: jobState.task.meta?.buildingImgUrl != null
+                          ? () => Navigator.of(context)
+                              .pushNamed(imageRoute, arguments: "$mediaUrl${jobState.task.meta.buildingImgUrl}")
+                          : null,
                     ),
                     SizedBox(
                       height: 40,

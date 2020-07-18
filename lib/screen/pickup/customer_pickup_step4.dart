@@ -31,7 +31,7 @@ class _CustomerPickupStep4State extends State<CustomerPickupStep4> {
       builder: (context, jobState) {
         if (jobState is ReadyTaskState) {
           return Scaffold(
-            appBar: AppBar(
+            appBar: jobState.rootTask == null ? AppBar(
               title: AppBarTitle(task: jobState.task),
               actions: <Widget>[
                 FlatButton(
@@ -44,7 +44,7 @@ class _CustomerPickupStep4State extends State<CustomerPickupStep4> {
                   onPressed: () {},
                 )
               ],
-            ),
+            ) : null,
             body: SafeArea(
               child: Container(
 //                padding:
@@ -192,7 +192,7 @@ class _CustomerPickupStep4State extends State<CustomerPickupStep4> {
                                   FlatButton(
                                     padding: EdgeInsets.zero,
                                     onPressed: (){
-                                      Navigator.of(context).pushNamed(taskPickupFromClientStep3Route, arguments: jobState.task);
+                                      Navigator.of(context).pushNamed(taskPickupFromClientStep3Route);
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(

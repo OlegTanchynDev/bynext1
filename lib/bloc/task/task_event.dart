@@ -20,3 +20,13 @@ class TaskChangedEvent extends TaskEvent {}
 class CompleteTaskEvent extends TaskEvent {}
 
 class ClearTaskEvent extends TaskEvent {}
+
+class SetTaskEvent extends TaskEvent {
+  final Task task;
+  final Task batchTask;
+
+  SetTaskEvent(this.task, this.batchTask);
+
+  @override
+  List<Object> get props => [task, batchTask];
+}

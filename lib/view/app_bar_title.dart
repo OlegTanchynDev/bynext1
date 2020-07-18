@@ -9,17 +9,20 @@ class AppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final subtitle = taskAppBarSubtitle(task);
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Text(taskAppBarTitle(task)),
-        DefaultTextStyle(
-          style: Theme.of(context).textTheme.bodyText2,
-          child: Text(taskAppBarSubtitle(task)),
-        )
-      ],
-    );
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+              Text(taskAppBarTitle(task)),
+            ] +
+            (subtitle != null
+                ? [
+                    DefaultTextStyle(
+                      style: Theme.of(context).textTheme.bodyText2,
+                      child: Text(subtitle),
+                    ),
+                  ]
+                : []));
   }
-
 }

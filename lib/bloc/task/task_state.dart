@@ -3,20 +3,21 @@ part of 'task_bloc.dart';
 @immutable
 abstract class TaskState extends Equatable {
   final Task task;
+  final Task rootTask;
 
-  TaskState(this.task);
+  TaskState(this.task, this.rootTask);
   @override
   List<Object> get props => [task];
 }
 
 class WaitingTaskState extends TaskState {
-  WaitingTaskState({Task task}) : super(task);
+  WaitingTaskState({Task task, Task rootTask}) : super(task, rootTask);
 }
 
 class ReadyTaskState extends TaskState {
   final bool switchToNewTask;
 
-  ReadyTaskState(Task task, {this.switchToNewTask = false}) : super(task);
+  ReadyTaskState(Task task, {this.switchToNewTask = false, Task batchTask}) : super(task, batchTask);
 
   @override
   List<Object> get props => super.props + [switchToNewTask];

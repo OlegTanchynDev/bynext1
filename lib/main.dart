@@ -254,7 +254,7 @@ class MyApp extends StatelessWidget {
                                         MultiBlocListener(
                                           listeners: [
                                             BlocListener<TaskBloc, TaskState>(listener: TaskRouter.listener),
-                                            BlocListener<ArrivalBloc, ArrivalState>(listener: TaskRouter.arrivalListener),
+//                                            BlocListener<ArrivalBloc, ArrivalState>(listener: TaskRouter.arrivalListener),
                                           ],
                                           child: HomeScreen(),
                                         ),

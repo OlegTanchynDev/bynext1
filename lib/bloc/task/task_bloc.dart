@@ -62,11 +62,14 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       case ClearTaskEvent:
         yield* _mapClearToState();
         break;
+      case SetTaskEvent:
+        yield* _mapSetTaskToState(event);
+        break;
     }
   }
 
   Stream<TaskState> _mapGetNextTaskToState(GetNextTaskEvent event) async* {
-    yield WaitingTaskState(task: state.task);
+    yield WaitingTaskState(task: state.task, rootTask: state.rootTask);
 
     final shiftDetailsState = _shiftDetailsBloc.state;
     final goOnlineResult =
@@ -109,5 +112,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   Stream<TaskState> _mapClearToState() async* {
     yield WaitingTaskState();
+  }
+
+  Stream<TaskState> _mapSetTaskToState(SetTaskEvent event) async* {
+    yield ReadyTaskState(event.task, batchTask: event.batchTask);
   }
 }

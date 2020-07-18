@@ -50,9 +50,9 @@ String taskAppBarTitle(Task task) {
 String taskAppBarSubtitle(Task task) {
   switch(task.type) {
     case CardType.COURIER_TASK_TYPE_PICKUP_FROM_CLIENT:
-      return task.linkedTasks.length == 0 ? taskTimeInterval(task) : null;
+      return task.linkedTasks.length == 0 ? taskTimeInterval(task) : '';
     case CardType.COURIER_TASK_TYPE_DELIVER_TO_CLIENT:
-      return task.linkedTasks.length == 0 ? taskTimeInterval(task) : null;
+      return task.linkedTasks.length == 0 ? taskTimeInterval(task) : '';
     default:
       return '';
   }

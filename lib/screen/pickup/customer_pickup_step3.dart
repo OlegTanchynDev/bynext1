@@ -29,83 +29,86 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: SafeArea(
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  FlatButton(
-                    padding: EdgeInsets.zero,
-                    child: Container(
-                      height: 400,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            "$mediaUrl${_task.meta
-                              .buildingImgUrl}"),
-                          fit: BoxFit.cover
-                        )
+    return BlocBuilder<TaskBloc, TaskState>(
+      builder: (context, taskState) {
+        final _task = taskState.task;
+        return Scaffold(
+        appBar: taskState.rootTask == null ? AppBar() : null,
+        body: SafeArea(
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    FlatButton(
+                      padding: EdgeInsets.zero,
+                      child: Container(
+                        height: 400,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              "$mediaUrl${_task.meta
+                                .buildingImgUrl}"),
+                            fit: BoxFit.cover
+                          )
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(imageRoute, arguments: "$mediaUrl${_task.meta.buildingImgUrl}");
+                      },
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: 10,
+                        right: 15,
+                        top: 340,
+                      ),
+                      height: 60,
+                      alignment: Alignment.bottomCenter,
+                      child: Row(
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: 30,
+                            child: Container(
+                              width: 59,
+                              height: 59,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    _task.meta.userImage,
+                                  ),
+                                )
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(),
+                          ),
+                          Container(
+                            height: 39,
+                            width: 39,
+                            child: FlatButton(
+                              shape: CircleBorder(),
+                              padding: EdgeInsets.zero,
+                              child: Image.asset(
+                                "assets/images/camera-btn.png",
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(imageRoute, arguments: "$mediaUrl${_task.meta.buildingImgUrl}");
-                    },
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: 10,
-                      right: 15,
-                      top: 340,
-                    ),
-                    height: 60,
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                      children: <Widget>[
-                        CircleAvatar(
-                          radius: 30,
-                          child: Container(
-                            width: 59,
-                            height: 59,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  _task.meta.userImage,
-                                ),
-                              )
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(),
-                        ),
-                        Container(
-                          height: 39,
-                          width: 39,
-                          child: FlatButton(
-                            shape: CircleBorder(),
-                            padding: EdgeInsets.zero,
-                            child: Image.asset(
-                              "assets/images/camera-btn.png",
-                            ),
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
 
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20).copyWith(
-                    bottom: 14),
-                  child: Column(
-                    children: <Widget>[
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20).copyWith(
+                      bottom: 14),
+                    child: Column(
+                      children: <Widget>[
 
 //                    Offstage(
 //                      offstage: !jobState.task.meta.isBusinessAccount,
@@ -126,53 +129,53 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
 //                      ),
 //                    ),
 
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 20,
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 20,
+                          ),
+                          child: Text("Click to add / remove information")
                         ),
-                        child: Text("Click to add / remove information")
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme
-                              .of(context)
-                              .dividerTheme
-                              .color)),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 0.0,
-                                horizontal: 15
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    child: Image.asset(
-                                      "assets/images/doorman-icon.png",
-                                      color: Colors.black,
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme
+                                .of(context)
+                                .dividerTheme
+                                .color)),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 0.0,
+                                  horizontal: 15
+                                ),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Image.asset(
+                                        "assets/images/doorman-icon.png",
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text("Doorman"),
-                                  Expanded(
-                                    child: Container(),
-                                  ),
-                                  IconButton(
-                                    icon: Image.asset(
-                                      _task.location.doorman ?? false ?
-                                      "assets/images/checkbox-grey-checked.png" : "assets/images/checkbox-grey-unchecked.png",
-                                      color: Colors.black,
+                                    SizedBox(
+                                      width: 20,
                                     ),
-                                    padding: EdgeInsets.zero,
-                                    onPressed: () {},
-                                  ),
-                                ],
-                              ),
+                                    Text("Doorman"),
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    IconButton(
+                                      icon: Image.asset(
+                                        _task.location.doorman ?? false ?
+                                        "assets/images/checkbox-grey-checked.png" : "assets/images/checkbox-grey-unchecked.png",
+                                        color: Colors.black,
+                                      ),
+                                      padding: EdgeInsets.zero,
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                ),
 
 //                                    child: ListTile(
 //                                      contentPadding: EdgeInsets.zero,
@@ -184,145 +187,147 @@ class _CustomerPickupStep3State extends State<CustomerPickupStep3> {
 //                                        onPressed: (){},
 //                                      ),
 //                                    )
-                            ),
-                            Divider(),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 0.0,
-                                horizontal: 15
                               ),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    child: Image.asset(
-                                      "assets/images/elevator-icon.png",
-                                      color: Colors.black,
+                              Divider(),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 0.0,
+                                  horizontal: 15
+                                ),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Image.asset(
+                                        "assets/images/elevator-icon.png",
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text("Elevator"),
-                                  Expanded(
-                                    child: Container(),
-                                  ),
-                                  IconButton(
-                                    icon: Image.asset(
-                                      _task.location.elevator ?? false ?
-                                      "assets/images/checkbox-grey-checked.png" : "assets/images/checkbox-grey-unchecked.png",
-                                      color: Colors.black,
+                                    SizedBox(
+                                      width: 20,
                                     ),
-                                    padding: EdgeInsets.zero,
-                                    onPressed: () {},
-                                  ),
-                                ],
+                                    Text("Elevator"),
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    IconButton(
+                                      icon: Image.asset(
+                                        _task.location.elevator ?? false ?
+                                        "assets/images/checkbox-grey-checked.png" : "assets/images/checkbox-grey-unchecked.png",
+                                        color: Colors.black,
+                                      ),
+                                      padding: EdgeInsets.zero,
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Divider(),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 0.0,
-                                horizontal: 15
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    child: Image.asset(
-                                      "assets/images/bldg-floor-yes.png",
-                                      color: Colors.black,
+                              Divider(),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 0.0,
+                                  horizontal: 15
+                                ),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Image.asset(
+                                        "assets/images/bldg-floor-yes.png",
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text("Floor"),
-                                  Expanded(
-                                    child: Container(),
-                                  ),
-                                  IconButton(
-                                    icon: Stack(
-                                      children: <Widget>[
-                                        Align(
-                                          child: Image.asset(
-                                            "assets/images/checkbox-grey-unchecked.png",
-                                            color: Colors.black,
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text("Floor"),
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    IconButton(
+                                      icon: Stack(
+                                        children: <Widget>[
+                                          Align(
+                                            child: Image.asset(
+                                              "assets/images/checkbox-grey-unchecked.png",
+                                              color: Colors.black,
+                                            ),
                                           ),
-                                        ),
-                                        Align(
-                                          child: Text((_task.location.floor ?? 0).toString())
-                                        )
-                                      ],
+                                          Align(
+                                            child: Text((_task.location.floor ?? 0).toString())
+                                          )
+                                        ],
+                                      ),
+                                      padding: EdgeInsets.zero,
+                                      onPressed: () {},
                                     ),
-                                    padding: EdgeInsets.zero,
-                                    onPressed: () {},
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            Divider(),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 0.0,
-                                horizontal: 15
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    child: Image.asset(
-                                      "assets/images/address-notes-icon.png",
-                                      color: Colors.black,
+                              Divider(),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 0.0,
+                                  horizontal: 15
+                                ),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Image.asset(
+                                        "assets/images/address-notes-icon.png",
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text("Address Notes"),
-                                  Expanded(
-                                    child: Container(),
-                                  ),
-                                  IconButton(
-                                    icon: Image.asset(
-                                      "assets/images/button-add-white.png",
-                                      color: Colors.black,
+                                    SizedBox(
+                                      width: 20,
                                     ),
-                                    padding: EdgeInsets.zero,
-                                    onPressed: () {},
-                                  ),
-                                ],
+                                    Text("Address Notes"),
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    IconButton(
+                                      icon: Image.asset(
+                                        "assets/images/button-add-white.png",
+                                        color: Colors.black,
+                                      ),
+                                      padding: EdgeInsets.zero,
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        )
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 1,
+                            ],
+                          )
                         ),
-                      ),
-                      BlocBuilder<
-                        LocationTrackerBloc,
-                        LocationTrackerBaseState>(
-                        builder: (context, locationState) {
-                          return AnimatedButton(
-                            child: Text("Save Building Info >>"),
-                            onHorizontalDragUpdate: (details) {
-                              if (details.primaryDelta > 40) {
-                                print("Drag right");
-                              }
-                            },
-                            condition: locationState
-                              .userArrivedAtDestinationLocation,
-                          );
-                        }
-                      )
-                    ],
-                  )
+                        Expanded(
+                          child: Container(
+                            height: 1,
+                          ),
+                        ),
+                        BlocBuilder<
+                          LocationTrackerBloc,
+                          LocationTrackerBaseState>(
+                          builder: (context, locationState) {
+                            return AnimatedButton(
+                              child: Text("Save Building Info >>"),
+                              onHorizontalDragUpdate: (details) {
+                                if (details.primaryDelta > 40) {
+                                  print("Drag right");
+                                }
+                              },
+                              condition: locationState
+                                .userArrivedAtDestinationLocation,
+                            );
+                          }
+                        )
+                      ],
+                    )
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
+      );
+      },
     );
   }
 }

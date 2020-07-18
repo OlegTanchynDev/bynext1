@@ -1,3 +1,4 @@
+import 'package:bynextcourier/bloc/arrival_bloc.dart';
 import 'package:bynextcourier/bloc/driver_chat/driver_chat_bloc.dart';
 import 'package:bynextcourier/bloc/shift_details_bloc.dart';
 import 'package:bynextcourier/bloc/sign_contract/sign_contract_bloc.dart';
@@ -36,6 +37,7 @@ import 'bloc/schedule_bloc.dart';
 import 'bloc/task/task_bloc.dart';
 import 'constants.dart';
 import 'generated/l10n.dart';
+import 'helpers/task_router.dart';
 import 'helpers/utils.dart';
 import 'repository/barcode_details_repository.dart';
 import 'repository/issues_repository.dart';
@@ -285,7 +287,11 @@ class Router {
               page = TaskGoToLocationStep2Screen();
               break;
             case taskPickupFromClientRoute:
-              page = CustomerPickupStep1();
+              // common 1st route for pickup and delivery from customer
+              page = BlocListener<ArrivalBloc, ArrivalState>(
+                listener: TaskRouter.arrivalListener,
+                child: CustomerPickupStep1(),
+              );
               break;
             case taskPickupFromClientStep4Route:
               page = CustomerPickupStep4();
@@ -302,9 +308,7 @@ class Router {
               );
               break;
             case taskPickupFromClientStep3Route:
-              page = CustomerPickupStep3(
-                task: settings.arguments,
-              );
+              page = CustomerPickupStep3();
               break;
             case taskPickupSuppliesRoute:
               page = PickupSuppliesStep1();

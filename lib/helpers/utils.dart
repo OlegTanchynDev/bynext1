@@ -7,6 +7,7 @@ import 'package:bynextcourier/bloc/barcode_details_bloc.dart';
 import 'package:bynextcourier/bloc/http_client_bloc.dart';
 import 'package:bynextcourier/bloc/location_tracker/location_tracker_bloc.dart';
 import 'package:bynextcourier/bloc/maps_bloc.dart';
+import 'package:bynextcourier/bloc/shift_details_bloc.dart';
 import 'package:bynextcourier/client/app_http_client.dart';
 import 'package:bynextcourier/model/barcode_details.dart';
 import 'package:bynextcourier/model/task.dart';
@@ -287,35 +288,30 @@ launchMaps(BuildContext context, double lat, double lon) async {
   MapsBloc mapsBloc = BlocProvider.of<MapsBloc>(context);
   // ignore: close_sinks
   LocationTrackerBloc trackerBloc = BlocProvider.of<LocationTrackerBloc>(context);
+  ShiftDetailsBloc shiftDetailsBloc = BlocProvider.of<ShiftDetailsBloc>(context);
   var map = mapsBloc.state.enabled;
   var myLocation = trackerBloc.state.location;
+
+  String title = "Destination";
+  if(shiftDetailsBloc.state is ShiftDetailsReady){
+    title = (shiftDetailsBloc.state as ShiftDetailsReady).current.startLocationName;
+  }
 
   List<AvailableMap> available = await MapLauncher.installedMaps;
   AvailableMap availableMap = available.firstWhere((element) => element.mapName == map);
   if (availableMap.mapType == MapType.apple) {
-//    String appleUrl = 'http://maps.apple.com/maps?daddr=$lat,$lon&dirflg=c';
-//    if (myLocation != null) {
-//      appleUrl += '&saddr=${myLocation.latitude},${myLocation.longitude}';
-//    }
-//    print('launching apple url:$appleUrl');
-//    await launch(appleUrl);
     await MapLauncher.launchMap(
       mapType: MapType.apple,
       coords: Coords(lat, lon),
-      title: 'Destination',
+//      title: 'Destination',
+      title: title,
       description: 'Destination',
     );
   } else if (availableMap.mapType == MapType.google) {
-//    String googleUrl = 'https://maps.google.com/?daddr=$lat,$lon&directionsmode=driving';
-//    if (myLocation != null) {
-//      googleUrl += '&saddr=${myLocation.latitude},${myLocation.longitude}';
-//    }
-//    print('launching com googleUrl:$googleUrl');
-//    await launch(googleUrl);
-    MapLauncher.launchMap(
+    await MapLauncher.launchMap(
       mapType: MapType.google,
       coords: Coords(lat, lon),
-      title: 'Destination',
+      title: title,
       description: 'Destination',
     );
   } else if (availableMap.mapType == MapType.waze) {
@@ -323,22 +319,10 @@ launchMaps(BuildContext context, double lat, double lon) async {
     await MapLauncher.launchMap(
       mapType: MapType.waze,
       coords: Coords(lat, lon),
-      title: 'Destination',
+      title: title,
       description: 'Destination',
     );
   }
-//  String googleUrl = 'comgooglemaps://?center=$lat,$lon';
-//  String appleUrl = 'https://maps.apple.com/?sll=$lat,$lon';
-//  if (await canLaunch("comgooglemaps://")) {
-//    print('launching com googleUrl');
-//    await launch(googleUrl);
-//  } else if (await canLaunch(appleUrl)) {
-//    print('launching apple url');
-//
-//    await launch(appleUrl);
-//  } else {
-//    throw 'Could not launch url';
-//  }
 }
 
 /*dp(locationDto.latitude, 4).toString()*/
@@ -393,17 +377,8 @@ Future<ScanResult> scanBarCode(BuildContext context) async {
     .bloc<HttpClientBloc>()
     .state
     .client is DemoHttpClient) {
-//    final demoBarcode = BarcodeDetails(
-//      status: 5,
-//      id : 260,
-//      type : 0,
-//      barcode : "PU0000"
-//    );
-//    return demoBarcode;
-
     return ScanResult(
       type: ResultType.Barcode,
-//      format: BarcodeFormat.
       rawContent: "PU0000"
     );
   }
@@ -432,6 +407,7 @@ Future<ScanResult> scanBarCode(BuildContext context) async {
 Future getPhoto() async {
   final picker = ImagePicker();
   bool isIosEmulator = await isIosSimulator();
-  final pickedFile = await picker.getImage(source: isIosEmulator ? ImageSource.gallery : ImageSource.camera);
+  final pickedFile = await picker.getImage(
+    source: isIosEmulator ? ImageSource.gallery : ImageSource.camera);
   return pickedFile;
 }

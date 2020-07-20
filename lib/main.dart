@@ -133,6 +133,7 @@ class MyApp extends StatelessWidget {
                 lazy: false,
                 create: (context) => LocationTrackerBloc()
                   ..taskBloc = context.bloc<TaskBloc>()
+//                  ..taskBloc = (context.bloc<TaskBloc>()..add(GetNextTaskEvent()))
                   ..initAndStartLocationTrackingIfNeeded(),
               ),
               BlocProvider(
